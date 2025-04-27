@@ -1,0 +1,183 @@
+create table Mecanico (
+    idEmpleado serial primary key,
+    nombre varchar(100) not null,
+    clave varchar(50) not null,
+    telefonoContacto varchar(20)not null,
+    fechaIngreso date not null
+    
+);
+
+create table JefeTaller (
+    idEmpleado int primary key references Mecanico(idEmpleado)
+);
+
+create table Subordinado (
+    idEmpleado int primary key references Mecanico(idEmpleado)
+);
+
+create table Cliente (
+    DNI varchar(20) primary key,
+    nombre varchar(20) not null,
+    telefonoContacto varchar(20) not null
+);
+
+create table Vehiculo (
+    matricula varchar(7) primary key,
+    marca varchar(50) not null,
+    modelo varchar(100) not null,
+    kilometraje int not null,
+    combustible varchar(20) not null,
+    supervisor int,
+    clienteDNI varchar(20) references Cliente(DNI),
+    foreign key(supervisor) references JefeTaller(idEmpleado)
+);
+
+create table Repuesto (
+    idRepuesto int primary key,
+    nombre varchar(100) not null,
+    descripcion text,
+    precioUnidad decimal(10,2) not null,
+    stock int not null
+);
+
+create table Solicitud (
+    repuesto int references Repuesto(idRepuesto),
+    fecha date,
+    cantidad int not null,
+    idEmpleado int references Mecanico(idEmpleado),
+    primary key (fecha, idEmpleado, repuesto)
+);
+
+create table EmpleadoPracticas (
+    idAlumno int primary key,
+    nombre varchar(100) not null,
+    tutorID int references JefeTaller(idEmpleado)
+);
+
+create table TipoReparacion (
+    nombre varchar(50) primary key,
+    descripcion text,
+    aptoParaPracticas boolean not null
+);
+
+create table Reparacion (
+	idReparacion serial primary key,
+    fechaInicio date not null,
+    fechaFin date,
+    idVehiculo varchar(20),
+    tipoReparacion varchar(100),
+    mecanico int,
+    foreign key (idVehiculo) references Vehiculo(matricula),
+    foreign key (tipoReparacion) references TipoReparacion(nombre),
+    foreign key (mecanico) references Mecanico(idEmpleado)
+);
+
+create table Utilizar (
+    idRepuesto int references Repuesto(idRepuesto),
+    idReparacion serial,
+    cantidad int not null,
+    primary key (idRepuesto,idReparacion),
+    foreign key (idReparacion) references Reparacion (idReparacion)
+);
+
+
+
+create table Asistir (
+    idAlumno int references EmpleadoPracticas(idAlumno),
+    idReparacion serial,
+    primary key (idAlumno, idReparacion),
+    foreign key(idReparacion)references Reparacion(idReparacion)
+);
+
+create table Participar(
+	subordinado int,
+	idReparacion int,
+	primary key( subordinado, idReparacion),
+	foreign key(subordinado) references Subordinado(idEmpleado),
+	foreign key (idReparacion ) references Reparacion(idReparacion)
+
+);
+
+insert into Mecanico (nombre, clave, telefonoContacto, fechaIngreso) values
+('Juan Pérez', 'clave123', '123456789', '2022-01-01'),
+('María López', 'clave456', '987654321', '2021-05-10'),
+('Carlos Gómez', 'clave789', '456123789', '2020-07-15'),
+('Ana Torres', 'clave321', '741852963', '2023-03-22'),
+('Luis Méndez', 'clave654', '369258147', '2022-09-30');
+
+
+insert into JefeTaller (idEmpleado) values
+(1), (2);
+
+insert into Subordinado (idEmpleado) values
+(3), (4), (5);
+
+insert into Cliente (DNI,nombre, telefonoContacto) values
+('12345678A','Luis Martínez', '600123456'),
+('87654321B', 'Sergio Gómez','600654321'),
+('11223344C', 'Andrea Peter','601112233'),
+('44332211D', 'Celia Perez','601443322'),
+('55667788E','Mencía Chouza', '602556677');
+
+insert into Vehiculo (matricula, marca, modelo, kilometraje, combustible, supervisor, clienteDNI) values
+('4638DDF', 'Toyota', 'Corolla', 50000, 'Gasolina', NULL, '12345678A'),
+('9937BMN', 'Honda', 'Civic', 70000, 'Diesel', NULL, '87654321B'),
+('7720GRF', 'Ford', 'Focus', 30000, 'Gasolina', NULL, '11223344C'),
+('9923HJJ', 'BMW', 'X5', 90000, 'Híbrido', NULL, '44332211D'),
+('2204KLK', 'Mercedes', 'Clase A', 40000, 'Eléctrico', NULL, '55667788E');
+
+
+insert into Repuesto (idRepuesto, nombre, descripcion, precioUnidad, stock) values
+(1, 'Filtro de aceite', 'Filtro para motor', 15.50, 50),
+(2, 'Pastillas de freno', 'Juego de frenos', 40.00, 30),
+(3, 'Batería', 'Batería de 12V', 80.00, 20),
+(4, 'Neumático', 'Neumático 16 pulgadas', 120.00, 40),
+(5, 'Bujías', 'Juego de 4 bujías', 25.00, 60);
+
+
+insert into Solicitud (repuesto, fecha, cantidad, idEmpleado) values
+(1, '2025-04-01', 2, 1),
+(2, '2025-04-02', 4, 2),
+(2, '2025-04-03', 1, 3),
+(4, '2025-04-04', 2, 4),
+(2, '2025-04-05', 3, 2);
+
+insert into EmpleadoPracticas (idAlumno, nombre, tutorID) values
+(1, 'Pedro Jiménez', 1),
+(2, 'Sofía Martínez', 2),
+(3, 'Miguel Ángel', 1),
+(4, 'Clara Fernández', 1),
+(5, 'David Suárez', 1);
+
+
+
+insert into TipoReparacion (nombre, descripcion, aptoParaPracticas) values
+('Mantenimiento básico', 'Sustitución de aceite y filtro', true),
+('Intervención mínima en motor', 'Reparaciones básicas en el motor', true),
+('Chapa y pintura', 'Arreglos en chapa y pintura', true),
+('Intervención mayor', 'Intervenciones complejas', false),
+('Coches de lujo', 'Operaciones en coches muy caros', false);
+
+insert into Reparacion (fechaInicio, idVehiculo, tipoReparacion, mecanico) values
+('2025-04-01',  '4638DDF','Mantenimiento básico',1),
+('2025-04-03', '9937BMN','Chapa y pintura',3),
+('2025-04-05', '7720GRF','Mantenimiento básico',3),
+('2025-04-06', '9923HJJ','Chapa y pintura',2),
+('2025-04-08', '2204KLK','Intervención mayor',1);
+
+insert into Utilizar (idRepuesto, idReparacion, cantidad) values
+(1, 1,1),
+(2, 2,2),
+(3, 3,1),
+(4, 4, 2),
+(5, 5,4);
+
+
+insert into Asistir (idAlumno, idReparacion) values
+(1, 1),
+(2, 1),
+(3, 1),
+(2,2),
+(1, 2),
+(4, 2),
+(5,4);
