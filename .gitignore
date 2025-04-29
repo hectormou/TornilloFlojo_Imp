@@ -18,12 +18,13 @@ hs_err_pid*
 replay_pid*
 
 # faking netbeans
-/build
-/nbproject
-/test
-baseDatos.properties
-build.xml
-manifest.mf
+Taller/dist
+Taller/build
+Taller/nbproject
+Taller/test
+Taller/baseDatos.properties
+Taller/build.xml
+Taller/manifest.mf
 
 # por algun tonto
 /Biblioteca
