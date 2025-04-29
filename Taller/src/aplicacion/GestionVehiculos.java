@@ -10,23 +10,23 @@ import baseDatos.FachadaBaseDatos;
  *
  * @author basesdatos
  */
-public class GesionLibros{
+public class GestionVehiculos{
     FachadaGui fgui;
     FachadaBaseDatos fbd;
     
-    public GesionLibros(FachadaGui fgui, FachadaBaseDatos fbd){
+    public GestionVehiculos(FachadaGui fgui, FachadaBaseDatos fbd){
      this.fgui=fgui;
      this.fbd=fbd;
     }
 
-    public java.util.List<Libro> obtenerLibros(Integer id, String titulo, String isbn, String autor){
-        return fbd.consultarCatalogo(id, titulo, isbn, autor);
+    public java.util.List<Vehiculo> obtenerVehiculos(String matricula, String cliente, String marca, String modelo, String supervisor, String combustible){
+        return fbd.consultarCatalogo(matricula, cliente, marca, modelo, supervisor, combustible);
     }
 
     public void visualizarLibro(Integer idLibro){
         java.util.List<String> restoCategorias;
         java.util.List<Ejemplar> ejemplares;
-        Libro l;
+        Vehiculo l;
         l=fbd.consultarLibro(idLibro);
         restoCategorias=fbd.obtenerRestoCategorias(idLibro);
         fgui.visualizaLibro(l, restoCategorias);
@@ -42,7 +42,7 @@ public class GesionLibros{
         fgui.nuevoLibro(restoCategorias);
     }
     
-    public Integer actualizarLibro(Libro l){
+    public Integer actualizarLibro(Vehiculo l){
         
        Integer idLibro;
 

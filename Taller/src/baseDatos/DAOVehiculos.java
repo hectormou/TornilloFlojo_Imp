@@ -7,86 +7,129 @@ package baseDatos;
 
 import aplicacion.Ejemplar;
 import aplicacion.Categoria;
-import aplicacion.Libro;
+import aplicacion.Cliente;
+import aplicacion.JefeTaller;
+import aplicacion.Vehiculo;
 import aplicacion.Prestamo;
 import java.sql.*;
+import java.util.HashSet;
+import java.util.Set;
 /**
  *
  * @author basesdatos
  */
-public class DAOLibros extends AbstractDAO {
+public class DAOVehiculos extends AbstractDAO {
 
-    public DAOLibros (Connection conexion, aplicacion.FachadaAplicacion fa){
+    public DAOVehiculos (Connection conexion, aplicacion.FachadaAplicacion fa){
         super.setConexion(conexion);
         super.setFachadaAplicacion(fa);
     }
-
-    public java.util.List<Libro> consultarCatalogo(Integer id, String titulo, String isbn, String autor){
-        java.util.List<Libro> resultado = new java.util.ArrayList<Libro>();
-        Libro libroActual;
+    
+    public Cliente obtenerCliente(String dni){
+        Cliente resultado=null;
         Connection con;
-        PreparedStatement stmCatalogo=null;
-        ResultSet rsCatalogo;
-        PreparedStatement stmAutores=null;
-        ResultSet rsAutores;
+        PreparedStatement stmCliente=null;
+        ResultSet rsCliente;
+
+        con=this.getConexion();
+        try {
+        stmCliente=con.prepareStatement("select DNI, nombre, telefonoContacto "+
+                                        "from Cliente c "+
+                                        "where DNI = ? ");
+        stmCliente.setString(1, dni);
+        rsCliente=stmCliente.executeQuery();
+        if (rsCliente.next())
+        {
+            resultado = new Cliente(rsCliente.getString("DNI"), rsCliente.getString("nombre"), rsCliente.getString("telefonoContacto"));
+        }
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmCliente.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+        return resultado;
+    }
+    
+    public JefeTaller obtenerJefeTaller(String id){
+        JefeTaller resultado=null;
+        Connection con;
+        PreparedStatement stmSupervisor=null;
+        ResultSet rsSupervisor;
+
+        con=this.getConexion();
+        try {
+        stmSupervisor=con.prepareStatement("select j.idMecanico, nombre, clave, telefonoContacto, fechaIngreso "+
+                                        "from JefeTaller j join Mecanico m on j.idMecanico = m.idMecanico "+
+                                        "where j.idMecanico = ? ");
+        stmSupervisor.setString(1, id);
+        rsSupervisor=stmSupervisor.executeQuery();
+        if (rsSupervisor.next())
+        {
+            resultado = new JefeTaller(rsSupervisor.getString("idMecanico"), rsSupervisor.getString("clave"), rsSupervisor.getString("nombre"), rsSupervisor.getString("telefonoContacto"), rsSupervisor.getDate("fechaingreso"));
+        }
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmSupervisor.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+        return resultado;
+    }
+
+    public java.util.List<Vehiculo> consultarCatalogo(String matricula, String cliente, String marca, String modelo, String supervisor, String combustible){
+        java.util.List<Vehiculo> resultado = new java.util.ArrayList<Vehiculo>();
+        int i = 3;
+        Vehiculo vehiculoActual;
+        Connection con;
+        PreparedStatement stmVehiculos=null;
+        ResultSet rsVehiculos;
 
         con=this.getConexion();
         
-        String consulta = "select id_libro, titulo, isbn, editorial, paginas, ano " +
-                                         "from libro as l "+
-                                         "where titulo like ?"+
-                                         "  and isbn like ?";
-        if (id != null)
-            consulta = consulta + " and id_libro = "+id.toString();
+        String consulta = "select matricula, marca, modelo, combustible, kilometraje, clienteDNI, supervisor " +
+                                         "from vehiculo as v "+
+                                         "where modelo like ?"+
+                                         "  and marca like ?";
+        if (!matricula.isEmpty())
+            consulta = consulta + " and matricula = ? ";
         
-        if (!autor.isEmpty())
-            consulta = consulta + "  and exists (select * "+
-                                         "              from autor "+
-                                         "              where libro=l.id_libro"+
-                                         "                and nombre like ?)";
+        if (!cliente.isEmpty())
+            consulta = consulta + " and clienteDNI = ? ";
+        
+        if (!supervisor.isEmpty())
+            consulta = consulta + " and supervisor = ? ";
 
         try  {
-         stmCatalogo=con.prepareStatement(consulta);
-         stmCatalogo.setString(1, "%"+titulo+"%");
-         stmCatalogo.setString(2, "%"+isbn+"%");
-         if (!autor.isEmpty()) stmCatalogo.setString(3, "%"+autor+"%");
-         rsCatalogo=stmCatalogo.executeQuery();
-        while (rsCatalogo.next())
+         stmVehiculos=con.prepareStatement(consulta);
+         stmVehiculos.setString(1, "%"+modelo+"%");
+         stmVehiculos.setString(2, "%"+marca+"%");
+         if (!matricula.isEmpty()){ stmVehiculos.setString(i, matricula); i++;}
+         if (!cliente.isEmpty()){ stmVehiculos.setString(i, cliente); i++;}
+         if (!supervisor.isEmpty()){ stmVehiculos.setString(i, supervisor); i++;}
+         rsVehiculos=stmVehiculos.executeQuery();
+        while (rsVehiculos.next())
         {
-            libroActual = new Libro(rsCatalogo.getInt("id_libro"), rsCatalogo.getString("titulo"),
-                                      rsCatalogo.getString("isbn"), rsCatalogo.getString("editorial"),
-                                      rsCatalogo.getInt("paginas"), rsCatalogo.getString("ano"));
-            try {
-            stmAutores = con.prepareStatement("select nombre as autor "+
-                                              "from autor "+
-                                              "where libro = ? "+
-                                              "order by orden");
-            stmAutores.setInt(1, libroActual.getIdLibro());
-            rsAutores=stmAutores.executeQuery();
-            while (rsAutores.next())
-            {
-                 libroActual.addAutor(rsAutores.getString("autor"));
-            }
-            }catch (SQLException e){
-              System.out.println(e.getMessage());
-              this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
-            } finally {
-              stmAutores.close();
-            }
-            resultado.add(libroActual);
+            vehiculoActual = new Vehiculo(rsVehiculos.getString("matricula"), rsVehiculos.getString("marca"),
+                                      rsVehiculos.getString("modelo"), rsVehiculos.getString("combustible"),
+                                      rsVehiculos.getInt("kilometraje"));
+            vehiculoActual.setPropietario(obtenerCliente(rsVehiculos.getString("clienteDNI")));
+            vehiculoActual.setSupervisor(obtenerJefeTaller(rsVehiculos.getString("supervisor")));
+            
+            resultado.add(vehiculoActual);
         }
 
         } catch (SQLException e){
           System.out.println(e.getMessage());
           this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
         }finally{
-          try {stmCatalogo.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+          try {stmVehiculos.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
         }
         return resultado;
     }
 
-    public Libro consultarLibro(Integer idLibro){
-        Libro resultado=null;
+    public Vehiculo consultarLibro(Integer idLibro){
+        Vehiculo resultado=null;
         Connection con;
         PreparedStatement stmLibro=null;
         ResultSet rsLibro;
@@ -107,7 +150,7 @@ public class DAOLibros extends AbstractDAO {
         rsLibro=stmLibro.executeQuery();
         if (rsLibro.next())
         {
-            resultado = new Libro(rsLibro.getInt("id_libro"), rsLibro.getString("titulo"),
+            resultado = new Vehiculo(rsLibro.getInt("id_libro"), rsLibro.getString("titulo"),
                                       rsLibro.getString("isbn"), rsLibro.getString("editorial"),
                                       rsLibro.getInt("paginas"), rsLibro.getString("ano"));
 
@@ -186,7 +229,7 @@ public class DAOLibros extends AbstractDAO {
         Connection con;
         PreparedStatement stmEjemplares=null;
         ResultSet rsEjemplares;
-        Libro l = consultarLibro(idLibro);
+        Vehiculo l = consultarLibro(idLibro);
 
         con=super.getConexion();
 
@@ -255,7 +298,7 @@ public class DAOLibros extends AbstractDAO {
         return resultado;
     }
     
-    public Integer insertarLibro(Libro libro){
+    public Integer insertarLibro(Vehiculo libro){
         Connection con;
         PreparedStatement stmLibro=null;
         PreparedStatement stmAutores=null;
@@ -329,7 +372,7 @@ public class DAOLibros extends AbstractDAO {
         }
     }
 
-    public void modificarLibro(Libro libro){
+    public void modificarLibro(Vehiculo libro){
         Connection con;
         PreparedStatement stmLibro=null;
         PreparedStatement stmAutores=null;

@@ -15,7 +15,7 @@ import java.util.Date;
 public class FachadaAplicacion {
     gui.FachadaGui fgui;
     baseDatos.FachadaBaseDatos fbd;
-    GesionLibros cl;
+    GestionVehiculos cl;
     GestionUsuarios cu;
     GestionCategorias cc;
     GestionPrestamos cp;
@@ -24,7 +24,7 @@ public class FachadaAplicacion {
  public FachadaAplicacion(){
    fgui=new gui.FachadaGui(this);
    fbd= new baseDatos.FachadaBaseDatos(this);
-   cl= new GesionLibros(fgui, fbd);
+   cl= new GestionVehiculos(fgui, fbd);
    cu= new GestionUsuarios(fgui, fbd);
    cc = new GestionCategorias(fgui, fbd);
    cp = new GestionPrestamos(fgui, fbd);
@@ -49,8 +49,8 @@ public class FachadaAplicacion {
      fgui.comprobarMecanico(m);
  }
  
-public java.util.List<Libro> obtenerLibros(Integer id, String titulo, String isbn, String autor){
-  return cl.obtenerLibros(id, titulo,  isbn,  autor);
+public java.util.List<Vehiculo> obtenerVehiculos(String matricula, String cliente, String marca, String modelo, String supervisor, String combustible){
+  return cl.obtenerVehiculos(matricula, cliente,  marca,  modelo, supervisor, combustible);
 }
 
 public void visualizarLibro(Integer idLibro){
@@ -61,7 +61,7 @@ public void nuevoLibro(){
  cl.nuevoLibro();
 }
 
-public Integer actualizarLibro(Libro l){
+public Integer actualizarLibro(Vehiculo l){
   return cl.actualizarLibro(l);
 }
 

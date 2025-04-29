@@ -1,5 +1,5 @@
 create table Mecanico (
-    idEmpleado serial primary key,
+    idMecanico varchar(10) primary key,
     nombre varchar(100) not null,
     clave varchar(50) not null,
     telefonoContacto varchar(20)not null,
@@ -8,11 +8,11 @@ create table Mecanico (
 );
 
 create table JefeTaller (
-    idEmpleado int primary key references Mecanico(idEmpleado)
+    idMecanico varchar(10) primary key references Mecanico(idMecanico)
 );
 
 create table Subordinado (
-    idEmpleado int primary key references Mecanico(idEmpleado)
+    idMecanico varchar(10) primary key references Mecanico(idMecanico)
 );
 
 create table Cliente (
@@ -27,9 +27,9 @@ create table Vehiculo (
     modelo varchar(100) not null,
     kilometraje int not null,
     combustible varchar(20) not null,
-    supervisor int,
+    supervisor varchar(10),
     clienteDNI varchar(20) references Cliente(DNI),
-    foreign key(supervisor) references JefeTaller(idEmpleado)
+    foreign key(supervisor) references JefeTaller(idMecanico)
 );
 
 create table Repuesto (
@@ -44,14 +44,14 @@ create table Solicitud (
     repuesto int references Repuesto(idRepuesto),
     fecha date,
     cantidad int not null,
-    idEmpleado int references Mecanico(idEmpleado),
-    primary key (fecha, idEmpleado, repuesto)
+    idMecanico varchar(10) references Mecanico(idMecanico),
+    primary key (fecha, idMecanico, repuesto)
 );
 
 create table EmpleadoPracticas (
     idAlumno int primary key,
     nombre varchar(100) not null,
-    tutorID int references JefeTaller(idEmpleado)
+    tutorID varchar(10) references JefeTaller(idMecanico)
 );
 
 create table TipoReparacion (
@@ -66,10 +66,10 @@ create table Reparacion (
     fechaFin date,
     idVehiculo varchar(20),
     tipoReparacion varchar(100),
-    mecanico int,
+    mecanico varchar(10),
     foreign key (idVehiculo) references Vehiculo(matricula),
     foreign key (tipoReparacion) references TipoReparacion(nombre),
-    foreign key (mecanico) references Mecanico(idEmpleado)
+    foreign key (mecanico) references Mecanico(idMecanico)
 );
 
 create table Utilizar (
@@ -90,27 +90,27 @@ create table Asistir (
 );
 
 create table Participar(
-	subordinado int,
+	subordinado varchar(10),
 	idReparacion int,
 	primary key( subordinado, idReparacion),
-	foreign key(subordinado) references Subordinado(idEmpleado),
+	foreign key(subordinado) references Subordinado(idMecanico),
 	foreign key (idReparacion ) references Reparacion(idReparacion)
 
 );
 
-insert into Mecanico (nombre, clave, telefonoContacto, fechaIngreso) values
-('Juan Pérez', 'clave123', '123456789', '2022-01-01'),
-('María López', 'clave456', '987654321', '2021-05-10'),
-('Carlos Gómez', 'clave789', '456123789', '2020-07-15'),
-('Ana Torres', 'clave321', '741852963', '2023-03-22'),
-('Luis Méndez', 'clave654', '369258147', '2022-09-30');
+insert into Mecanico (idMecanico, nombre, clave, telefonoContacto, fechaIngreso) values
+('jpe', 'Juan Pérez', 'clave123', '123456789', '2022-01-01'),
+('mlo', 'María López', 'clave456', '987654321', '2021-05-10'),
+('cgo', 'Carlos Gómez', 'clave789', '456123789', '2020-07-15'),
+('ato', 'Ana Torres', 'clave321', '741852963', '2023-03-22'),
+('lme', 'Luis Méndez', 'clave654', '369258147', '2022-09-30');
 
 
-insert into JefeTaller (idEmpleado) values
-(1), (2);
+insert into JefeTaller (idMecanico) values
+('jpe'), ('mlo');
 
-insert into Subordinado (idEmpleado) values
-(3), (4), (5);
+insert into Subordinado (idMecanico) values
+('cgo'), ('ato'), ('lme');
 
 insert into Cliente (DNI,nombre, telefonoContacto) values
 ('12345678A','Luis Martínez', '600123456'),
@@ -135,19 +135,19 @@ insert into Repuesto (idRepuesto, nombre, descripcion, precioUnidad, stock) valu
 (5, 'Bujías', 'Juego de 4 bujías', 25.00, 60);
 
 
-insert into Solicitud (repuesto, fecha, cantidad, idEmpleado) values
-(1, '2025-04-01', 2, 1),
-(2, '2025-04-02', 4, 2),
-(2, '2025-04-03', 1, 3),
-(4, '2025-04-04', 2, 4),
-(2, '2025-04-05', 3, 2);
+insert into Solicitud (repuesto, fecha, cantidad, idMecanico) values
+(1, '2025-04-01', 2, 'jpe'),
+(2, '2025-04-02', 4, 'mlo'),
+(2, '2025-04-03', 1, 'cgo'),
+(4, '2025-04-04', 2, 'ato'),
+(2, '2025-04-05', 3, 'mlo');
 
 insert into EmpleadoPracticas (idAlumno, nombre, tutorID) values
-(1, 'Pedro Jiménez', 1),
-(2, 'Sofía Martínez', 2),
-(3, 'Miguel Ángel', 1),
-(4, 'Clara Fernández', 1),
-(5, 'David Suárez', 1);
+(1, 'Pedro Jiménez', 'jpe'),
+(2, 'Sofía Martínez', 'mlo'),
+(3, 'Miguel Ángel', 'jpe'),
+(4, 'Clara Fernández', 'jpe'),
+(5, 'David Suárez', 'jpe');
 
 
 
@@ -159,11 +159,11 @@ insert into TipoReparacion (nombre, descripcion, aptoParaPracticas) values
 ('Coches de lujo', 'Operaciones en coches muy caros', false);
 
 insert into Reparacion (fechaInicio, idVehiculo, tipoReparacion, mecanico) values
-('2025-04-01',  '4638DDF','Mantenimiento básico',1),
-('2025-04-03', '9937BMN','Chapa y pintura',3),
-('2025-04-05', '7720GRF','Mantenimiento básico',3),
-('2025-04-06', '9923HJJ','Chapa y pintura',2),
-('2025-04-08', '2204KLK','Intervención mayor',1);
+('2025-04-01',  '4638DDF','Mantenimiento básico','jpe'),
+('2025-04-03', '9937BMN','Chapa y pintura','cgo'),
+('2025-04-05', '7720GRF','Mantenimiento básico','cgo'),
+('2025-04-06', '9923HJJ','Chapa y pintura','mlo'),
+('2025-04-08', '2204KLK','Intervención mayor','jpe');
 
 insert into Utilizar (idRepuesto, idReparacion, cantidad) values
 (1, 1,1),

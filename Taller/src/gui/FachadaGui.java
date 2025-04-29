@@ -5,7 +5,7 @@
 package gui;
 
 import aplicacion.Categoria;
-import aplicacion.Libro;
+import aplicacion.Vehiculo;
 import aplicacion.Mecanico;
 
 /**
@@ -36,7 +36,7 @@ public class FachadaGui {
     }
     
    
-    public void visualizaLibro(Libro l, java.util.List<String>restoCategorias){
+    public void visualizaLibro(Vehiculo l, java.util.List<String>restoCategorias){
         VLibro vl;
         java.util.List<String> categorias = new java.util.ArrayList<String>();
         

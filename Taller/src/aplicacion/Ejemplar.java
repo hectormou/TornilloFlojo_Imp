@@ -5,7 +5,7 @@
 
 package aplicacion;
 
-import aplicacion.Libro;
+import aplicacion.Vehiculo;
 
 /**
  *
@@ -16,10 +16,10 @@ public class Ejemplar {
     private Integer numEjemplar;
     private String localizador;
     private String anoCompra;
-    private Libro libro;
+    private Vehiculo libro;
     private Prestamo prestamoActual;
     
-    public Ejemplar(Libro libro, Integer numEjemplar, String localizador, String anoCompra){
+    public Ejemplar(Vehiculo libro, Integer numEjemplar, String localizador, String anoCompra){
         this.numEjemplar=numEjemplar;
         this.anoCompra=anoCompra;
         this.localizador=localizador;
@@ -27,7 +27,7 @@ public class Ejemplar {
         this.prestamoActual=null;
     }
 
-    public Ejemplar(Libro libro, Integer numEjemplar, String localizador, String anoCompra, Prestamo prestamoActual){
+    public Ejemplar(Vehiculo libro, Integer numEjemplar, String localizador, String anoCompra, Prestamo prestamoActual){
         this.numEjemplar=numEjemplar;
         this.anoCompra=anoCompra;
         this.localizador=localizador;
@@ -47,7 +47,7 @@ public class Ejemplar {
         return this.localizador;
     }
 
-    public Libro getLibro(){
+    public Vehiculo getLibro(){
         return this.libro;
     }
     

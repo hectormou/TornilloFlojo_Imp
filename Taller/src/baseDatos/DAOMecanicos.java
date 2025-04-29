@@ -29,7 +29,7 @@ public class DAOMecanicos extends AbstractDAO {
         con=this.getConexion();
 
         try {
-        stmMecanico=con.prepareStatement("select * from JefeTaller where idEmpleado = ?");
+        stmMecanico=con.prepareStatement("select * from JefeTaller where idMecanico = ? ");
         stmMecanico.setString(1, idMecanico);
         rsMecanico=stmMecanico.executeQuery();
         if (rsMecanico.next())
@@ -54,7 +54,7 @@ public class DAOMecanicos extends AbstractDAO {
         con=this.getConexion();
 
         try {
-        stmMecanico=con.prepareStatement("select * from Subordinado where idEmpleado = ?");
+        stmMecanico=con.prepareStatement("select * from Subordinado where idMecanico = ?");
         stmMecanico.setString(1, idMecanico);
         rsMecanico=stmMecanico.executeQuery();
         if (rsMecanico.next())
@@ -78,21 +78,21 @@ public class DAOMecanicos extends AbstractDAO {
 
         con=this.getConexion();
         try {
-        stmMecanico=con.prepareStatement("select idEmpleado, clave, nombre, telefonoContacto, fechaIngreso "+
-                                        "from Mecanico"+
-                                        "where idEmpleado = ? and clave = ?");
+        stmMecanico=con.prepareStatement("select idMecanico, clave, nombre, telefonoContacto, fechaIngreso "+
+                                        "from Mecanico m "+
+                                        "where idMecanico = ? and clave = ?");
         stmMecanico.setString(1, idMecanico);
         stmMecanico.setString(2, clave);
         rsMecanico=stmMecanico.executeQuery();
         if (rsMecanico.next())
         {
             if(esJefeTaller(idMecanico)){
-                resultado = new JefeTaller(rsMecanico.getString("idEmpleado"), rsMecanico.getString("clave"),
+                resultado = new JefeTaller(rsMecanico.getString("idMecanico"), rsMecanico.getString("clave"),
                                       rsMecanico.getString("nombre"), rsMecanico.getString("telefonoContacto"),
                                       rsMecanico.getDate("fechaIngreso"));
             }
             else if(esSubordinado(idMecanico)){
-                resultado = new Subordinado(rsMecanico.getString("idEmpleado"), rsMecanico.getString("clave"),
+                resultado = new Subordinado(rsMecanico.getString("idMecanico"), rsMecanico.getString("clave"),
                                       rsMecanico.getString("nombre"), rsMecanico.getString("telefonoContacto"),
                                       rsMecanico.getDate("fechaIngreso"));
             }

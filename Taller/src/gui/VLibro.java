@@ -11,7 +11,7 @@
 
 package gui;
 
-import aplicacion.Libro;
+import aplicacion.Vehiculo;
 import aplicacion.Ejemplar;
 import java.util.Date;
 
@@ -54,7 +54,7 @@ public class VLibro extends javax.swing.JDialog {
         estadoBotonPrestar();
     }
 
-    public VLibro(java.awt.Frame parent, boolean modal, aplicacion.FachadaAplicacion fa, Libro libro, java.util.List<String> categorias, java.util.List<String> restoCategorias) {
+    public VLibro(java.awt.Frame parent, boolean modal, aplicacion.FachadaAplicacion fa, Vehiculo libro, java.util.List<String> categorias, java.util.List<String> restoCategorias) {
         super(parent, modal);
         this.fa=fa;
         initComponents();
@@ -600,8 +600,8 @@ public class VLibro extends javax.swing.JDialog {
 
     private void btnActualizarLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarLibroActionPerformed
         // TODO add your handling code here:
-        Libro l;
-        l=new Libro(idLibro, textoTitulo.getText(), textoIsbn.getText(), textoEditorial.getText(),
+        Vehiculo l;
+        l=new Vehiculo(idLibro, textoTitulo.getText(), textoIsbn.getText(), textoEditorial.getText(),
                     Integer.parseInt(textoPaginas.getText()), textoAno.getText());
         ModeloListaStrings ma= (ModeloListaStrings)lstAutores.getModel();
         l.setAutores(ma.getElementos());
