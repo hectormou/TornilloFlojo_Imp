@@ -259,8 +259,8 @@ public class VPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         ModeloTablaVehiculos mtl = (ModeloTablaVehiculos) tablaVehiculos.getModel();
         int idLibro;
-        idLibro = mtl.obtenerLibro(tablaVehiculos.getSelectedRow()).getIdLibro();
-        fa.visualizarLibro(idLibro);
+//        idLibro = mtl.obtenerLibro(tablaVehiculos.getSelectedRow()).getIdLibro();
+//        fa.visualizarLibro(idLibro);
     }//GEN-LAST:event_btnEditarLibroActionPerformed
 
     private void btnNuevoLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoLibroActionPerformed

@@ -141,7 +141,7 @@ public class DAOVehiculos extends AbstractDAO {
         ResultSet rsEjemplares;
 
         con=super.getConexion();
-
+/*
         try {
         stmLibro=con.prepareStatement("select id_libro, titulo, isbn, editorial, paginas, ano " +
                                          "from libro "+
@@ -220,7 +220,7 @@ public class DAOVehiculos extends AbstractDAO {
           try {
                stmLibro.close();
           } catch (SQLException e){System.out.println("Imposible cerrar cursores");}
-        }
+        }*/
         return resultado;
     }
 
@@ -312,11 +312,11 @@ public class DAOVehiculos extends AbstractDAO {
         try {
         stmLibro=con.prepareStatement("insert into libro(titulo, isbn, editorial, paginas, ano) "+
                                       "values (?,?,?,?,?)");
-        stmLibro.setString(1, libro.getTitulo());
-        stmLibro.setString(2, libro.getIsbn());
-        stmLibro.setString(3, libro.getEditorial());
-        stmLibro.setInt(4, libro.getPaginas());
-        stmLibro.setString(5,libro.getAno());
+    //    stmLibro.setString(1, libro.getTitulo());
+    //    stmLibro.setString(2, libro.getIsbn());
+    //    stmLibro.setString(3, libro.getEditorial());
+    //    stmLibro.setInt(4, libro.getPaginas());
+    //    stmLibro.setString(5,libro.getAno());
         stmLibro.executeUpdate();
 
         try{
@@ -331,14 +331,14 @@ public class DAOVehiculos extends AbstractDAO {
         try{
         stmAutores=con.prepareStatement("insert into autor(libro, nombre, orden) "+
                                       "values (?,?,?)");
-        numAutor=1;
+        numAutor=1;/*
         for (String s:libro.getAutores()){
             stmAutores.setInt(1, idLibro);
             stmAutores.setString(2, s);
             stmAutores.setInt(3, numAutor);
             stmAutores.executeUpdate();
             numAutor=numAutor+1;
-        }
+        }*/
         } catch (SQLException e){
           System.out.println(e.getMessage());
           this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
@@ -380,7 +380,7 @@ public class DAOVehiculos extends AbstractDAO {
         Integer numAutor;
 
         con=super.getConexion();
-
+/*
         try {
         stmLibro=con.prepareStatement("update libro "+
                                     "set titulo=?, "+
@@ -431,7 +431,7 @@ public class DAOVehiculos extends AbstractDAO {
           this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
         }finally{
           try {stmLibro.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
-        }
+        }*/
     }
 
   public void modificarCategoriasLibro(Integer idLibro, java.util.List<String> categorias){

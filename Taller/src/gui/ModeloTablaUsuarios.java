@@ -59,13 +59,13 @@ public class ModeloTablaUsuarios extends AbstractTableModel{
 
     public Object getValueAt(int row, int col){
         Object resultado=null;
-
+/*
         switch (col){
             case 0: resultado= usuarios.get(row).getIdUsuario(); break;
             case 1: resultado= usuarios.get(row).getNombre(); break;
             case 2: resultado=usuarios.get(row).getEmail();break;
             case 3: resultado=usuarios.get(row).getTipoUsuario(); break;
-        }
+        }*/
         return resultado;
     }
 

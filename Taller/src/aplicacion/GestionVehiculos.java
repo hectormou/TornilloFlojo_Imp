@@ -44,14 +44,14 @@ public class GestionVehiculos{
     
     public Integer actualizarLibro(Vehiculo l){
         
-       Integer idLibro;
+       Integer idLibro = 1;
 
-       if (l.getIdLibro()==null)
+       /*if (l.getIdLibro()==null)
            idLibro=fbd.insertarLibro(l);
        else{
           fbd.modificarLibro(l);
           idLibro=l.getIdLibro();
-       }
+       }*/
 
        return idLibro;
     }

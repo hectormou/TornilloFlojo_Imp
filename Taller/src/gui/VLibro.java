@@ -60,17 +60,17 @@ public class VLibro extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(null);
         padre=(VPrincipal) parent;
-        idLibro=libro.getIdLibro();
-        textoAno.setText(libro.getAno());
-        textoEditorial.setText(libro.getEditorial());
-        textoIsbn.setText(libro.getIsbn());
-        textoPaginas.setText((libro.getPaginas()).toString());
-        textoTitulo.setText(libro.getTitulo());
+    //    idLibro=libro.getIdLibro();
+    //    textoAno.setText(libro.getAno());
+    //    textoEditorial.setText(libro.getEditorial());
+    //    textoIsbn.setText(libro.getIsbn());
+    //    textoPaginas.setText((libro.getPaginas()).toString());
+    //    textoTitulo.setText(libro.getTitulo());
         textoId.setText(idLibro.toString());
 
         ModeloListaStrings mListaAutores=new ModeloListaStrings();
         lstAutores.setModel(mListaAutores);
-        mListaAutores.setElementos(libro.getAutores());
+    //    mListaAutores.setElementos(libro.getAutores());
         if (mListaAutores.getSize()>0){
             lstAutores.setSelectedIndex(0);
             btnBorrarAutor.setEnabled(true);
@@ -94,7 +94,7 @@ public class VLibro extends javax.swing.JDialog {
 
         ModeloTablaEjemplares mTEjemplares = new ModeloTablaEjemplares();
         tablaEjemplares.setModel(mTEjemplares);
-        mTEjemplares.setFilas(libro.getEjemplares());
+    //    mTEjemplares.setFilas(libro.getEjemplares());
         if (mTEjemplares.getRowCount()>0) {
             tablaEjemplares.setRowSelectionInterval(0, 0);
             btnBorrarEjemplar.setEnabled(true);
@@ -502,7 +502,7 @@ public class VLibro extends javax.swing.JDialog {
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         // TODO add your handling code here:
-        padre.buscarLibros();
+    //    padre.buscarLibros();
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
@@ -577,16 +577,16 @@ public class VLibro extends javax.swing.JDialog {
      ModeloTablaEjemplares me;
      me=(ModeloTablaEjemplares) tablaEjemplares.getModel();
      Ejemplar e = me.obtenerEjemplar(tablaEjemplares.getSelectedRow());
-     if(ejemplarTienePrestamo(e.getLibro().getIdLibro(), e.getNumEjemplar())){
-         VAviso va = new VAviso(this.padre, true, "El ejemplar a borrar tiene préstamos");
-         va.setVisible(true);
-     } else{
-         if (e.getNumEjemplar()!=null)
-         ejemplaresBorrados.add(e.getNumEjemplar());
-         me.borrarEjemplar(tablaEjemplares.getSelectedRow());
-        if (me.getRowCount()==0) btnBorrarEjemplar.setEnabled(false);
-        else tablaEjemplares.setRowSelectionInterval(0, 0);
-     }
+//     if(ejemplarTienePrestamo(e.getLibro().getIdLibro(), e.getNumEjemplar())){
+//         VAviso va = new VAviso(this.padre, true, "El ejemplar a borrar tiene préstamos");
+//         va.setVisible(true);
+//     } else{
+//         if (e.getNumEjemplar()!=null)
+//         ejemplaresBorrados.add(e.getNumEjemplar());
+//         me.borrarEjemplar(tablaEjemplares.getSelectedRow());
+//        if (me.getRowCount()==0) btnBorrarEjemplar.setEnabled(false);
+//        else tablaEjemplares.setRowSelectionInterval(0, 0);
+//     }
      estadoBotonPrestar();
      estadoBotonDevolver();
     }//GEN-LAST:event_btnBorrarEjemplarActionPerformed
@@ -594,19 +594,19 @@ public class VLibro extends javax.swing.JDialog {
     private void btnBorrarLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarLibroActionPerformed
         // TODO add your handling code here:
     fa.borrarLibro(idLibro);
-    padre.buscarLibros();
+//    padre.buscarLibros();
     this.dispose();
     }//GEN-LAST:event_btnBorrarLibroActionPerformed
 
     private void btnActualizarLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarLibroActionPerformed
         // TODO add your handling code here:
         Vehiculo l;
-        l=new Vehiculo(idLibro, textoTitulo.getText(), textoIsbn.getText(), textoEditorial.getText(),
-                    Integer.parseInt(textoPaginas.getText()), textoAno.getText());
+//        l=new Vehiculo(idLibro, textoTitulo.getText(), textoIsbn.getText(), textoEditorial.getText(),
+//                    Integer.parseInt(textoPaginas.getText()), textoAno.getText());
         ModeloListaStrings ma= (ModeloListaStrings)lstAutores.getModel();
-        l.setAutores(ma.getElementos());
-        idLibro=fa.actualizarLibro(l);
-        textoId.setText(idLibro.toString());
+//        l.setAutores(ma.getElementos());
+//        idLibro=fa.actualizarLibro(l);
+//        textoId.setText(idLibro.toString());
         btnActualizarCategoriasLibro.setEnabled(true);
         btnActualizarEjemplaresLibro.setEnabled(true);
         btnBorrarLibro.setEnabled(true);
@@ -634,7 +634,7 @@ public class VLibro extends javax.swing.JDialog {
         // TODO add your handling code here:
         ModeloTablaEjemplares me= (ModeloTablaEjemplares)tablaEjemplares.getModel();
         Ejemplar e = me.getFilas().get(tablaEjemplares.getSelectedRow());
-        devolver(e.getNumEjemplar(), e.getLibro().getIdLibro(), e.getPrestamoActual().getUsuario(), e.getPrestamoActual().getFecha_Prestamo());
+//        devolver(e.getNumEjemplar(), e.getLibro().getIdLibro(), e.getPrestamoActual().getUsuario(), e.getPrestamoActual().getFecha_Prestamo());
         e.setPrestamoActual(null);
         estadoBotonDevolver();
         estadoBotonPrestar();

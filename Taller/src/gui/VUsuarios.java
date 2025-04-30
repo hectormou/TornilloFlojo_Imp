@@ -308,7 +308,7 @@ public class VUsuarios extends javax.swing.JDialog {
         if(tablaUsuarios.getSelectedRow()!=-1){ //VER PRESTAMOS
             ModeloTablaUsuarios m;
             m=(ModeloTablaUsuarios) tablaUsuarios.getModel();
-            borrarUsuario(m.obtenerUsuario(tablaUsuarios.getSelectedRow()).getIdUsuario());
+//            borrarUsuario(m.obtenerUsuario(tablaUsuarios.getSelectedRow()).getIdUsuario());
             buscarUsuarios("","");
         }
     }//GEN-LAST:event_btnBorrarActionPerformed
@@ -378,10 +378,10 @@ public class VUsuarios extends javax.swing.JDialog {
     public void filaSeleccionada(aplicacion.Mecanico u){
         ModificaNombre.setText(u.getNombre());
         ModificaClave.setText(u.getClave());
-        ModificaEmail.setText(u.getEmail());
-        ModificaDireccion.setText(u.getDireccion());
-        ModificaId.setText(u.getIdUsuario());
-        ModificaTipo.setSelectedItem(u.getTipoUsuario());
+    //    ModificaEmail.setText(u.getEmail());
+    //    ModificaDireccion.setText(u.getDireccion());
+    //    ModificaId.setText(u.getIdUsuario());
+    //    ModificaTipo.setSelectedItem(u.getTipoUsuario());
     }
     
     public boolean existeUsuario(String id){

@@ -126,13 +126,13 @@ public class DAOMecanicos extends AbstractDAO {
          stmUsuarios.setString(1, "%"+nombre+"%");
          if (!id.isEmpty()) stmUsuarios.setString(2, id);
          rsUsuarios=stmUsuarios.executeQuery();
-        while (rsUsuarios.next())
+        /*while (rsUsuarios.next())
         {
             usuarioActual = new Mecanico(rsUsuarios.getString("id_usuario"), rsUsuarios.getString("clave"),
                                       rsUsuarios.getString("nombre"), rsUsuarios.getString("direccion"),
                                       rsUsuarios.getString("email"), TipoUsuario.valueOf(rsUsuarios.getString("tipo_usuario")));
             resultado.add(usuarioActual);
-        }
+        }*/
 
         } catch (SQLException e){
           System.out.println(e.getMessage());

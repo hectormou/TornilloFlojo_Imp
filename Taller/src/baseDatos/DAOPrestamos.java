@@ -40,14 +40,14 @@ public class DAOPrestamos extends AbstractDAO {
          stmUsuarios.setString(1, "%"+nombre+"%");
          if (!id.isEmpty()) stmUsuarios.setString(2, id);
          rsUsuarios=stmUsuarios.executeQuery();
-        while (rsUsuarios.next())
+        /*while (rsUsuarios.next())
         {
             usuarioActual = new Mecanico(rsUsuarios.getString("id_usuario"), rsUsuarios.getString("clave"),
                                       rsUsuarios.getString("nombre"), rsUsuarios.getString("direccion"),
                                       rsUsuarios.getString("email"), TipoUsuario.valueOf(rsUsuarios.getString("tipo_usuario")));
             usuarioActual.setPrestamosVencidos(NPrestamos(usuarioActual));
             resultado.add(usuarioActual);
-        }
+        }*/
 
         } catch (SQLException e){
           System.out.println(e.getMessage());
@@ -71,7 +71,7 @@ public class DAOPrestamos extends AbstractDAO {
                   "AND fecha_devolucion IS NULL " +
                   "AND fecha_vencimiento < CURRENT_DATE;";
         stmPrestamos=con.prepareStatement(consulta);
-        stmPrestamos.setString(1, u.getIdUsuario());
+    //    stmPrestamos.setString(1, u.getIdUsuario());
         rs = stmPrestamos.executeQuery();
         if(rs.next()){
             resultado = rs.getInt("cantidad_vencidos");
@@ -93,8 +93,8 @@ public class DAOPrestamos extends AbstractDAO {
         try  {
         String consulta = "insert into prestamos (usuario, libro, ejemplar) values (?,?,?)";
         stmPrestamos=con.prepareStatement(consulta);
-        stmPrestamos.setString(1, u.getIdUsuario());
-        stmPrestamos.setInt(2, ej.getLibro().getIdLibro());
+    //    stmPrestamos.setString(1, u.getIdUsuario());
+    //    stmPrestamos.setInt(2, ej.getLibro().getIdLibro());
         stmPrestamos.setInt(3, ej.getNumEjemplar());
         int a = stmPrestamos.executeUpdate();
         if (a>0){

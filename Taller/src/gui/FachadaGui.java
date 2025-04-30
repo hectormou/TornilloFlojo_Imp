@@ -40,9 +40,9 @@ public class FachadaGui {
         VLibro vl;
         java.util.List<String> categorias = new java.util.ArrayList<String>();
         
-        for(Categoria c:l.getCategorias()){
+    /*    for(Categoria c:l.getCategorias()){
             categorias.add(c.getNombre());
-        }
+        }*/
         
         vl=new VLibro(vp, true, fa, l, categorias, restoCategorias);
         vl.setVisible(true);
