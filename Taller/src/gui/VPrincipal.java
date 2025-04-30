@@ -294,19 +294,6 @@ public class VPrincipal extends javax.swing.JFrame {
         buscarVehiculos();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    private void btnEditarLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarLibroActionPerformed
-        // TODO add your handling code here:
-        ModeloTablaVehiculos mtl = (ModeloTablaVehiculos) tablaVehiculos.getModel();
-        int idLibro;
-//        idLibro = mtl.obtenerLibro(tablaVehiculos.getSelectedRow()).getIdLibro();
-//        fa.visualizarLibro(idLibro);
-    }//GEN-LAST:event_btnEditarLibroActionPerformed
-
-    private void btnNuevoLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoLibroActionPerformed
-        // TODO add your handling code here:
-        fa.nuevoLibro();
-    }//GEN-LAST:event_btnNuevoLibroActionPerformed
-
     private void menuEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEmpleadosActionPerformed
         VUsuarios vu = new VUsuarios(this, true, this.fa);
         vu.setVisible(true);
@@ -324,6 +311,17 @@ public class VPrincipal extends javax.swing.JFrame {
 
     private void verVehiculoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verVehiculoBotonActionPerformed
         // TODO add your handling code here:
+        int filaSeleccionada= tablaVehiculos.getSelectedRow();
+        ModeloTablaVehiculos mtl = (ModeloTablaVehiculos) tablaVehiculos.getModel();
+        
+        Vehiculo vehiculo= fa.obtenerVehiculos(buscaMatricula.getText(),"","","","","").get(0);
+        if(vehiculo!=null){
+        VVehiculo vv= new VVehiculo(this, true, this.fa, vehiculo);
+        vv.setVisible(true);
+        }else {
+            VAviso aviso=new VAviso(this,true,"Por favor, selecciona un vehículo");
+            aviso.setVisible(true);
+        }
     }//GEN-LAST:event_verVehiculoBotonActionPerformed
 
     private void eliminarVehiculoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarVehiculoBotonActionPerformed
@@ -337,14 +335,42 @@ public class VPrincipal extends javax.swing.JFrame {
         
         Vehiculo vehiculo= mtl.obtenerVehiculo(filaSeleccionada);
         
+        setBotonesVehiculo(vehiculo);
+        
+        
+    }//GEN-LAST:event_tablaVehiculosMouseClicked
+
+    private void btnNuevoLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoLibroActionPerformed
+        // TODO add your handling code here:
+        fa.nuevoLibro();
+    }//GEN-LAST:event_btnNuevoLibroActionPerformed
+
+    private void btnEditarLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarLibroActionPerformed
+        // TODO add your handling code here:
+        ModeloTablaVehiculos mtl = (ModeloTablaVehiculos) tablaVehiculos.getModel();
+        int idLibro;
+        //        idLibro = mtl.obtenerLibro(tablaVehiculos.getSelectedRow()).getIdLibro();
+        //        fa.visualizarLibro(idLibro);
+    }//GEN-LAST:event_btnEditarLibroActionPerformed
+
+    
+    private void setBotonesVehiculo(Vehiculo vehiculo){
         buscaMatricula.setText(vehiculo.getMatricula());
         buscaCliente.setText(vehiculo.getPropietario().getNombre());    //MIRAR NORMATIVA PROVACIDAD
         buscaModelo.setText(vehiculo.getModelo());
         buscaSupervisor.setText(vehiculo.getSupervisor().getNombre());
         buscaCombustible.setText(vehiculo.getCombustible());
-        
-    }//GEN-LAST:event_tablaVehiculosMouseClicked
-
+        buscaMarca.setText(vehiculo.getMarca());
+    }
+    
+    private void setBotonesBlanco( ){
+        buscaMatricula.setText("");
+        buscaCliente.setText("");    //MIRAR NORMATIVA PROVACIDAD
+        buscaModelo.setText("");
+        buscaSupervisor.setText("");
+        buscaCombustible.setText("");
+        buscaMarca.setText("");
+    }
     /**
     * @param args the command line arguments
     */
@@ -397,7 +423,12 @@ public class VPrincipal extends javax.swing.JFrame {
             tablaVehiculos.setRowSelectionInterval(0, 0);
             tablaVehiculos.requestFocus();
             btnEditarLibro.setEnabled(true);
+            
+            ModeloTablaVehiculos mtl = (ModeloTablaVehiculos) tablaVehiculos.getModel();
+            Vehiculo vehiculo= mtl.obtenerVehiculo(0);
+            setBotonesVehiculo(vehiculo);
         }
         else btnEditarLibro.setEnabled(false);
+        setBotonesBlanco();
     }
 }

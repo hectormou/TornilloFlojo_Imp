@@ -131,7 +131,7 @@ public class DAOVehiculos extends AbstractDAO {
     public Vehiculo consultarLibro(Integer idLibro){
         Vehiculo resultado=null;
         Connection con;
-        PreparedStatement stmLibro=null;
+        PreparedStatement stmVehiculo=null;
         ResultSet rsLibro;
         PreparedStatement stmAutores=null;
         ResultSet rsAutores;
@@ -143,21 +143,21 @@ public class DAOVehiculos extends AbstractDAO {
         con=super.getConexion();
 /*
         try {
-        stmLibro=con.prepareStatement("select id_libro, titulo, isbn, editorial, paginas, ano " +
-                                         "from libro "+
-                                         "where id_libro = ?");
-        stmLibro.setInt(1, idLibro);
-        rsLibro=stmLibro.executeQuery();
+        stmVehiculo=con.prepareStatement("select id_vehiculo, titulo, isbn, editorial, paginas, ano " +
+                                         "from vehiculo "+
+                                         "where id_vehiculo = ?");
+        stmVehiculo.setInt(1, idLibro);
+        rsLibro=stmVehiculo.executeQuery();
         if (rsLibro.next())
         {
-            resultado = new Vehiculo(rsLibro.getInt("id_libro"), rsLibro.getString("titulo"),
+            resultado = new Vehiculo(rsLibro.getInt("id_vehiculo"), rsLibro.getString("titulo"),
                                       rsLibro.getString("isbn"), rsLibro.getString("editorial"),
                                       rsLibro.getInt("paginas"), rsLibro.getString("ano"));
 
             try{
             stmAutores = con.prepareStatement("select nombre as autor "+
                                               "from autor "+
-                                              "where libro = ? "+
+                                              "where vehiculo = ? "+
                                               "order by orden");
             stmAutores.setInt(1, resultado.getIdLibro());
             rsAutores=stmAutores.executeQuery();
@@ -173,8 +173,8 @@ public class DAOVehiculos extends AbstractDAO {
              }
             try{
             stmCategorias =con.prepareStatement("select categoria "+
-                                                    "from cat_tiene_libro "+
-                                                    "where libro = ?");
+                                                    "from cat_tiene_vehiculo "+
+                                                    "where vehiculo = ?");
             stmCategorias.setInt(1,resultado.getIdLibro());
             rsCategorias=stmCategorias.executeQuery();
             while (rsCategorias.next())
@@ -189,8 +189,8 @@ public class DAOVehiculos extends AbstractDAO {
               }
             try {
             stmEjemplares =con.prepareStatement("select e.num_ejemplar, e.ano_compra, e.localizador, p.fecha_prestamo, p.fecha_vencimiento, p.usuario, p.fecha_devolucion "+
-                                                "from ejemplar as e left join prestamos as p on (e.num_ejemplar = p.ejemplar and e.libro = p.libro and p.fecha_devolucion is null)"+
-                                                "where e.libro = ?");
+                                                "from ejemplar as e left join prestamos as p on (e.num_ejemplar = p.ejemplar and e.vehiculo = p.vehiculo and p.fecha_devolucion is null)"+
+                                                "where e.vehiculo = ?");
             stmEjemplares.setInt(1,resultado.getIdLibro());
             rsEjemplares=stmEjemplares.executeQuery();
             while (rsEjemplares.next())
@@ -218,7 +218,7 @@ public class DAOVehiculos extends AbstractDAO {
           this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
         }finally{
           try {
-               stmLibro.close();
+               stmVehiculo.close();
           } catch (SQLException e){System.out.println("Imposible cerrar cursores");}
         }*/
         return resultado;
@@ -235,8 +235,8 @@ public class DAOVehiculos extends AbstractDAO {
 
         try {
         stmEjemplares =con.prepareStatement("select e.num_ejemplar, e.ano_compra, e.localizador, p.fecha_prestamo, p.fecha_vencimiento, p.usuario, p.fecha_devolucion "+
-                                                "from ejemplar as e left join prestamos as p on (e.num_ejemplar = p.ejemplar and e.libro = p.libro and p.fecha_devolucion is null)"+
-                                                "where e.libro = ?");
+                                                "from ejemplar as e left join prestamos as p on (e.num_ejemplar = p.ejemplar and e.vehiculo = p.vehiculo and p.fecha_devolucion is null)"+
+                                                "where e.vehiculo = ?");
         stmEjemplares.setInt(1,idLibro);
         rsEjemplares=stmEjemplares.executeQuery();
         while (rsEjemplares.next())
@@ -278,8 +278,8 @@ public class DAOVehiculos extends AbstractDAO {
          stmCategorias=con.prepareStatement("select nombre "+
                                             "from categoria c "+
                                             "where not exists (select *  "+
-                                            "		  from cat_tiene_libro cl "+
-                                            "		  where cl.libro=? and cl.categoria=c.nombre)");
+                                            "		  from cat_tiene_vehiculo cl "+
+                                            "		  where cl.vehiculo=? and cl.categoria=c.nombre)");
         stmCategorias.setInt(1, idLibro);
         rsCategorias=stmCategorias.executeQuery();
         while (rsCategorias.next())
@@ -298,9 +298,9 @@ public class DAOVehiculos extends AbstractDAO {
         return resultado;
     }
     
-    public Integer insertarLibro(Vehiculo libro){
+    public String insertarLibro(Vehiculo vehiculo){
         Connection con;
-        PreparedStatement stmLibro=null;
+        PreparedStatement stmVehiculo=null;
         PreparedStatement stmAutores=null;
         PreparedStatement stmIdLibro=null;
         ResultSet rsIdLibro;
@@ -310,17 +310,17 @@ public class DAOVehiculos extends AbstractDAO {
         con=super.getConexion();
 
         try {
-        stmLibro=con.prepareStatement("insert into libro(titulo, isbn, editorial, paginas, ano) "+
+        stmVehiculo=con.prepareStatement("insert into vehiculo(titulo, isbn, editorial, paginas, ano) "+
                                       "values (?,?,?,?,?)");
-    //    stmLibro.setString(1, libro.getTitulo());
-    //    stmLibro.setString(2, libro.getIsbn());
-    //    stmLibro.setString(3, libro.getEditorial());
-    //    stmLibro.setInt(4, libro.getPaginas());
-    //    stmLibro.setString(5,libro.getAno());
-        stmLibro.executeUpdate();
+    //    stmVehiculo.setString(1, vehiculo.getTitulo());
+    //    stmVehiculo.setString(2, vehiculo.getIsbn());
+    //    stmVehiculo.setString(3, vehiculo.getEditorial());
+    //    stmVehiculo.setInt(4, vehiculo.getPaginas());
+    //    stmVehiculo.setString(5,vehiculo.getAno());
+        stmVehiculo.executeUpdate();
 
         try{
-        stmIdLibro=con.prepareStatement("select currval('seq_libro_id_libro') as idLibro");
+        stmIdLibro=con.prepareStatement("select currval('seq_vehiculo_id_vehiculo') as idLibro");
         rsIdLibro=stmIdLibro.executeQuery();
         rsIdLibro.next();
         idLibro=rsIdLibro.getInt("idLibro");
@@ -329,10 +329,10 @@ public class DAOVehiculos extends AbstractDAO {
         }finally{stmIdLibro.close();}
 
         try{
-        stmAutores=con.prepareStatement("insert into autor(libro, nombre, orden) "+
+        stmAutores=con.prepareStatement("insert into autor(vehiculo, nombre, orden) "+
                                       "values (?,?,?)");
         numAutor=1;/*
-        for (String s:libro.getAutores()){
+        for (String s:vehiculo.getAutores()){
             stmAutores.setInt(1, idLibro);
             stmAutores.setString(2, s);
             stmAutores.setInt(3, numAutor);
@@ -347,91 +347,59 @@ public class DAOVehiculos extends AbstractDAO {
           System.out.println(e.getMessage());
           this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
         }finally{
-          try {stmLibro.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+          try {stmVehiculo.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
         }
 
-        return idLibro;
+        return idLibro;     //cambiar a matricula
     }
 
     public void borrarLibro(Integer idLibro){
         Connection con;
-        PreparedStatement stmLibro=null;
+        PreparedStatement stmVehiculo=null;
 
         con=super.getConexion();
 
         try {
-        stmLibro=con.prepareStatement("delete from libro where id_libro = ?");
-        stmLibro.setInt(1, idLibro);
-        stmLibro.executeUpdate();
+        stmVehiculo=con.prepareStatement("delete from vehiculo where id_vehiculo = ?");
+        stmVehiculo.setInt(1, idLibro);
+        stmVehiculo.executeUpdate();
 
         } catch (SQLException e){
           System.out.println(e.getMessage());
           this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
         }finally{
-          try {stmLibro.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+          try {stmVehiculo.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
         }
     }
 
-    public void modificarLibro(Vehiculo libro){
+    public void modificarVehiculo(Vehiculo vehiculo){
         Connection con;
-        PreparedStatement stmLibro=null;
-        PreparedStatement stmAutores=null;
-        PreparedStatement stmBorrado=null;
-        Integer numAutor;
+        PreparedStatement stmVehiculo=null;
 
         con=super.getConexion();
-/*
+
         try {
-        stmLibro=con.prepareStatement("update libro "+
-                                    "set titulo=?, "+
-                                    "    isbn=?, "+
-                                    "    editorial=?, "+
-                                    "    paginas=?, "+
-                                    "    ano=? "+
-                                    "where id_libro=?");
-        stmLibro.setString(1, libro.getTitulo());
-        stmLibro.setString(2, libro.getIsbn());
-        stmLibro.setString(3, libro.getEditorial());
-        stmLibro.setInt(4, libro.getPaginas());
-        stmLibro.setString(5,libro.getAno());
-        stmLibro.setInt(6, libro.getIdLibro());
-        stmLibro.executeUpdate();
+        stmVehiculo=con.prepareStatement("update vehiculo "+
+                                    "set marca=?, "+
+                                    "    modelo=?, "+
+                                    "    kilometraje=?, "+
+                                    "    combustible=? ,"+
+                                    "   supervisor=? "+
+                                    "where matricula=?");
+        stmVehiculo.setString(1, vehiculo.getMarca());
+        stmVehiculo.setString(2, vehiculo.getModelo());
+        stmVehiculo.setInt(3, vehiculo.getKilometraje());
+        stmVehiculo.setString(4, vehiculo.getCombustible());
+        stmVehiculo.setString(5, vehiculo.getSupervisor().getIdMecanico());
+        stmVehiculo.setString(6,vehiculo.getMatricula());
+        stmVehiculo.executeUpdate();
 
-
-        try{
-        stmBorrado=con.prepareStatement("delete from autor where libro=?");
-        stmBorrado.setInt(1, libro.getIdLibro());
-        stmBorrado.executeUpdate();
-        } catch (SQLException e){
-          System.out.println(e.getMessage());
-          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
-        }finally{stmBorrado.close();}
-
-
-
-        try{
-        stmAutores=con.prepareStatement("insert into autor (libro, nombre, orden) "+
-                                      "values (?,?,?)");
-        numAutor=1;
-        for (String s:libro.getAutores()){
-            stmAutores.setInt(1, libro.getIdLibro());
-            stmAutores.setString(2, s);
-            stmAutores.setInt(3, numAutor);
-            stmAutores.executeUpdate();
-            numAutor=numAutor+1;
-        }
-        } catch (SQLException e){
-          System.out.println(e.getMessage());
-          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
-        }finally{stmAutores.close();}
-
-
-        } catch (SQLException e){
+        }  catch (SQLException e){
           System.out.println(e.getMessage());
           this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
         }finally{
-          try {stmLibro.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
-        }*/
+          try {stmVehiculo.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
     }
 
   public void modificarCategoriasLibro(Integer idLibro, java.util.List<String> categorias){
@@ -442,7 +410,7 @@ public class DAOVehiculos extends AbstractDAO {
         con=super.getConexion();
 
         try {
-        stmBorrado=con.prepareStatement("delete from cat_tiene_libro where libro = ?");
+        stmBorrado=con.prepareStatement("delete from cat_tiene_vehiculo where vehiculo = ?");
         stmBorrado.setInt(1, idLibro);
         stmBorrado.executeUpdate();
         } catch (SQLException e){
@@ -452,7 +420,7 @@ public class DAOVehiculos extends AbstractDAO {
           try {stmBorrado.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
         }
         try{
-        stmInsercion=con.prepareStatement("insert into cat_tiene_libro(libro, categoria) values (?,?)");
+        stmInsercion=con.prepareStatement("insert into cat_tiene_vehiculo(vehiculo, categoria) values (?,?)");
         for (String c : categorias){
             stmInsercion.setInt(1, idLibro);
             stmInsercion.setString(2, c);
@@ -476,7 +444,7 @@ public class DAOVehiculos extends AbstractDAO {
         con=super.getConexion();
 
         try {
-        stmEjemplar=con.prepareStatement("insert into ejemplar(libro,ano_compra,localizador) "+
+        stmEjemplar=con.prepareStatement("insert into ejemplar(vehiculo,ano_compra,localizador) "+
                                            "values (?,?,?)");
         stmEjemplar.setInt(1, idLibro);
         stmEjemplar.setString(2, ejemplar.getAnoCompra());
@@ -497,7 +465,7 @@ public class DAOVehiculos extends AbstractDAO {
         con=super.getConexion();
 
         try {
-        stmEjemplar=con.prepareStatement("delete from ejemplar where libro=? and num_ejemplar=?");
+        stmEjemplar=con.prepareStatement("delete from ejemplar where vehiculo=? and num_ejemplar=?");
         for (Integer i: numsEjemplar){
             stmEjemplar.setInt(1, idLibro);
             stmEjemplar.setInt(2, i);
@@ -520,7 +488,7 @@ public class DAOVehiculos extends AbstractDAO {
         stmEjemplar=con.prepareStatement("update ejemplar "+
                                             "set ano_compra=?, "+
                                             "   localizador=? "+
-                                            "where libro=? and num_ejemplar=?");
+                                            "where vehiculo=? and num_ejemplar=?");
         stmEjemplar.setString(1, ejemplar.getAnoCompra());
         stmEjemplar.setString(2, ejemplar.getLocalizador());
         stmEjemplar.setInt(3, idLibro);

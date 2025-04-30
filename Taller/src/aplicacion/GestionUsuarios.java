@@ -6,6 +6,7 @@
 package aplicacion;
 import gui.FachadaGui;
 import baseDatos.FachadaBaseDatos;
+import java.util.List;
 /**
  *
  * @author basesdatos
@@ -44,6 +45,14 @@ public void crearUsuario(String id, String clave, String nombre, String direccio
 
 public void borrarUsuario(String id){
         fbd.borrarUsuario(id);
+    }
+
+public List<String> obtenerIDsJefesTaller() {
+    return fbd.obtenerIDsJefesTaller();
+    }
+
+public   JefeTaller obtenerJefeTaller(String id) {
+    return fbd.obtenerJefesTaller(id);
     }
  
 }

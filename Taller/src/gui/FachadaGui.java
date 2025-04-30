@@ -37,21 +37,21 @@ public class FachadaGui {
     
    
     public void visualizaLibro(Vehiculo l, java.util.List<String>restoCategorias){
-        VLibro vl;
+        VVehiculo vl;
         java.util.List<String> categorias = new java.util.ArrayList<String>();
         
     /*    for(Categoria c:l.getCategorias()){
             categorias.add(c.getNombre());
         }*/
         
-        vl=new VLibro(vp, true, fa, l, categorias, restoCategorias);
+        vl=new VVehiculo(vp, true, fa, l, categorias, restoCategorias);
         vl.setVisible(true);
     }
     
     public void nuevoLibro(java.util.List<String>  restoCategorias){
-        VLibro vl;
+        VVehiculo vl;
         
-        vl=new VLibro(vp, true, fa, restoCategorias);
+        vl=new VVehiculo(vp, true, fa, restoCategorias);
         vl.setVisible(true);
     }
     

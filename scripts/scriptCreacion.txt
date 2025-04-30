@@ -27,7 +27,7 @@ create table Vehiculo (
     modelo varchar(100) not null,
     kilometraje int not null,
     combustible varchar(20) not null,
-    supervisor varchar(10),
+    supervisor varchar(10) not null,
     clienteDNI varchar(20) references Cliente(DNI),
     foreign key(supervisor) references JefeTaller(idMecanico)
 );
@@ -120,11 +120,11 @@ insert into Cliente (DNI,nombre, telefonoContacto) values
 ('55667788E','Mencía Chouza', '602556677');
 
 insert into Vehiculo (matricula, marca, modelo, kilometraje, combustible, supervisor, clienteDNI) values
-('4638DDF', 'Toyota', 'Corolla', 50000, 'Gasolina', NULL, '12345678A'),
-('9937BMN', 'Honda', 'Civic', 70000, 'Diesel', NULL, '87654321B'),
-('7720GRF', 'Ford', 'Focus', 30000, 'Gasolina', NULL, '11223344C'),
-('9923HJJ', 'BMW', 'X5', 90000, 'Híbrido', NULL, '44332211D'),
-('2204KLK', 'Mercedes', 'Clase A', 40000, 'Eléctrico', NULL, '55667788E');
+('4638DDF', 'Toyota', 'Corolla', 50000, 'Gasolina', 'jpe', '12345678A'),
+('9937BMN', 'Honda', 'Civic', 70000, 'Diesel', 'jpe', '87654321B'),
+('7720GRF', 'Ford', 'Focus', 30000, 'Gasolina', 'jpe', '11223344C'),
+('9923HJJ', 'BMW', 'X5', 90000, 'Híbrido', 'mlo', '44332211D'),
+('2204KLK', 'Mercedes', 'Clase A', 40000, 'Eléctrico', 'mlo', '55667788E');
 
 
 insert into Repuesto (idRepuesto, nombre, descripcion, precioUnidad, stock) values

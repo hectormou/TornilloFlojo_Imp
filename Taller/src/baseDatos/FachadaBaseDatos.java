@@ -8,6 +8,7 @@ package baseDatos;
 import aplicacion.Ejemplar;
 import aplicacion.Mecanico;
 import aplicacion.Categoria;
+import aplicacion.JefeTaller;
 import aplicacion.Vehiculo;
 import aplicacion.TipoUsuario;
 import java.io.FileInputStream;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -29,6 +31,7 @@ public class FachadaBaseDatos {
     private DAOCategorias daoCategorias;
     private DAOMecanicos daoMecanicos;
     private DAOPrestamos daoPrestamos;
+    public List<String> obtenerClavesJefesTaller;
 
     public FachadaBaseDatos (aplicacion.FachadaAplicacion fa){
         
@@ -106,14 +109,14 @@ public class FachadaBaseDatos {
     public java.util.List<String> obtenerRestoCategorias(Integer idLibro){
         return daoVehiculos.obtenerRestoCategorias(idLibro);
     }
-    public Integer insertarLibro(Vehiculo libro){
+    public String insertarLibro(Vehiculo libro){
        return daoVehiculos.insertarLibro(libro);
     }
     public void borrarLibro(Integer idLibro){
         daoVehiculos.borrarLibro(idLibro);
     }
-    public void modificarLibro(Vehiculo libro){
-         daoVehiculos.modificarLibro(libro);
+    public void modificarVehiculo(Vehiculo v){
+         daoVehiculos.modificarVehiculo(v);
     }
     public void modificarCategoriasLibro(Integer idLibro, java.util.List<String> categorias){
        daoVehiculos.modificarCategoriasLibro(idLibro, categorias);
@@ -191,4 +194,13 @@ public boolean existeCategoria(String nombre){
     public boolean ejemplarTienePrestamo(Integer idLibro, Integer numEjemplar){
         return daoPrestamos.ejemplarTienePrestamo(idLibro, numEjemplar);
     }
+
+    public List<String> obtenerIDsJefesTaller() {
+        return daoMecanicos.obtenerIDsJefesTaller();
+    }
+
+    public JefeTaller obtenerJefesTaller(String id) {
+        return daoMecanicos.obtenerJefeTaller(id);
+    }
+    
 }

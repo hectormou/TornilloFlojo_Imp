@@ -42,18 +42,18 @@ public class GestionVehiculos{
         fgui.nuevoLibro(restoCategorias);
     }
     
-    public Integer actualizarLibro(Vehiculo l){
+    public String actualizarVehiculo(Vehiculo v){
         
-       Integer idLibro = 1;
+       String matricula = "";
 
-       /*if (l.getIdLibro()==null)
-           idLibro=fbd.insertarLibro(l);
+       if (v.getMatricula().isEmpty())
+           matricula=fbd.insertarLibro(v);
        else{
-          fbd.modificarLibro(l);
-          idLibro=l.getIdLibro();
-       }*/
+          fbd.modificarVehiculo(v);
+          matricula=v.getMatricula();
+       }
 
-       return idLibro;
+       return matricula;
     }
 
     public void borrarLibro(Integer idLibro){

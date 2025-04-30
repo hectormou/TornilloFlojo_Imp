@@ -9,6 +9,7 @@ import aplicacion.Mecanico;
 import aplicacion.Subordinado;
 import aplicacion.TipoUsuario;
 import java.sql.*;
+import java.util.List;
 /**
  *
  * @author basesdatos
@@ -230,6 +231,67 @@ public class DAOMecanicos extends AbstractDAO {
         }finally{
           try {stmUsuarios.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
         }
+    }
+
+    List<String> obtenerIDsJefesTaller() {
+    java.util.List<String> resultado = new java.util.ArrayList<String>();
+        Connection con;
+        PreparedStatement stmUsuarios=null;
+        ResultSet rsMecanicos;
+
+        con=this.getConexion();
+        
+        String consulta = "select  idMecanico " +"from Mecanico "+"where idMecanico in (select idMecanico from JefeTaller)";
+       
+        
+        try  {
+         stmUsuarios=con.prepareStatement(consulta);
+         rsMecanicos=stmUsuarios.executeQuery();
+        while (rsMecanicos.next())
+        {
+            resultado.add(rsMecanicos.getString("idMecanico"));
+        }
+
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmUsuarios.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+        return resultado;
+    }
+
+    public JefeTaller obtenerJefeTaller(String id) {
+        JefeTaller resultado=null;
+        Connection con;
+        PreparedStatement stmUsuarios=null;
+        ResultSet rsUsuarios;
+
+        con=this.getConexion();
+        
+        String consulta = "select * " +
+                                         "from Mecanico "+
+                                         "where idMecanico = ?";
+        
+        try  {
+         stmUsuarios=con.prepareStatement(consulta);
+         stmUsuarios.setString(1, id);
+         rsUsuarios=stmUsuarios.executeQuery();
+        if(rsUsuarios.next())
+        {
+            resultado = new JefeTaller(rsUsuarios.getString("idMecanico"), rsUsuarios.getString("nombre"),
+                                      rsUsuarios.getString("clave"), rsUsuarios.getString("telefonoContacto"),
+                                      rsUsuarios.getDate("fechaIngreso"));
+        }
+
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmUsuarios.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+        return resultado;
+    
     }
 
    

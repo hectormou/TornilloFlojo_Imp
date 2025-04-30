@@ -28,6 +28,15 @@ public class Vehiculo {
         this.combustible=combustible;
         this.kilometraje=kilometraje;
     }
+    public Vehiculo (String matricula, String marca, String modelo, String combustible, Integer kilometraje,Cliente propietario, JefeTaller supervisor){
+        this.matricula=matricula;
+        this.marca=marca;
+        this.modelo=modelo;
+        this.combustible=combustible;
+        this.kilometraje=kilometraje;
+        this.propietario=propietario;
+        this.supervisor=supervisor;
+    }
 
     public String getMatricula (){
         return this.matricula;

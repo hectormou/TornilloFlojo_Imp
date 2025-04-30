@@ -6,6 +6,7 @@
 package aplicacion;
 
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -61,8 +62,8 @@ public void nuevoLibro(){
  cl.nuevoLibro();
 }
 
-public Integer actualizarLibro(Vehiculo l){
-  return cl.actualizarLibro(l);
+public String actualizarVehiculo(Vehiculo v){
+  return cl.actualizarVehiculo(v);
 }
 
 public void borrarLibro(Integer idLibro){
@@ -135,5 +136,13 @@ public void borrarUsuario(String id){
     
     public boolean ejemplarTienePrestamo(Integer idLibro, Integer numEjemplar){
         return cp.ejemplarTienePrestamo(idLibro, numEjemplar);
+    }
+
+    public List<String> obtenerIDsJefesTaller() {
+        return cu.obtenerIDsJefesTaller();
+    }
+
+    public JefeTaller obtenerJefeTaller(String id) {
+        return cu.obtenerJefeTaller(id);
     }
 }
