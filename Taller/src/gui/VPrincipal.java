@@ -14,6 +14,7 @@ package gui;
 import aplicacion.JefeTaller;
 import aplicacion.Mecanico;
 import aplicacion.Subordinado;
+import aplicacion.Vehiculo;
 
 
 /**
@@ -92,6 +93,11 @@ public class VPrincipal extends javax.swing.JFrame {
         tablaVehiculos.setColumnSelectionAllowed(true);
         tablaVehiculos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tablaVehiculos.getTableHeader().setReorderingAllowed(false);
+        tablaVehiculos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaVehiculosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablaVehiculos);
         tablaVehiculos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
@@ -323,6 +329,21 @@ public class VPrincipal extends javax.swing.JFrame {
     private void eliminarVehiculoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarVehiculoBotonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_eliminarVehiculoBotonActionPerformed
+
+    private void tablaVehiculosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaVehiculosMouseClicked
+        // TODO add your handling code here:
+        int filaSeleccionada= tablaVehiculos.getSelectedRow();
+        ModeloTablaVehiculos mtl = (ModeloTablaVehiculos) tablaVehiculos.getModel();
+        
+        Vehiculo vehiculo= mtl.obtenerVehiculo(filaSeleccionada);
+        
+        buscaMatricula.setText(vehiculo.getMatricula());
+        buscaCliente.setText(vehiculo.getPropietario().getNombre());    //MIRAR NORMATIVA PROVACIDAD
+        buscaModelo.setText(vehiculo.getModelo());
+        buscaSupervisor.setText(vehiculo.getSupervisor().getNombre());
+        buscaCombustible.setText(vehiculo.getCombustible());
+        
+    }//GEN-LAST:event_tablaVehiculosMouseClicked
 
     /**
     * @param args the command line arguments
