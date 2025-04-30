@@ -58,6 +58,9 @@ public class VPrincipal extends javax.swing.JFrame {
         buscaCombustible = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         buscaSupervisor = new javax.swing.JTextField();
+        anhadirVehiculoBoton = new javax.swing.JButton();
+        verVehiculoBoton = new javax.swing.JButton();
+        eliminarVehiculoBoton = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         pestanhaGestion = new javax.swing.JMenu();
         menuEmpleados = new javax.swing.JMenuItem();
@@ -127,6 +130,27 @@ public class VPrincipal extends javax.swing.JFrame {
 
         jLabel5.setText("Supervisor:");
 
+        anhadirVehiculoBoton.setText("Añadir");
+        anhadirVehiculoBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                anhadirVehiculoBotonActionPerformed(evt);
+            }
+        });
+
+        verVehiculoBoton.setText("Ver");
+        verVehiculoBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                verVehiculoBotonActionPerformed(evt);
+            }
+        });
+
+        eliminarVehiculoBoton.setText("Eliminar");
+        eliminarVehiculoBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eliminarVehiculoBotonActionPerformed(evt);
+            }
+        });
+
         pestanhaGestion.setText("Gestión");
 
         menuEmpleados.setText("Empleados");
@@ -168,15 +192,6 @@ public class VPrincipal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnNuevoLibro)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnEditarLibro)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnSalir))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnBuscar))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
@@ -202,7 +217,22 @@ public class VPrincipal extends javax.swing.JFrame {
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(buscaModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(26, 26, 26)))
+                        .addGap(26, 26, 26))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnBuscar))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(anhadirVehiculoBoton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(verVehiculoBoton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(eliminarVehiculoBoton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnNuevoLibro)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEditarLibro)
+                        .addGap(80, 80, 80)
+                        .addComponent(btnSalir)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -232,7 +262,10 @@ public class VPrincipal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalir)
                     .addComponent(btnNuevoLibro)
-                    .addComponent(btnEditarLibro))
+                    .addComponent(btnEditarLibro)
+                    .addComponent(anhadirVehiculoBoton)
+                    .addComponent(verVehiculoBoton)
+                    .addComponent(eliminarVehiculoBoton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -279,11 +312,24 @@ public class VPrincipal extends javax.swing.JFrame {
         vc.setVisible(true);
     }//GEN-LAST:event_menuSolicitudesActionPerformed
 
+    private void anhadirVehiculoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anhadirVehiculoBotonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_anhadirVehiculoBotonActionPerformed
+
+    private void verVehiculoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verVehiculoBotonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_verVehiculoBotonActionPerformed
+
+    private void eliminarVehiculoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarVehiculoBotonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_eliminarVehiculoBotonActionPerformed
+
     /**
     * @param args the command line arguments
     */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton anhadirVehiculoBoton;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEditarLibro;
     private javax.swing.JButton btnNuevoLibro;
@@ -294,6 +340,7 @@ public class VPrincipal extends javax.swing.JFrame {
     private javax.swing.JTextField buscaMatricula;
     private javax.swing.JTextField buscaModelo;
     private javax.swing.JTextField buscaSupervisor;
+    private javax.swing.JButton eliminarVehiculoBoton;
     private javax.swing.JLabel etiquetaTitulo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -309,6 +356,7 @@ public class VPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu pestanhaGestion;
     private javax.swing.JMenu pestanhaPrincipal;
     private javax.swing.JTable tablaVehiculos;
+    private javax.swing.JButton verVehiculoBoton;
     // End of variables declaration//GEN-END:variables
 
     public void comprobarMecanico(Mecanico m){
