@@ -20,6 +20,9 @@ public class Vehiculo {
     private Integer kilometraje;
     private Cliente propietario;
     private JefeTaller supervisor;
+    
+    
+    
 
     public Vehiculo (String matricula, String marca, String modelo, String combustible, Integer kilometraje){
         this.matricula=matricula;

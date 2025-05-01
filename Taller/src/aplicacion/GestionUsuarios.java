@@ -54,5 +54,9 @@ public List<String> obtenerIDsJefesTaller() {
 public   JefeTaller obtenerJefeTaller(String id) {
     return fbd.obtenerJefesTaller(id);
     }
+
+    List<Cliente> obtenerClientes() {
+        return fbd.obtenerClientes();
+    }
  
 }

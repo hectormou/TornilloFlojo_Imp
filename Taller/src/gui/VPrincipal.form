@@ -123,9 +123,7 @@
                       <Component id="eliminarVehiculoBoton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="btnNuevoLibro" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnEditarLibro" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="80" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="158" max="-2" attributes="0"/>
                       <Component id="btnSalir" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -162,7 +160,6 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnSalir" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnNuevoLibro" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnEditarLibro" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="anhadirVehiculoBoton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="verVehiculoBoton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="eliminarVehiculoBoton" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -251,15 +248,6 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNuevoLibroActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="btnEditarLibro">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Editar"/>
-        <Property name="enabled" type="boolean" value="false"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditarLibroActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">

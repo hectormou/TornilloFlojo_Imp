@@ -30,4 +30,11 @@ public class Cliente {
     public String getTelefonoContacto(){
         return this.telefonoContacto;
     }
+    public void setNombre(String nombre){
+        this.nombre=nombre;
+                
+    }
+    public void setTelefono(String telefono){
+        this.telefonoContacto=telefono;
+    }
 }

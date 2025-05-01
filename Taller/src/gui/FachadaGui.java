@@ -36,24 +36,14 @@ public class FachadaGui {
     }
     
    
-    public void visualizaLibro(Vehiculo l, java.util.List<String>restoCategorias){
-        VVehiculo vl;
-        java.util.List<String> categorias = new java.util.ArrayList<String>();
-        
-    /*    for(Categoria c:l.getCategorias()){
-            categorias.add(c.getNombre());
-        }*/
-        
-        vl=new VVehiculo(vp, true, fa, l, categorias, restoCategorias);
-        vl.setVisible(true);
-    }
+   
     
-    public void nuevoLibro(java.util.List<String>  restoCategorias){
+    /*public void nuevoLibro(java.util.List<String>  restoCategorias){
         VVehiculo vl;
         
         vl=new VVehiculo(vp, true, fa, restoCategorias);
         vl.setVisible(true);
-    }
+    }*/
     
     public void muestraExcepcion(String txtExcepcion){
        VAviso va;

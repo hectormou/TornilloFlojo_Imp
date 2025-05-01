@@ -4,10 +4,10 @@
  */
 
 package baseDatos;
+import aplicacion.Cliente;
 import aplicacion.JefeTaller;
 import aplicacion.Mecanico;
 import aplicacion.Subordinado;
-import aplicacion.TipoUsuario;
 import java.sql.*;
 import java.util.List;
 /**
@@ -292,6 +292,35 @@ public class DAOMecanicos extends AbstractDAO {
         }
         return resultado;
     
+    }
+
+    List<Cliente> obtenerClientes() {
+    java.util.List<Cliente> resultado = new java.util.ArrayList<Cliente>();
+        Connection con;
+        PreparedStatement stmClientes=null;
+        ResultSet rsClientes;
+
+        con=this.getConexion();
+        
+        String consulta = "select* " + "from cliente ";
+        
+        
+        try  {
+         stmClientes=con.prepareStatement(consulta);
+         rsClientes=stmClientes.executeQuery();
+        while (rsClientes.next())
+        {
+            Cliente cliente = new Cliente(rsClientes.getString("DNI"), rsClientes.getString("nombre"), rsClientes.getString("telefonoContacto"));
+            resultado.add(cliente);
+        }
+
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmClientes.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+        return resultado;
     }
 
    

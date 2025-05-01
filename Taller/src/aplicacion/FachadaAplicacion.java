@@ -62,8 +62,8 @@ public void nuevoLibro(){
  cl.nuevoLibro();
 }
 
-public String actualizarVehiculo(Vehiculo v){
-  return cl.actualizarVehiculo(v);
+public void actualizarVehiculo(Vehiculo v){
+   cl.actualizarVehiculo(v);
 }
 
 public void borrarLibro(Integer idLibro){
@@ -144,5 +144,13 @@ public void borrarUsuario(String id){
 
     public JefeTaller obtenerJefeTaller(String id) {
         return cu.obtenerJefeTaller(id);
+    }
+
+    public List<Cliente> obtenerClientes() {
+        return cu.obtenerClientes();
+    }
+
+    public void nuevoVehiculo(Vehiculo v) {
+     cl.nuevoVehiculo(v);
     }
 }

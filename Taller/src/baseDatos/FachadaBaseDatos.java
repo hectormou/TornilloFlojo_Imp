@@ -8,6 +8,7 @@ package baseDatos;
 import aplicacion.Ejemplar;
 import aplicacion.Mecanico;
 import aplicacion.Categoria;
+import aplicacion.Cliente;
 import aplicacion.JefeTaller;
 import aplicacion.Vehiculo;
 import aplicacion.TipoUsuario;
@@ -201,6 +202,14 @@ public boolean existeCategoria(String nombre){
 
     public JefeTaller obtenerJefesTaller(String id) {
         return daoMecanicos.obtenerJefeTaller(id);
+    }
+
+    public List<Cliente> obtenerClientes() {
+        return daoMecanicos.obtenerClientes();
+    }
+
+    public void nuevoVehiculo(Vehiculo v) {
+daoVehiculos.nuevoVehiculo(v);
     }
     
 }

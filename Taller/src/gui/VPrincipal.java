@@ -30,6 +30,8 @@ public class VPrincipal extends javax.swing.JFrame {
         this.fa=fa;
         initComponents();
         setLocationRelativeTo(null);
+        verVehiculoBoton.setEnabled(false);
+
     }
 
     /** This method is called from within the constructor to
@@ -52,7 +54,6 @@ public class VPrincipal extends javax.swing.JFrame {
         btnBuscar = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         btnNuevoLibro = new javax.swing.JButton();
-        btnEditarLibro = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         buscaCliente = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -119,14 +120,6 @@ public class VPrincipal extends javax.swing.JFrame {
         btnNuevoLibro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNuevoLibroActionPerformed(evt);
-            }
-        });
-
-        btnEditarLibro.setText("Editar");
-        btnEditarLibro.setEnabled(false);
-        btnEditarLibro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditarLibroActionPerformed(evt);
             }
         });
 
@@ -235,9 +228,7 @@ public class VPrincipal extends javax.swing.JFrame {
                         .addComponent(eliminarVehiculoBoton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnNuevoLibro)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEditarLibro)
-                        .addGap(80, 80, 80)
+                        .addGap(158, 158, 158)
                         .addComponent(btnSalir)))
                 .addContainerGap())
         );
@@ -268,7 +259,6 @@ public class VPrincipal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalir)
                     .addComponent(btnNuevoLibro)
-                    .addComponent(btnEditarLibro)
                     .addComponent(anhadirVehiculoBoton)
                     .addComponent(verVehiculoBoton)
                     .addComponent(eliminarVehiculoBoton))
@@ -307,6 +297,9 @@ public class VPrincipal extends javax.swing.JFrame {
 
     private void anhadirVehiculoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anhadirVehiculoBotonActionPerformed
         // TODO add your handling code here:
+                VVehiculo vv= new VVehiculo(this, true, this.fa);
+        vv.setVisible(true);
+
     }//GEN-LAST:event_anhadirVehiculoBotonActionPerformed
 
     private void verVehiculoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verVehiculoBotonActionPerformed
@@ -345,14 +338,6 @@ public class VPrincipal extends javax.swing.JFrame {
         fa.nuevoLibro();
     }//GEN-LAST:event_btnNuevoLibroActionPerformed
 
-    private void btnEditarLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarLibroActionPerformed
-        // TODO add your handling code here:
-        ModeloTablaVehiculos mtl = (ModeloTablaVehiculos) tablaVehiculos.getModel();
-        int idLibro;
-        //        idLibro = mtl.obtenerLibro(tablaVehiculos.getSelectedRow()).getIdLibro();
-        //        fa.visualizarLibro(idLibro);
-    }//GEN-LAST:event_btnEditarLibroActionPerformed
-
     
     private void setBotonesVehiculo(Vehiculo vehiculo){
         buscaMatricula.setText(vehiculo.getMatricula());
@@ -361,6 +346,8 @@ public class VPrincipal extends javax.swing.JFrame {
         buscaSupervisor.setText(vehiculo.getSupervisor().getNombre());
         buscaCombustible.setText(vehiculo.getCombustible());
         buscaMarca.setText(vehiculo.getMarca());
+        
+        verVehiculoBoton.setEnabled(true);
     }
     
     private void setBotonesBlanco( ){
@@ -370,6 +357,8 @@ public class VPrincipal extends javax.swing.JFrame {
         buscaSupervisor.setText("");
         buscaCombustible.setText("");
         buscaMarca.setText("");
+                verVehiculoBoton.setEnabled(false);
+
     }
     /**
     * @param args the command line arguments
@@ -378,7 +367,6 @@ public class VPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton anhadirVehiculoBoton;
     private javax.swing.JButton btnBuscar;
-    private javax.swing.JButton btnEditarLibro;
     private javax.swing.JButton btnNuevoLibro;
     private javax.swing.JButton btnSalir;
     private javax.swing.JTextField buscaCliente;
@@ -422,13 +410,11 @@ public class VPrincipal extends javax.swing.JFrame {
         if (m.getRowCount() > 0) {
             tablaVehiculos.setRowSelectionInterval(0, 0);
             tablaVehiculos.requestFocus();
-            btnEditarLibro.setEnabled(true);
             
             ModeloTablaVehiculos mtl = (ModeloTablaVehiculos) tablaVehiculos.getModel();
             Vehiculo vehiculo= mtl.obtenerVehiculo(0);
             setBotonesVehiculo(vehiculo);
         }
-        else btnEditarLibro.setEnabled(false);
         setBotonesBlanco();
     }
 }

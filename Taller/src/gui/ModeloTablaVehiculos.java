@@ -17,6 +17,7 @@ public class ModeloTablaVehiculos extends AbstractTableModel{
         this.vehiculos=new java.util.ArrayList<Vehiculo>();
     }
 
+    
     public int getColumnCount (){
         return 7;
     }

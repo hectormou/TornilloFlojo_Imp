@@ -42,18 +42,13 @@ public class GestionVehiculos{
         fgui.nuevoLibro(restoCategorias);
     }
     
-    public String actualizarVehiculo(Vehiculo v){
+    public void actualizarVehiculo(Vehiculo v){
         
-       String matricula = "";
 
-       if (v.getMatricula().isEmpty())
-           matricula=fbd.insertarLibro(v);
-       else{
+       
           fbd.modificarVehiculo(v);
-          matricula=v.getMatricula();
-       }
+         
 
-       return matricula;
     }
 
     public void borrarLibro(Integer idLibro){
@@ -76,5 +71,9 @@ public class GestionVehiculos{
        fbd.borrarEjemplaresLibro(idLibro, borrar);
 
        return fbd.consultarEjemplaresLibro(idLibro);
+    }
+
+    void nuevoVehiculo(Vehiculo v) {
+          fbd.nuevoVehiculo(v);
     }
 }

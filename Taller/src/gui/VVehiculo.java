@@ -11,10 +11,15 @@
 
 package gui;
 
+import aplicacion.Cliente;
 import aplicacion.Vehiculo;
 import aplicacion.Ejemplar;
 import aplicacion.JefeTaller;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -24,6 +29,7 @@ import java.util.Date;
 public class VVehiculo extends javax.swing.JDialog {
 
      private Vehiculo vehiculo;
+     private Cliente cliente;
      private java.util.List<Integer> ejemplaresBorrados;
      private VPrincipal padre;
      private aplicacion.FachadaAplicacion fa;
@@ -33,10 +39,20 @@ public class VVehiculo extends javax.swing.JDialog {
         super(parent, modal);
         this.fa=fa;
         this.vehiculo=vehiculo;
+        this.cliente=vehiculo.getPropietario();
         initComponents();
         setLocationRelativeTo(null);
         padre=(VPrincipal) parent;
+        
         setBotonesVehiculo(vehiculo);
+        ModeloTablaClientes mc = new ModeloTablaClientes();
+        tablaClientes.setModel(mc);
+        List<Cliente> clientes = new ArrayList<>();
+        clientes=fa.obtenerClientes();
+        mc.setFilas(clientes);
+        
+        nuevoBoton.setEnabled(false);
+        
         
         /*btnActualizarCategoriasLibro.setEnabled(false);
         btnActualizarEjemplaresLibro.setEnabled(false);
@@ -52,6 +68,23 @@ public class VVehiculo extends javax.swing.JDialog {
         estadoBotonDevolver();
         estadoBotonPrestar();
         */
+    }
+        public VVehiculo(java.awt.Frame parent, boolean modal, aplicacion.FachadaAplicacion fa) {
+        super(parent, modal);
+        this.fa=fa;
+        initComponents();
+        setLocationRelativeTo(null);
+        padre=(VPrincipal) parent;
+        
+        ModeloTablaClientes mc = new ModeloTablaClientes();
+        tablaClientes.setModel(mc);
+        List<Cliente> clientes = new ArrayList<>();
+        clientes=fa.obtenerClientes();
+        mc.setFilas(clientes);
+        for(String s : fa.obtenerIDsJefesTaller())
+        seleccionSupervisor.addItem(s);
+        
+        
     }
     
 
@@ -126,13 +159,16 @@ public class VVehiculo extends javax.swing.JDialog {
         jLabel5 = new javax.swing.JLabel();
         buscaCombustible = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        textoNuevoAutor = new javax.swing.JTextField();
-        btnNuevoAutor = new javax.swing.JButton();
-        btnBorrarAutor = new javax.swing.JButton();
         btnActualizarLibro = new javax.swing.JButton();
         buscaKilometraje = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         seleccionSupervisor = new javax.swing.JComboBox<>();
+        jLabel6 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaClientes = new javax.swing.JTable();
+        buscaCliente = new javax.swing.JTextField();
+        seleccionarClienteBoton = new javax.swing.JButton();
+        nuevoBoton = new javax.swing.JButton();
         panelCategorias = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -144,8 +180,6 @@ public class VVehiculo extends javax.swing.JDialog {
         btnIzquierda = new javax.swing.JButton();
         btnActualizarCategoriasLibro = new javax.swing.JButton();
         panelEjemplares = new javax.swing.JPanel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        tablaEjemplares = new javax.swing.JTable();
         btnBorrarEjemplar = new javax.swing.JButton();
         btnNuevoEjemplar = new javax.swing.JButton();
         btnActualizarEjemplaresLibro = new javax.swing.JButton();
@@ -173,20 +207,6 @@ public class VVehiculo extends javax.swing.JDialog {
 
         jLabel7.setText("Kilometraje:");
 
-        btnNuevoAutor.setText("Añadir");
-        btnNuevoAutor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNuevoAutorActionPerformed(evt);
-            }
-        });
-
-        btnBorrarAutor.setText("Borrar");
-        btnBorrarAutor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBorrarAutorActionPerformed(evt);
-            }
-        });
-
         btnActualizarLibro.setText("Actualizar");
         btnActualizarLibro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -208,12 +228,49 @@ public class VVehiculo extends javax.swing.JDialog {
             }
         });
 
+        jLabel6.setText("Cliente:");
+
+        jScrollPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jScrollPane1MouseClicked(evt);
+            }
+        });
+
+        tablaClientes.setModel(new ModeloTablaClientes());
+        tablaClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaClientesMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tablaClientes);
+
+        buscaCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buscaClienteActionPerformed(evt);
+            }
+        });
+
+        seleccionarClienteBoton.setText("Seleccionar Cliente");
+        seleccionarClienteBoton.setDefaultCapable(false);
+        seleccionarClienteBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                seleccionarClienteBotonActionPerformed(evt);
+            }
+        });
+
+        nuevoBoton.setText("Nuevo");
+        nuevoBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nuevoBotonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelGeneralAutoresLayout = new javax.swing.GroupLayout(panelGeneralAutores);
         panelGeneralAutores.setLayout(panelGeneralAutoresLayout);
         panelGeneralAutoresLayout.setHorizontalGroup(
             panelGeneralAutoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelGeneralAutoresLayout.createSequentialGroup()
-                .addGroup(panelGeneralAutoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelGeneralAutoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(panelGeneralAutoresLayout.createSequentialGroup()
                         .addGroup(panelGeneralAutoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelGeneralAutoresLayout.createSequentialGroup()
@@ -223,13 +280,15 @@ public class VVehiculo extends javax.swing.JDialog {
                                 .addGap(17, 17, 17)
                                 .addGroup(panelGeneralAutoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel7)
-                                    .addComponent(jLabel3))))
-                        .addGap(6, 6, 6)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel6))))
+                        .addGap(36, 36, 36)
                         .addGroup(panelGeneralAutoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(buscaMatricula)
                             .addComponent(buscaMarca)
-                            .addComponent(buscaKilometraje, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(buscaKilometraje, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+                            .addComponent(buscaCliente))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                         .addGroup(panelGeneralAutoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
                             .addComponent(jLabel4)
@@ -238,22 +297,18 @@ public class VVehiculo extends javax.swing.JDialog {
                         .addGroup(panelGeneralAutoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(seleccionSupervisor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(buscaCombustible, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(buscaModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18))
+                            .addComponent(buscaModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(panelGeneralAutoresLayout.createSequentialGroup()
-                        .addGap(166, 166, 166)
-                        .addGroup(panelGeneralAutoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelGeneralAutoresLayout.createSequentialGroup()
-                                .addComponent(btnBorrarAutor)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelGeneralAutoresLayout.createSequentialGroup()
-                                .addComponent(btnNuevoAutor)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(textoNuevoAutor, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(panelGeneralAutoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(panelGeneralAutoresLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(btnActualizarLibro)))))
-                .addContainerGap())
+                                .addComponent(seleccionarClienteBoton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(nuevoBoton)
+                                .addGap(27, 27, 27)
+                                .addComponent(btnActualizarLibro))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(24, 24, 24))
         );
         panelGeneralAutoresLayout.setVerticalGroup(
             panelGeneralAutoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -276,15 +331,18 @@ public class VVehiculo extends javax.swing.JDialog {
                     .addComponent(buscaKilometraje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
                     .addComponent(seleccionSupervisor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(17, 17, 17)
+                .addGap(24, 24, 24)
                 .addGroup(panelGeneralAutoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnNuevoAutor)
-                    .addComponent(textoNuevoAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel6)
+                    .addComponent(buscaCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(btnBorrarAutor)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 112, Short.MAX_VALUE)
-                .addComponent(btnActualizarLibro)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(panelGeneralAutoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(seleccionarClienteBoton)
+                    .addComponent(btnActualizarLibro)
+                    .addComponent(nuevoBoton))
+                .addGap(15, 15, 15))
         );
 
         panelVehiculo.addTab("Vehiculo", panelGeneralAutores);
@@ -374,14 +432,6 @@ public class VVehiculo extends javax.swing.JDialog {
 
         panelVehiculo.addTab(".", panelCategorias);
 
-        tablaEjemplares.setModel(new ModeloTablaEjemplares());
-        tablaEjemplares.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablaEjemplaresMouseClicked(evt);
-            }
-        });
-        jScrollPane4.setViewportView(tablaEjemplares);
-
         btnBorrarEjemplar.setText("Borrar");
         btnBorrarEjemplar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -423,28 +473,21 @@ public class VVehiculo extends javax.swing.JDialog {
             panelEjemplaresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelEjemplaresLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelEjemplaresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelEjemplaresLayout.createSequentialGroup()
-                        .addComponent(btnNuevoEjemplar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 103, Short.MAX_VALUE)
-                        .addComponent(btnBorrarEjemplar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnPrestar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnDevolver)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnActualizarEjemplaresLibro)
-                        .addContainerGap())
-                    .addGroup(panelEjemplaresLayout.createSequentialGroup()
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 532, Short.MAX_VALUE)
-                        .addGap(18, 18, 18))))
+                .addComponent(btnNuevoEjemplar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 103, Short.MAX_VALUE)
+                .addComponent(btnBorrarEjemplar)
+                .addGap(18, 18, 18)
+                .addComponent(btnPrestar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnDevolver)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnActualizarEjemplaresLibro)
+                .addContainerGap())
         );
         panelEjemplaresLayout.setVerticalGroup(
             panelEjemplaresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEjemplaresLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addContainerGap(289, Short.MAX_VALUE)
                 .addGroup(panelEjemplaresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNuevoEjemplar)
                     .addComponent(btnBorrarEjemplar)
@@ -538,7 +581,7 @@ public class VVehiculo extends javax.swing.JDialog {
         buscaCombustible.setText(vehiculo.getCombustible());
         buscaMarca.setText(vehiculo.getMarca());
         buscaKilometraje.setText(vehiculo.getKilometraje().toString());
-
+        buscaCliente.setText(vehiculo.getPropietario().getNombre());
         for(String s : fa.obtenerIDsJefesTaller())
         seleccionSupervisor.addItem(s);
         
@@ -552,28 +595,6 @@ public class VVehiculo extends javax.swing.JDialog {
     //    padre.buscarLibros();
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
-
-    private void btnNuevoAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoAutorActionPerformed
-        // TODO add your handling code here:
-     ModeloListaStrings ma;
-     ma=(ModeloListaStrings) lstAutores.getModel();
-
-     if ((textoNuevoAutor.getText()!=null) && !(textoNuevoAutor.getText().isEmpty())) {
-         ma.nuevoElemento(textoNuevoAutor.getText());
-         lstAutores.setSelectedIndex(ma.getSize()-1);
-         btnBorrarAutor.setEnabled(true);
-     }
-    }//GEN-LAST:event_btnNuevoAutorActionPerformed
-
-    private void btnBorrarAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarAutorActionPerformed
-        // TODO add your handling code here:
-     ModeloListaStrings ma;
-     ma=(ModeloListaStrings) lstAutores.getModel();
-
-     ma.borrarElemento(lstAutores.getSelectedIndex());
-     if (ma.getSize()==0) btnBorrarAutor.setEnabled(false);
-     else lstAutores.setSelectedIndex(0);
-    }//GEN-LAST:event_btnBorrarAutorActionPerformed
 
     private void btnDerechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDerechaActionPerformed
         // TODO add your handling code here:
@@ -651,14 +672,23 @@ public class VVehiculo extends javax.swing.JDialog {
         Integer kilometraje;
         String matricula;
         JefeTaller j;
-        kilometraje=Integer.parseInt(buscaKilometraje.getText());
+                kilometraje=Integer.parseInt(buscaKilometraje.getText());
+
+        if(this.vehiculo!=null){
         if(seleccionSupervisor.getSelectedItem()!= this.vehiculo.getSupervisor().getIdMecanico()){
             j=fa.obtenerJefeTaller(seleccionSupervisor.getSelectedItem().toString());
         }else
             j=vehiculo.getSupervisor();
-        v=new Vehiculo(vehiculo.getMatricula(), buscaMarca.getText(), buscaModelo.getText(), buscaCombustible.getText(),kilometraje,vehiculo.getPropietario(), j);
-        matricula=fa.actualizarVehiculo(v);
-        this.vehiculo=fa.obtenerVehiculos(matricula, "", "", "", "", "").get(0);
+        
+        v=new Vehiculo(vehiculo.getMatricula(), buscaMarca.getText(), buscaModelo.getText(), buscaCombustible.getText(),kilometraje, vehiculo.getPropietario(), j);
+        fa.actualizarVehiculo(v);
+        this.vehiculo=fa.obtenerVehiculos(vehiculo.getMatricula(), "", "", "", "", "").get(0);
+        }else{
+            
+        VAviso v2= new VAviso(this.padre,true,"Por favor, crea el vehiculo primero");
+        v2.setVisible(true);
+        
+        }
         btnBorrarLibro.setEnabled(true);
     }//GEN-LAST:event_btnActualizarLibroActionPerformed
 
@@ -699,12 +729,6 @@ public class VVehiculo extends javax.swing.JDialog {
         estadoBotonDevolver();
     }//GEN-LAST:event_btnPrestarActionPerformed
 
-    private void tablaEjemplaresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaEjemplaresMouseClicked
-        // TODO add your handling code here:
-        estadoBotonPrestar();
-        estadoBotonDevolver();
-    }//GEN-LAST:event_tablaEjemplaresMouseClicked
-
     private void buscaKilometrajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscaKilometrajeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_buscaKilometrajeActionPerformed
@@ -712,6 +736,54 @@ public class VVehiculo extends javax.swing.JDialog {
     private void seleccionSupervisorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seleccionSupervisorActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_seleccionSupervisorActionPerformed
+
+    private void buscaClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscaClienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buscaClienteActionPerformed
+
+    private void seleccionarClienteBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seleccionarClienteBotonActionPerformed
+        // TODO add your handling code here:
+        
+        if(cliente!=null){
+        ModeloTablaClientes mc;
+
+        mc=(ModeloTablaClientes) tablaClientes.getModel();
+        mc.setFilas(fa.obtenerClientes());
+        
+        System.out.println(tablaClientes.getSelectedRow());
+        
+        
+        buscaCliente.setText(cliente.getNombre());
+        seleccionarClienteBoton.setEnabled(false);
+        }
+    }//GEN-LAST:event_seleccionarClienteBotonActionPerformed
+
+    private void nuevoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevoBotonActionPerformed
+        // TODO add your handling code here:
+         Vehiculo v;
+        Integer kilometraje;
+        String matricula;
+        JefeTaller j;
+                kilometraje=Integer.parseInt(buscaKilometraje.getText());
+        j=fa.obtenerJefeTaller(seleccionSupervisor.getSelectedItem().toString());
+        
+        v=new Vehiculo(buscaMatricula.getText(), buscaMarca.getText(), buscaModelo.getText(), buscaCombustible.getText(), kilometraje, this.cliente , j);
+        
+        fa.nuevoVehiculo(v);
+    }//GEN-LAST:event_nuevoBotonActionPerformed
+
+    private void jScrollPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jScrollPane1MouseClicked
+
+    private void tablaClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClientesMouseClicked
+        // TODO add your handling code here:
+        int filaSeleccionada= tablaClientes.getSelectedRow();
+        ModeloTablaClientes mtl = (ModeloTablaClientes) tablaClientes.getModel();
+        
+        this.cliente= mtl.obtenerCliente(filaSeleccionada);
+        
+    }//GEN-LAST:event_tablaClientesMouseClicked
 
     /**
     * @param args the command line arguments
@@ -721,16 +793,15 @@ public class VVehiculo extends javax.swing.JDialog {
     private javax.swing.JButton btnActualizarCategoriasLibro;
     private javax.swing.JButton btnActualizarEjemplaresLibro;
     private javax.swing.JButton btnActualizarLibro;
-    private javax.swing.JButton btnBorrarAutor;
     private javax.swing.JButton btnBorrarEjemplar;
     private javax.swing.JButton btnBorrarLibro;
     private javax.swing.JButton btnDerecha;
     private javax.swing.JButton btnDevolver;
     private javax.swing.JButton btnIzquierda;
-    private javax.swing.JButton btnNuevoAutor;
     private javax.swing.JButton btnNuevoEjemplar;
     private javax.swing.JButton btnPrestar;
     private javax.swing.JButton btnSalir;
+    private javax.swing.JTextField buscaCliente;
     private javax.swing.JTextField buscaCombustible;
     private javax.swing.JTextField buscaKilometraje;
     private javax.swing.JTextField buscaMarca;
@@ -742,24 +813,26 @@ public class VVehiculo extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTable jTable1;
     private javax.swing.JList lstCategoriasLibro;
     private javax.swing.JList lstRestoCategorias;
+    private javax.swing.JButton nuevoBoton;
     private javax.swing.JPanel panelCategorias;
     private javax.swing.JPanel panelEjemplares;
     private javax.swing.JPanel panelGeneralAutores;
     private javax.swing.JPanel panelReparaciones;
     private javax.swing.JTabbedPane panelVehiculo;
     private javax.swing.JComboBox<String> seleccionSupervisor;
-    private javax.swing.JTable tablaEjemplares;
-    private javax.swing.JTextField textoNuevoAutor;
+    private javax.swing.JButton seleccionarClienteBoton;
+    private javax.swing.JTable tablaClientes;
     // End of variables declaration//GEN-END:variables
 
     public void estadoBotonPrestar(){
