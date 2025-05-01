@@ -52,6 +52,7 @@ public class VVehiculo extends javax.swing.JDialog {
         mc.setFilas(clientes);
         
         nuevoBoton.setEnabled(false);
+        seleccionarClienteBoton.setEnabled(false);
         
         
         /*btnActualizarCategoriasLibro.setEnabled(false);
@@ -770,6 +771,7 @@ public class VVehiculo extends javax.swing.JDialog {
         v=new Vehiculo(buscaMatricula.getText(), buscaMarca.getText(), buscaModelo.getText(), buscaCombustible.getText(), kilometraje, this.cliente , j);
         
         fa.nuevoVehiculo(v);
+        nuevoBoton.setEnabled(false);
     }//GEN-LAST:event_nuevoBotonActionPerformed
 
     private void jScrollPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane1MouseClicked

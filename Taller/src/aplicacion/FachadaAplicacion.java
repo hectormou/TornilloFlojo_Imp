@@ -153,4 +153,8 @@ public void borrarUsuario(String id){
     public void nuevoVehiculo(Vehiculo v) {
      cl.nuevoVehiculo(v);
     }
+
+    public void eliminarVehiculo(Vehiculo vehiculo) {
+        cl.eliminarVehiculo(vehiculo);
+        }
 }

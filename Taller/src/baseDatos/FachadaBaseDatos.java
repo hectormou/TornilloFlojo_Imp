@@ -211,5 +211,9 @@ public boolean existeCategoria(String nombre){
     public void nuevoVehiculo(Vehiculo v) {
 daoVehiculos.nuevoVehiculo(v);
     }
+
+    public void eliminarVehiculo(Vehiculo vehiculo) {
+daoVehiculos.eliminarVehiculo(vehiculo);
+    }
     
 }

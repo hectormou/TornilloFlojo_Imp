@@ -76,4 +76,8 @@ public class GestionVehiculos{
     void nuevoVehiculo(Vehiculo v) {
           fbd.nuevoVehiculo(v);
     }
+
+    void eliminarVehiculo(Vehiculo vehiculo) {
+        fbd.eliminarVehiculo(vehiculo);
+    }
 }

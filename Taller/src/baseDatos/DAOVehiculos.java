@@ -137,7 +137,7 @@ public class DAOVehiculos extends AbstractDAO {
         ResultSet rsAutores;
         PreparedStatement stmCategorias=null;
         ResultSet rsCategorias;
-        PreparedStatement stmEjemplares=null;
+        PreparedStatement stmVehiculoes=null;
         ResultSet rsEjemplares;
 
         con=super.getConexion();
@@ -188,11 +188,11 @@ public class DAOVehiculos extends AbstractDAO {
                 stmCategorias.close();
               }
             try {
-            stmEjemplares =con.prepareStatement("select e.num_ejemplar, e.ano_compra, e.localizador, p.fecha_prestamo, p.fecha_vencimiento, p.usuario, p.fecha_devolucion "+
+            stmVehiculoes =con.prepareStatement("select e.num_ejemplar, e.ano_compra, e.localizador, p.fecha_prestamo, p.fecha_vencimiento, p.usuario, p.fecha_devolucion "+
                                                 "from ejemplar as e left join prestamos as p on (e.num_ejemplar = p.ejemplar and e.vehiculo = p.vehiculo and p.fecha_devolucion is null)"+
                                                 "where e.vehiculo = ?");
-            stmEjemplares.setInt(1,resultado.getIdLibro());
-            rsEjemplares=stmEjemplares.executeQuery();
+            stmVehiculoes.setInt(1,resultado.getIdLibro());
+            rsEjemplares=stmVehiculoes.executeQuery();
             while (rsEjemplares.next())
             {
                 if(rsEjemplares.getString("usuario") == null || rsEjemplares.getDate("fecha_devolucion") != null){
@@ -209,7 +209,7 @@ public class DAOVehiculos extends AbstractDAO {
                  System.out.println(e.getMessage());
                  this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
             }finally{
-               stmEjemplares.close();
+               stmVehiculoes.close();
             }
         }
 
@@ -227,18 +227,18 @@ public class DAOVehiculos extends AbstractDAO {
     public java.util.List<Ejemplar> consultarEjemplaresLibro(Integer idLibro){
         java.util.List<Ejemplar> resultado=new java.util.ArrayList<Ejemplar>();
         Connection con;
-        PreparedStatement stmEjemplares=null;
+        PreparedStatement stmVehiculoes=null;
         ResultSet rsEjemplares;
         Vehiculo l = consultarLibro(idLibro);
 
         con=super.getConexion();
 
         try {
-        stmEjemplares =con.prepareStatement("select e.num_ejemplar, e.ano_compra, e.localizador, p.fecha_prestamo, p.fecha_vencimiento, p.usuario, p.fecha_devolucion "+
+        stmVehiculoes =con.prepareStatement("select e.num_ejemplar, e.ano_compra, e.localizador, p.fecha_prestamo, p.fecha_vencimiento, p.usuario, p.fecha_devolucion "+
                                                 "from ejemplar as e left join prestamos as p on (e.num_ejemplar = p.ejemplar and e.vehiculo = p.vehiculo and p.fecha_devolucion is null)"+
                                                 "where e.vehiculo = ?");
-        stmEjemplares.setInt(1,idLibro);
-        rsEjemplares=stmEjemplares.executeQuery();
+        stmVehiculoes.setInt(1,idLibro);
+        rsEjemplares=stmVehiculoes.executeQuery();
         while (rsEjemplares.next())
         {
             if(rsEjemplares.getString("usuario") == null || rsEjemplares.getDate("fecha_devolucion") != null){
@@ -257,7 +257,7 @@ public class DAOVehiculos extends AbstractDAO {
           System.out.println(e.getMessage());
           this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
         }finally{
-          try {stmEjemplares.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+          try {stmVehiculoes.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
         }
         return resultado;
     }
@@ -439,67 +439,67 @@ public class DAOVehiculos extends AbstractDAO {
 
   public void insertarEjemplarLibro(Integer idLibro, Ejemplar ejemplar){
         Connection con;
-        PreparedStatement stmEjemplar=null;
+        PreparedStatement stmVehiculo=null;
 
         con=super.getConexion();
 
         try {
-        stmEjemplar=con.prepareStatement("insert into ejemplar(vehiculo,ano_compra,localizador) "+
+        stmVehiculo=con.prepareStatement("insert into ejemplar(vehiculo,ano_compra,localizador) "+
                                            "values (?,?,?)");
-        stmEjemplar.setInt(1, idLibro);
-        stmEjemplar.setString(2, ejemplar.getAnoCompra());
-        stmEjemplar.setString(3, ejemplar.getLocalizador());
-        stmEjemplar.executeUpdate();
+        stmVehiculo.setInt(1, idLibro);
+        stmVehiculo.setString(2, ejemplar.getAnoCompra());
+        stmVehiculo.setString(3, ejemplar.getLocalizador());
+        stmVehiculo.executeUpdate();
 
         } catch (SQLException e){
           System.out.println(e.getMessage());
           this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
         }finally{
-          try {stmEjemplar.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+          try {stmVehiculo.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
         }
   }
   public void borrarEjemplaresLibro(Integer idLibro, java.util.List<Integer> numsEjemplar){
         Connection con;
-        PreparedStatement stmEjemplar=null;
+        PreparedStatement stmVehiculo=null;
 
         con=super.getConexion();
 
         try {
-        stmEjemplar=con.prepareStatement("delete from ejemplar where vehiculo=? and num_ejemplar=?");
+        stmVehiculo=con.prepareStatement("delete from ejemplar where vehiculo=? and num_ejemplar=?");
         for (Integer i: numsEjemplar){
-            stmEjemplar.setInt(1, idLibro);
-            stmEjemplar.setInt(2, i);
-            stmEjemplar.executeUpdate();
+            stmVehiculo.setInt(1, idLibro);
+            stmVehiculo.setInt(2, i);
+            stmVehiculo.executeUpdate();
         }
         } catch (SQLException e){
           System.out.println(e.getMessage());
           this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
         }finally{
-          try {stmEjemplar.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+          try {stmVehiculo.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
         }
   }
   public void modificarEjemplarLibro(Integer idLibro, Ejemplar ejemplar){
         Connection con;
-        PreparedStatement stmEjemplar=null;
+        PreparedStatement stmVehiculo=null;
 
         con=super.getConexion();
 
         try {
-        stmEjemplar=con.prepareStatement("update ejemplar "+
+        stmVehiculo=con.prepareStatement("update ejemplar "+
                                             "set ano_compra=?, "+
                                             "   localizador=? "+
                                             "where vehiculo=? and num_ejemplar=?");
-        stmEjemplar.setString(1, ejemplar.getAnoCompra());
-        stmEjemplar.setString(2, ejemplar.getLocalizador());
-        stmEjemplar.setInt(3, idLibro);
-        stmEjemplar.setInt(4, ejemplar.getNumEjemplar());
-        stmEjemplar.executeUpdate();
+        stmVehiculo.setString(1, ejemplar.getAnoCompra());
+        stmVehiculo.setString(2, ejemplar.getLocalizador());
+        stmVehiculo.setInt(3, idLibro);
+        stmVehiculo.setInt(4, ejemplar.getNumEjemplar());
+        stmVehiculo.executeUpdate();
 
         } catch (SQLException e){
           System.out.println(e.getMessage());
           this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
         }finally{
-          try {stmEjemplar.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+          try {stmVehiculo.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
         }
   }
 
@@ -525,6 +525,25 @@ Connection con;
 
         stmVehiculo.executeUpdate();
 
+        
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmVehiculo.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+    }
+
+    void eliminarVehiculo(Vehiculo vehiculo) {
+            Connection con;
+        PreparedStatement stmVehiculo=null;
+
+        con=super.getConexion();
+
+        try {
+        stmVehiculo=con.prepareStatement("delete from vehiculo where matricula=? ");
+            stmVehiculo.setString(1, vehiculo.getMatricula());
+            stmVehiculo.executeUpdate();
         
         } catch (SQLException e){
           System.out.println(e.getMessage());

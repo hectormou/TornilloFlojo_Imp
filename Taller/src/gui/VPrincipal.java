@@ -53,7 +53,6 @@ public class VPrincipal extends javax.swing.JFrame {
         tablaVehiculos = new javax.swing.JTable();
         btnBuscar = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
-        btnNuevoLibro = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         buscaCliente = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -113,13 +112,6 @@ public class VPrincipal extends javax.swing.JFrame {
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalirActionPerformed(evt);
-            }
-        });
-
-        btnNuevoLibro.setText("Nuevo");
-        btnNuevoLibro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNuevoLibroActionPerformed(evt);
             }
         });
 
@@ -227,8 +219,6 @@ public class VPrincipal extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(eliminarVehiculoBoton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnNuevoLibro)
-                        .addGap(158, 158, 158)
                         .addComponent(btnSalir)))
                 .addContainerGap())
         );
@@ -258,7 +248,6 @@ public class VPrincipal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalir)
-                    .addComponent(btnNuevoLibro)
                     .addComponent(anhadirVehiculoBoton)
                     .addComponent(verVehiculoBoton)
                     .addComponent(eliminarVehiculoBoton))
@@ -304,8 +293,6 @@ public class VPrincipal extends javax.swing.JFrame {
 
     private void verVehiculoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verVehiculoBotonActionPerformed
         // TODO add your handling code here:
-        int filaSeleccionada= tablaVehiculos.getSelectedRow();
-        ModeloTablaVehiculos mtl = (ModeloTablaVehiculos) tablaVehiculos.getModel();
         
         Vehiculo vehiculo= fa.obtenerVehiculos(buscaMatricula.getText(),"","","","","").get(0);
         if(vehiculo!=null){
@@ -319,6 +306,12 @@ public class VPrincipal extends javax.swing.JFrame {
 
     private void eliminarVehiculoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarVehiculoBotonActionPerformed
         // TODO add your handling code here:
+    Vehiculo vehiculo= fa.obtenerVehiculos(buscaMatricula.getText(),"","","","","").get(0);
+            if(vehiculo!=null){
+                fa.eliminarVehiculo(vehiculo);
+            }
+            setBotonesBlanco();
+            buscarVehiculos();
     }//GEN-LAST:event_eliminarVehiculoBotonActionPerformed
 
     private void tablaVehiculosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaVehiculosMouseClicked
@@ -332,11 +325,6 @@ public class VPrincipal extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_tablaVehiculosMouseClicked
-
-    private void btnNuevoLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoLibroActionPerformed
-        // TODO add your handling code here:
-        fa.nuevoLibro();
-    }//GEN-LAST:event_btnNuevoLibroActionPerformed
 
     
     private void setBotonesVehiculo(Vehiculo vehiculo){
@@ -367,7 +355,6 @@ public class VPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton anhadirVehiculoBoton;
     private javax.swing.JButton btnBuscar;
-    private javax.swing.JButton btnNuevoLibro;
     private javax.swing.JButton btnSalir;
     private javax.swing.JTextField buscaCliente;
     private javax.swing.JTextField buscaCombustible;
