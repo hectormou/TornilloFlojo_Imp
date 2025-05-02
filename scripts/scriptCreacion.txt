@@ -76,7 +76,7 @@ create table TipoReparacion (
 
 create table Reparacion (
     idReparacion serial primary key,
-    fechaInicio date not null,
+    fechaInicio date default current_date,
     fechaFin date,
     idVehiculo varchar(20),
     tipoReparacion varchar(100),

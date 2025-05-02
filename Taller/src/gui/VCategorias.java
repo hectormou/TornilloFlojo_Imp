@@ -4,25 +4,25 @@
  */
 package gui;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import aplicacion.Categoria;
+import aplicacion.FachadaAplicacion;
+import java.util.List;
 
 /**
  *
  * @author alumnogreibd
  */
 public class VCategorias extends javax.swing.JDialog {
-    aplicacion.FachadaAplicacion fa;
+    FachadaAplicacion fa;
     /**
      * Creates new form VCategorias
      */
-    public VCategorias(java.awt.Frame parent, boolean modal, aplicacion.FachadaAplicacion fa) {
+    public VCategorias(java.awt.Frame parent, boolean modal, FachadaAplicacion fa) {
         super(parent, modal);
-        this.fa = fa;
+        this.fa=fa;
         initComponents();
-        setLocationRelativeTo(null);
-        buscarCategorias();
+        
+        actualizarLista();
     }
 
     /**
@@ -34,218 +34,188 @@ public class VCategorias extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        ListaCategorias = new javax.swing.JList<>();
-        ModificaNombre = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        btnAñadir = new javax.swing.JButton();
-        btnBorrar = new javax.swing.JButton();
-        btnSalir = new javax.swing.JButton();
+        CategoriasList = new javax.swing.JList<>();
+        CategoriasLabel = new javax.swing.JLabel();
+        NombreLabel = new javax.swing.JLabel();
+        NombreTextField = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        ModificaDescripcion = new javax.swing.JTextArea();
+        DescripcionTextArea = new javax.swing.JTextArea();
+        DescripcionLabel = new javax.swing.JLabel();
+        AnadirButton = new javax.swing.JButton();
+        BorrarButton = new javax.swing.JButton();
+        SalirButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Gestión de Categorías");
 
-        jLabel1.setText("Categorías");
-
-        ListaCategorias.setModel(new ModeloListaStrings());
-        ListaCategorias.addMouseListener(new java.awt.event.MouseAdapter() {
+        CategoriasList.setModel(new ModeloListaStrings());
+        CategoriasList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ListaCategoriasMouseClicked(evt);
+                CategoriasListMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(ListaCategorias);
+        jScrollPane1.setViewportView(CategoriasList);
 
-        ModificaNombre.addActionListener(new java.awt.event.ActionListener() {
+        CategoriasLabel.setText("Categorías");
+
+        NombreLabel.setText("Nombre:");
+
+        DescripcionTextArea.setColumns(20);
+        DescripcionTextArea.setRows(5);
+        jScrollPane2.setViewportView(DescripcionTextArea);
+
+        DescripcionLabel.setText("Descripción");
+
+        AnadirButton.setText("Añadir");
+        AnadirButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ModificaNombreActionPerformed(evt);
+                AnadirButtonActionPerformed(evt);
             }
         });
 
-        jLabel2.setText("Nombre:");
-
-        jLabel3.setText("Descripción:");
-
-        btnAñadir.setText("Añadir");
-        btnAñadir.addActionListener(new java.awt.event.ActionListener() {
+        BorrarButton.setText("Borrar");
+        BorrarButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAñadirActionPerformed(evt);
+                BorrarButtonActionPerformed(evt);
             }
         });
 
-        btnBorrar.setText("Borrar");
-        btnBorrar.addActionListener(new java.awt.event.ActionListener() {
+        SalirButton.setText("Salir");
+        SalirButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBorrarActionPerformed(evt);
+                SalirButtonActionPerformed(evt);
             }
         });
-
-        btnSalir.setText("Salir");
-        btnSalir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalirActionPerformed(evt);
-            }
-        });
-
-        ModificaDescripcion.setColumns(20);
-        ModificaDescripcion.setRows(5);
-        jScrollPane2.setViewportView(ModificaDescripcion);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(41, 41, 41)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnSalir))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(34, 34, 34)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
+                        .addGap(50, 50, 50)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addGroup(layout.createSequentialGroup()
-                                    .addComponent(btnAñadir)
+                                    .addGap(30, 30, 30)
+                                    .addComponent(AnadirButton)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnBorrar))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel2)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(ModificaNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 26, Short.MAX_VALUE)))
-                .addContainerGap())
+                                    .addComponent(BorrarButton))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(NombreLabel)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(NombreTextField))
+                                .addComponent(DescripcionLabel, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(SalirButton)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(83, 83, 83)
+                        .addComponent(CategoriasLabel)))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(jLabel1)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(36, Short.MAX_VALUE)
+                .addComponent(CategoriasLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(ModificaNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnAñadir)
-                            .addComponent(btnBorrar))))
-                .addGap(18, 18, 18)
-                .addComponent(btnSalir)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(NombreLabel)
+                                    .addComponent(NombreTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(27, 27, 27)
+                                .addComponent(DescripcionLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(141, 141, 141))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(AnadirButton)
+                                    .addComponent(BorrarButton))
+                                .addGap(92, 92, 92)))
+                        .addComponent(SalirButton)))
+                .addGap(17, 17, 17))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void ModificaNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModificaNombreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ModificaNombreActionPerformed
+    private void AnadirButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AnadirButtonActionPerformed
+        Categoria cat;
+        String nombre=NombreTextField.getText();
+        String descripcion=DescripcionTextArea.getText();
+        
+        if(!nombre.isEmpty() && !descripcion.isEmpty()) {
+            cat=new Categoria(nombre, descripcion);
+            fa.crearCategoria(cat);
+        }
+        actualizarLista();
+        NombreTextField.setText("");
+        DescripcionTextArea.setText("");
+    }//GEN-LAST:event_AnadirButtonActionPerformed
 
-    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        // TODO add your handling code here:
+    private void SalirButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirButtonActionPerformed
         this.dispose();
-    }//GEN-LAST:event_btnSalirActionPerformed
+    }//GEN-LAST:event_SalirButtonActionPerformed
 
-    private void ListaCategoriasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ListaCategoriasMouseClicked
-        // TODO add your handling code here:
-        obtenerCategoriaSeleccionada();
-    }//GEN-LAST:event_ListaCategoriasMouseClicked
-
-    private void btnAñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirActionPerformed
-        // TODO add your handling code here:
-        if(existeCategoria(ModificaNombre.getText())){
-            editarCategoria(ModificaNombre.getText(), ModificaDescripcion.getText());
-        } else{
-            crearCategoria(ModificaNombre.getText(), ModificaDescripcion.getText());
+    private void BorrarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BorrarButtonActionPerformed
+        String cat;
+        
+        if(CategoriasList.getSelectedIndex()>-1) {
+            cat=((ModeloListaStrings) CategoriasList.getModel()).getElementAt(CategoriasList.getSelectedIndex());
+            fa.borrarCategoria(cat);
+            actualizarLista();
         }
-        buscarCategorias();
-    }//GEN-LAST:event_btnAñadirActionPerformed
+    }//GEN-LAST:event_BorrarButtonActionPerformed
 
-    private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
-        // TODO add your handling code here:
-        if(ListaCategorias.getSelectedIndex()!=-1){
-            ModeloListaStrings m;
-            m=(ModeloListaStrings) ListaCategorias.getModel();
-            borrarCategoria(ModificaNombre.getText());
-            buscarCategorias();
-        }
-    }//GEN-LAST:event_btnBorrarActionPerformed
+    private void CategoriasListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CategoriasListMouseClicked
+        ModeloListaStrings m;
+        m=(ModeloListaStrings) CategoriasList.getModel();
+        
+        String cat = m.getElementAt(CategoriasList.getSelectedIndex());
+        String descripcion = new String();
+        
+        List<Categoria> categorias = fa.obtenerCategorias();
+        for(Categoria c : categorias)
+            if(c.getNombre().equals(cat))
+                descripcion=c.getDescripcion();
+        
+        NombreTextField.setText(cat);
+        DescripcionTextArea.setText(descripcion);
+    }//GEN-LAST:event_CategoriasListMouseClicked
 
-    
+    private void actualizarLista() {
+        List<Categoria> categorias;
+        List<String> stringcat = new java.util.ArrayList<String>();
+        
+        categorias=fa.obtenerCategorias();
+        for(Categoria cat : categorias)
+            stringcat.add(cat.getNombre());
+        
+        ModeloListaStrings mListaC=new ModeloListaStrings();
+        CategoriasList.setModel(mListaC);
+        mListaC.setElementos(stringcat);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JList<String> ListaCategorias;
-    private javax.swing.JTextArea ModificaDescripcion;
-    private javax.swing.JTextField ModificaNombre;
-    private javax.swing.JButton btnAñadir;
-    private javax.swing.JButton btnBorrar;
-    private javax.swing.JButton btnSalir;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JButton AnadirButton;
+    private javax.swing.JButton BorrarButton;
+    private javax.swing.JLabel CategoriasLabel;
+    private javax.swing.JList<String> CategoriasList;
+    private javax.swing.JLabel DescripcionLabel;
+    private javax.swing.JTextArea DescripcionTextArea;
+    private javax.swing.JLabel NombreLabel;
+    private javax.swing.JTextField NombreTextField;
+    private javax.swing.JButton SalirButton;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
-
-    public void buscarCategorias(){
-        ModeloListaStrings m;
-
-        m=(ModeloListaStrings) ListaCategorias.getModel();
-        java.util.List<String> elementos = new java.util.ArrayList<String>();
-        Iterator<aplicacion.Categoria> i = fa.obtenerCategorias().iterator();
-        while(i.hasNext()){
-            aplicacion.Categoria cat = i.next();
-            elementos.add(cat.getNombre());
-        }
-        m.setElementos(elementos);
-        
-        if (m.getSize() > 0) {
-            ListaCategorias.setSelectedIndex(0);
-            obtenerCategoriaSeleccionada();
-        }
-    }
-    
-    public void obtenerCategoriaSeleccionada(){
-        if(ListaCategorias.getSelectedIndex()!=-1){
-            filaSeleccionada(fa.obtenerCategorias().get(ListaCategorias.getSelectedIndex()));
-        }
-    }
-    
-    public void filaSeleccionada(aplicacion.Categoria c){
-        ModificaNombre.setText(c.getNombre());
-        ModificaDescripcion.setText(c.getDescripcion());
-    }
-    
-    public boolean existeCategoria(String nombre){
-        return fa.existeCategoria(nombre);
-    }
-    
-    public void editarCategoria(String nombre, String descripcion){
-        fa.editarCategoria(nombre,descripcion);
-    }
-    
-    public void crearCategoria(String nombre, String descripcion){
-        fa.crearCategoria(nombre,descripcion);
-    }
-    
-    public void borrarCategoria(String nombre){
-        fa.borrarCategoria(nombre);
-    }
-
 }

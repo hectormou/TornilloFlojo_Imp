@@ -1,0 +1,58 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package aplicacion;
+import gui.FachadaGui;
+import baseDatos.FachadaBaseDatos;
+import java.util.List;
+/**
+ *
+ * @author basesdatos
+ */
+public class GestionMecanicos {
+     
+    FachadaGui fgui;
+    FachadaBaseDatos fbd;
+    
+   
+    public GestionMecanicos(FachadaGui fgui, FachadaBaseDatos fbd){
+     this.fgui=fgui;
+     this.fbd=fbd;
+    }  
+    
+    
+    public Mecanico validarMecanico(String idMecanico, String clave){
+        return fbd.validarMecanico(idMecanico, clave);
+    }
+  
+    public java.util.List<Mecanico> obtenerUsuarios(String id, String nombre){
+       return fbd.consultarUsuarios(id, nombre);
+    }
+  
+    public boolean existeUsuario(String id){
+        return fbd.existeUsuario(id);
+    }
+ 
+    public void editarUsuario(String id, String clave, String nombre, String direccion, String email, String tipo){
+        fbd.editarUsuario(id, clave, nombre, direccion, email, tipo);
+    }
+
+    public void crearUsuario(String id, String clave, String nombre, String direccion, String email, String tipo){
+        fbd.crearUsuario(id, clave, nombre, direccion, email, tipo);
+    }
+
+    public void borrarUsuario(String id){
+        fbd.borrarUsuario(id);
+    }
+
+    public List<String> obtenerIDsJefesTaller() {
+        return fbd.obtenerIDsJefesTaller();
+    }
+
+    public JefeTaller obtenerJefeTaller(String id) {
+        return fbd.obtenerJefesTaller(id);
+    }
+ 
+}

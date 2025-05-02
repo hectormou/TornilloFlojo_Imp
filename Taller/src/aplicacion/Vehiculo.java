@@ -18,27 +18,17 @@ public class Vehiculo {
     private String modelo;
     private String combustible;
     private Integer kilometraje;
-    private Cliente propietario;
-    private JefeTaller supervisor;
+    private String propietariodni;
+    private String supervisorid;
     
-    
-    
-
-    public Vehiculo (String matricula, String marca, String modelo, String combustible, Integer kilometraje){
+    public Vehiculo (String matricula, String marca, String modelo, String combustible, Integer kilometraje, String propietario, String supervisor){
         this.matricula=matricula;
         this.marca=marca;
         this.modelo=modelo;
         this.combustible=combustible;
         this.kilometraje=kilometraje;
-    }
-    public Vehiculo (String matricula, String marca, String modelo, String combustible, Integer kilometraje,Cliente propietario, JefeTaller supervisor){
-        this.matricula=matricula;
-        this.marca=marca;
-        this.modelo=modelo;
-        this.combustible=combustible;
-        this.kilometraje=kilometraje;
-        this.propietario=propietario;
-        this.supervisor=supervisor;
+        this.propietariodni=propietario;
+        this.supervisorid=supervisor;
     }
 
     public String getMatricula (){
@@ -61,23 +51,39 @@ public class Vehiculo {
         return this.kilometraje;
     }
     
-    public Cliente getPropietario(){
-        return this.propietario;
+    public String getPropietarioDNI(){
+        return this.propietariodni;
     }
     
-    public JefeTaller getSupervisor(){
-        return this.supervisor;
+    public String getSupervisorID(){
+        return this.supervisorid;
     }
 
     public void setMatricula(String matricula){
         this.matricula = matricula;
     }
     
-    public void setPropietario(Cliente propietario){
-        this.propietario = propietario;
+    public void setMarca (String marca){
+         this.marca=marca;
+    }
+
+    public void setModelo (String modelo){
+        this.modelo=modelo;
+    }
+
+    public void setCombustible (String combustible){
+        this.combustible=combustible;
+    }
+
+    public void setKilometraje(int kilometraje){
+        this.kilometraje=kilometraje;
     }
     
-    public void setSupervisor(JefeTaller supervisor){
-        this.supervisor = supervisor;
+    public void setPropietarioDNI(String propietario){
+        this.propietariodni = propietario;
+    }
+    
+    public void setSupervisorID(String supervisor){
+        this.supervisorid = supervisor;
     }
 }

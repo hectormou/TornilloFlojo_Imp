@@ -29,9 +29,8 @@ public class FachadaBaseDatos {
     private aplicacion.FachadaAplicacion fa;
     private java.sql.Connection conexion;
     private DAOVehiculos daoVehiculos;
-    private DAOCategorias daoCategorias;
     private DAOMecanicos daoMecanicos;
-    private DAOPrestamos daoPrestamos;
+    private DAOClientes daoClientes;
     public List<String> obtenerClavesJefesTaller;
 
     public FachadaBaseDatos (aplicacion.FachadaAplicacion fa){
@@ -69,9 +68,8 @@ public class FachadaBaseDatos {
             
 
             daoVehiculos = new DAOVehiculos(conexion, fa);
-            daoCategorias = new DAOCategorias(conexion, fa);
             daoMecanicos = new DAOMecanicos(conexion, fa);
-            daoPrestamos = new DAOPrestamos(conexion, fa);
+            daoClientes = new DAOClientes(conexion, fa);
           
 
 
@@ -93,43 +91,16 @@ public class FachadaBaseDatos {
         
     }
     
-    
+    public Vehiculo obtenerVehiculo(String matricula) {
+        return daoVehiculos.obtenerVehiculo(matricula);
+    }
 
     public java.util.List<Vehiculo> consultarCatalogo(String matricula, String cliente, String marca, String modelo, String supervisor, String combustible){
         return daoVehiculos.consultarCatalogo(matricula, cliente, marca, modelo, supervisor, combustible);
     }
 
-    public Vehiculo consultarLibro(Integer idLibro){
-        return daoVehiculos.consultarLibro(idLibro);
-    }
-    
-    public java.util.List<Ejemplar> consultarEjemplaresLibro(Integer idLibro){
-        return daoVehiculos.consultarEjemplaresLibro(idLibro);
-    }
-
-    public java.util.List<String> obtenerRestoCategorias(Integer idLibro){
-        return daoVehiculos.obtenerRestoCategorias(idLibro);
-    }
-    public String insertarLibro(Vehiculo libro){
-       return daoVehiculos.insertarLibro(libro);
-    }
-    public void borrarLibro(Integer idLibro){
-        daoVehiculos.borrarLibro(idLibro);
-    }
     public void modificarVehiculo(Vehiculo v){
          daoVehiculos.modificarVehiculo(v);
-    }
-    public void modificarCategoriasLibro(Integer idLibro, java.util.List<String> categorias){
-       daoVehiculos.modificarCategoriasLibro(idLibro, categorias);
-    }
-    public void insertarEjemplarLibro(Integer idLibro, Ejemplar ejemplar){
-        daoVehiculos.insertarEjemplarLibro(idLibro, ejemplar);
-    }
-    public void borrarEjemplaresLibro(Integer idLibro, java.util.List<Integer> numsEjemplar){
-        daoVehiculos.borrarEjemplaresLibro(idLibro, numsEjemplar);
-    }
-    public void modificarEjemplarLibro(Integer idLibro, Ejemplar ejemplar){
-        daoVehiculos.modificarEjemplarLibro(idLibro, ejemplar);
     }
 
     public Mecanico validarMecanico(String idUsuario, String clave){
@@ -138,10 +109,6 @@ public class FachadaBaseDatos {
         
     public java.util.List<Mecanico> consultarUsuarios(String id, String nombre){
         return daoMecanicos.consultarUsuarios(id, nombre);
-    }
-   
-    public java.util.List<Categoria> consultarCategorias(){
-        return daoCategorias.consultarCategorias();
     }
     
     public boolean existeUsuario(String id){
@@ -160,42 +127,6 @@ public void borrarUsuario(String id){
         daoMecanicos.borrarUsuario(id);
     }
 
-public java.util.List<Categoria> obtenerCategorias(){
-        return daoCategorias.consultarCategorias();
-    }
-
-public boolean existeCategoria(String nombre){
-        return daoCategorias.existeCategoria(nombre);
-    }
-
-    public void editarCategoria(String nombre, String descripcion){
-        daoCategorias.editarCategoria(nombre,descripcion);
-    }
-    
-    public void crearCategoria(String nombre, String descripcion){
-        daoCategorias.crearCategoria(nombre,descripcion);
-    }
-    
-    public void borrarCategoria(String nombre){
-        daoCategorias.borrarCategoria(nombre);
-    }
-    
-    public java.util.List<Mecanico> obtenerUsuariosPrestamos(String id, String nombre){
-        return daoPrestamos.obtenerUsuariosPrestamos(id, nombre);
-    }
-    
-    public void prestar(Ejemplar e, Mecanico u){
-        daoPrestamos.prestar(e,u);
-    }
-    
-    public void devolver(Integer numEjemplar,Integer idLibro, String idUsuario, Date fechaPrestamo){
-        daoPrestamos.devolver(numEjemplar, idLibro, idUsuario, fechaPrestamo);
-    }
-    
-    public boolean ejemplarTienePrestamo(Integer idLibro, Integer numEjemplar){
-        return daoPrestamos.ejemplarTienePrestamo(idLibro, numEjemplar);
-    }
-
     public List<String> obtenerIDsJefesTaller() {
         return daoMecanicos.obtenerIDsJefesTaller();
     }
@@ -203,17 +134,20 @@ public boolean existeCategoria(String nombre){
     public JefeTaller obtenerJefesTaller(String id) {
         return daoMecanicos.obtenerJefeTaller(id);
     }
+    
+    public Cliente obtenerClientes(String dni) {
+        return daoClientes.obtenerCliente(dni);
+    }
 
     public List<Cliente> obtenerClientes() {
-        return daoMecanicos.obtenerClientes();
+        return daoClientes.obtenerClientes();
     }
 
     public void nuevoVehiculo(Vehiculo v) {
-daoVehiculos.nuevoVehiculo(v);
+        daoVehiculos.nuevoVehiculo(v);
     }
 
-    public void eliminarVehiculo(Vehiculo vehiculo) {
-daoVehiculos.eliminarVehiculo(vehiculo);
+    public void eliminarVehiculo(String matricula) {
+        daoVehiculos.eliminarVehiculo(matricula);
     }
-    
 }

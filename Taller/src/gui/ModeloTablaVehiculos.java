@@ -72,8 +72,12 @@ public class ModeloTablaVehiculos extends AbstractTableModel{
             case 2: resultado=vehiculos.get(row).getModelo();break;
             case 3: resultado=vehiculos.get(row).getCombustible(); break;
             case 4: resultado=vehiculos.get(row).getKilometraje(); break;
-            case 5: if(vehiculos.get(row).getPropietario() == null)resultado= "-"; else{resultado = vehiculos.get(row).getPropietario().getNombre();} break;
-            case 6: if(vehiculos.get(row).getSupervisor() == null)resultado= "-"; else{resultado = vehiculos.get(row).getSupervisor().getNombre();} break;
+            case 5: if(vehiculos.get(row).getPropietarioDNI() == null) resultado= "-"; 
+                    else{resultado = vehiculos.get(row).getPropietarioDNI();} 
+                    break;
+            case 6: if(vehiculos.get(row).getSupervisorID() == null)resultado= "-"; 
+                    else{resultado = vehiculos.get(row).getSupervisorID();} 
+                    break;
         }
         return resultado;
     }

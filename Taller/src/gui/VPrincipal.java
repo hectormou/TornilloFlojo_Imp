@@ -13,7 +13,6 @@ package gui;
 
 import aplicacion.JefeTaller;
 import aplicacion.Mecanico;
-import aplicacion.Subordinado;
 import aplicacion.Vehiculo;
 
 
@@ -24,14 +23,14 @@ import aplicacion.Vehiculo;
 public class VPrincipal extends javax.swing.JFrame {
   
     aplicacion.FachadaAplicacion fa;
+    Vehiculo vehiculoseleccionado;
     
     /** Creates new form VPrincipal */
     public VPrincipal(aplicacion.FachadaAplicacion fa) {
         this.fa=fa;
         initComponents();
         setLocationRelativeTo(null);
-        verVehiculoBoton.setEnabled(false);
-
+        modificarVehiculoBoton.setEnabled(false);
     }
 
     /** This method is called from within the constructor to
@@ -60,7 +59,7 @@ public class VPrincipal extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         buscaSupervisor = new javax.swing.JTextField();
         anhadirVehiculoBoton = new javax.swing.JButton();
-        verVehiculoBoton = new javax.swing.JButton();
+        modificarVehiculoBoton = new javax.swing.JButton();
         eliminarVehiculoBoton = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         pestanhaGestion = new javax.swing.JMenu();
@@ -82,12 +81,6 @@ public class VPrincipal extends javax.swing.JFrame {
         jLabel1.setText("Marca:");
 
         jLabel2.setText("Modelo:");
-
-        buscaModelo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buscaModeloActionPerformed(evt);
-            }
-        });
 
         tablaVehiculos.setModel(new gui.ModeloTablaVehiculos());
         tablaVehiculos.setColumnSelectionAllowed(true);
@@ -128,10 +121,10 @@ public class VPrincipal extends javax.swing.JFrame {
             }
         });
 
-        verVehiculoBoton.setText("Ver");
-        verVehiculoBoton.addActionListener(new java.awt.event.ActionListener() {
+        modificarVehiculoBoton.setText("Modificar");
+        modificarVehiculoBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                verVehiculoBotonActionPerformed(evt);
+                modificarVehiculoBotonActionPerformed(evt);
             }
         });
 
@@ -215,7 +208,7 @@ public class VPrincipal extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(anhadirVehiculoBoton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(verVehiculoBoton)
+                        .addComponent(modificarVehiculoBoton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(eliminarVehiculoBoton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -249,7 +242,7 @@ public class VPrincipal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalir)
                     .addComponent(anhadirVehiculoBoton)
-                    .addComponent(verVehiculoBoton)
+                    .addComponent(modificarVehiculoBoton)
                     .addComponent(eliminarVehiculoBoton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -259,12 +252,7 @@ public class VPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void buscaModeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscaModeloActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_buscaModeloActionPerformed
-
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-                // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_btnSalirActionPerformed
 
@@ -286,32 +274,34 @@ public class VPrincipal extends javax.swing.JFrame {
 
     private void anhadirVehiculoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anhadirVehiculoBotonActionPerformed
         // TODO add your handling code here:
-                VVehiculo vv= new VVehiculo(this, true, this.fa);
-        vv.setVisible(true);
+        VVehiculo vnv= new VVehiculo(this, true, this.fa);
+        vnv.setVisible(true);
+        modificarVehiculoBoton.setEnabled(false);
 
     }//GEN-LAST:event_anhadirVehiculoBotonActionPerformed
 
-    private void verVehiculoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verVehiculoBotonActionPerformed
-        // TODO add your handling code here:
-        
-        Vehiculo vehiculo= fa.obtenerVehiculos(buscaMatricula.getText(),"","","","","").get(0);
-        if(vehiculo!=null){
-        VVehiculo vv= new VVehiculo(this, true, this.fa, vehiculo);
+    private void modificarVehiculoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarVehiculoBotonActionPerformed
+
+        VVehiculo vv= new VVehiculo(this, true, this.fa, vehiculoseleccionado.getMatricula());
         vv.setVisible(true);
-        }else {
+        modificarVehiculoBoton.setEnabled(false);
+       
+        /*
+        else {
             VAviso aviso=new VAviso(this,true,"Por favor, selecciona un vehículo");
             aviso.setVisible(true);
         }
-    }//GEN-LAST:event_verVehiculoBotonActionPerformed
+        */
+    }//GEN-LAST:event_modificarVehiculoBotonActionPerformed
 
     private void eliminarVehiculoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarVehiculoBotonActionPerformed
-        // TODO add your handling code here:
-    Vehiculo vehiculo= fa.obtenerVehiculos(buscaMatricula.getText(),"","","","","").get(0);
-            if(vehiculo!=null){
-                fa.eliminarVehiculo(vehiculo);
+
+            if(vehiculoseleccionado!=null){
+                fa.eliminarVehiculo(vehiculoseleccionado.getMatricula());
             }
             setBotonesBlanco();
             buscarVehiculos();
+            modificarVehiculoBoton.setEnabled(false);
     }//GEN-LAST:event_eliminarVehiculoBotonActionPerformed
 
     private void tablaVehiculosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaVehiculosMouseClicked
@@ -319,23 +309,25 @@ public class VPrincipal extends javax.swing.JFrame {
         int filaSeleccionada= tablaVehiculos.getSelectedRow();
         ModeloTablaVehiculos mtl = (ModeloTablaVehiculos) tablaVehiculos.getModel();
         
-        Vehiculo vehiculo= mtl.obtenerVehiculo(filaSeleccionada);
+        vehiculoseleccionado = mtl.obtenerVehiculo(filaSeleccionada);
         
-        setBotonesVehiculo(vehiculo);
-        
-        
+        setBotonesVehiculo(vehiculoseleccionado);
+        modificarVehiculoBoton.setEnabled(true);
     }//GEN-LAST:event_tablaVehiculosMouseClicked
 
     
     private void setBotonesVehiculo(Vehiculo vehiculo){
         buscaMatricula.setText(vehiculo.getMatricula());
-        buscaCliente.setText(vehiculo.getPropietario().getNombre());    //MIRAR NORMATIVA PROVACIDAD
+        buscaCliente.setText(vehiculo.getPropietarioDNI());    //MIRAR NORMATIVA PROVACIDAD
         buscaModelo.setText(vehiculo.getModelo());
-        buscaSupervisor.setText(vehiculo.getSupervisor().getNombre());
+        if(vehiculo.getSupervisorID()!=null) {
+            JefeTaller j = fa.obtenerJefeTaller(vehiculo.getSupervisorID());
+            buscaSupervisor.setText(j.getNombre());
+        }
         buscaCombustible.setText(vehiculo.getCombustible());
         buscaMarca.setText(vehiculo.getMarca());
         
-        verVehiculoBoton.setEnabled(true);
+        modificarVehiculoBoton.setEnabled(true);
     }
     
     private void setBotonesBlanco( ){
@@ -345,8 +337,7 @@ public class VPrincipal extends javax.swing.JFrame {
         buscaSupervisor.setText("");
         buscaCombustible.setText("");
         buscaMarca.setText("");
-                verVehiculoBoton.setEnabled(false);
-
+        modificarVehiculoBoton.setEnabled(false);
     }
     /**
     * @param args the command line arguments
@@ -375,17 +366,17 @@ public class VPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuPersonal;
     private javax.swing.JMenuItem menuSolicitudes;
     private javax.swing.JMenuItem menuStock;
+    private javax.swing.JButton modificarVehiculoBoton;
     private javax.swing.JMenu pestanhaGestion;
     private javax.swing.JMenu pestanhaPrincipal;
     private javax.swing.JTable tablaVehiculos;
-    private javax.swing.JButton verVehiculoBoton;
     // End of variables declaration//GEN-END:variables
 
     public void comprobarMecanico(Mecanico m){
         if(m instanceof JefeTaller){
-            pestanhaGestion.enable();
+            pestanhaGestion.setEnabled(true);
         } else{
-            pestanhaGestion.disable();
+            pestanhaGestion.setEnabled(false);
         }
     }
     

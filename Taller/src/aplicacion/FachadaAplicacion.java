@@ -16,19 +16,30 @@ import java.util.List;
 public class FachadaAplicacion {
     gui.FachadaGui fgui;
     baseDatos.FachadaBaseDatos fbd;
-    GestionVehiculos cl;
-    GestionUsuarios cu;
+    
+    //
     GestionCategorias cc;
     GestionPrestamos cp;
+    //
+    //NECESARIOS
+    GestionMecanicos cm;
+    GestionVehiculos cv;
+    GestionClientes cl;
+    
     
     
  public FachadaAplicacion(){
    fgui=new gui.FachadaGui(this);
    fbd= new baseDatos.FachadaBaseDatos(this);
-   cl= new GestionVehiculos(fgui, fbd);
-   cu= new GestionUsuarios(fgui, fbd);
+   
+    //
    cc = new GestionCategorias(fgui, fbd);
    cp = new GestionPrestamos(fgui, fbd);
+   //
+   //NECESARIOS
+   cv = new GestionVehiculos(fgui, fbd);
+   cm = new GestionMecanicos(fgui, fbd);
+   cl = new GestionClientes(fgui, fbd);
  }
 
  public static void main(String args[]) {
@@ -50,111 +61,63 @@ public class FachadaAplicacion {
      fgui.comprobarMecanico(m);
  }
  
+public Vehiculo obtenerVehiculo(String matricula) {
+    return cv.obtenerVehiculo(matricula);
+}
+ 
 public java.util.List<Vehiculo> obtenerVehiculos(String matricula, String cliente, String marca, String modelo, String supervisor, String combustible){
-  return cl.obtenerVehiculos(matricula, cliente,  marca,  modelo, supervisor, combustible);
-}
-
-public void visualizarLibro(Integer idLibro){
- cl.visualizarLibro(idLibro);
-}
-
-public void nuevoLibro(){
- cl.nuevoLibro();
+  return cv.obtenerVehiculos(matricula, cliente,  marca,  modelo, supervisor, combustible);
 }
 
 public void actualizarVehiculo(Vehiculo v){
-   cl.actualizarVehiculo(v);
+   cv.actualizarVehiculo(v);
 }
-
-public void borrarLibro(Integer idLibro){
-   cl.borrarLibro(idLibro);
-}
-
-public void actualizarCategoriasLibro(Integer idLibro, java.util.List<String> categorias){
- cl.actualizarCategoriasLibro(idLibro, categorias);
-}
-
-public java.util.List<Ejemplar> actualizarEjemplaresLibro(Integer idLibro, java.util.List<Ejemplar> ejemplares, java.util.List<Integer> borrar){
-  return cl.actualizarEjemplaresLibro(idLibro, ejemplares, borrar);
-}
-
 
 public Mecanico validarMecanico(String idMecanico, String clave){
-  return cu.validarMecanico(idMecanico, clave);
+  return cm.validarMecanico(idMecanico, clave);
 }
- 
+ ///////////////////////////////////////////////////////////////////////////////////////////////////////
 public java.util.List<Mecanico> obtenerUsuarios(String id, String nombre){
-  return cu.obtenerUsuarios(id, nombre);
+  return cm.obtenerUsuarios(id, nombre);
 }
 
 public boolean existeUsuario(String id){
-    return cu.existeUsuario(id);
+    return cm.existeUsuario(id);
 }
 public void editarUsuario(String id, String clave, String nombre, String direccion, String email, String tipo){
-        cu.editarUsuario(id, clave, nombre, direccion, email, tipo);
+        cm.editarUsuario(id, clave, nombre, direccion, email, tipo);
     }
 
 public void crearUsuario(String id, String clave, String nombre, String direccion, String email, String tipo){
-        cu.crearUsuario(id, clave, nombre, direccion, email, tipo);
+        cm.crearUsuario(id, clave, nombre, direccion, email, tipo);
     }
 
 public void borrarUsuario(String id){
-        cu.borrarUsuario(id);
+        cm.borrarUsuario(id);
     }
-
-    public java.util.List<Categoria> obtenerCategorias(){
-        return cc.obtenerCategorias();
-    }
-    
-    public boolean existeCategoria(String nombre){
-        return cc.existeCategoria(nombre);
-    }
-    
-    public void editarCategoria(String nombre, String descripcion){
-        cc.editarCategoria(nombre,descripcion);
-    }
-    
-    public void crearCategoria(String nombre, String descripcion){
-        cc.crearCategoria(nombre,descripcion);
-    }
-    
-    public void borrarCategoria(String nombre){
-        cc.borrarCategoria(nombre);
-    }
-    
-    public java.util.List<Mecanico> obtenerUsuariosPrestamos(String id, String nombre){
-        return cp.obtenerUsuariosPrestamos(id, nombre);
-    }
-    
-    public void prestar(Ejemplar e, Mecanico u){
-        cp.prestar(e,u);
-    }
-    
-    public void devolver(Integer numEjemplar,Integer idLibro, String idUsuario, Date fechaPrestamo){
-        cp.devolver(numEjemplar, idLibro, idUsuario, fechaPrestamo);
-    }
-    
-    public boolean ejemplarTienePrestamo(Integer idLibro, Integer numEjemplar){
-        return cp.ejemplarTienePrestamo(idLibro, numEjemplar);
-    }
+/////////////////////////////////////////////////////////////////////////////////////
 
     public List<String> obtenerIDsJefesTaller() {
-        return cu.obtenerIDsJefesTaller();
+        return cm.obtenerIDsJefesTaller();
     }
 
     public JefeTaller obtenerJefeTaller(String id) {
-        return cu.obtenerJefeTaller(id);
+        return cm.obtenerJefeTaller(id);
+    }
+    
+    public Cliente obtenerCliente(String propietarioDNI) {
+        return cl.obtenerCliente(propietarioDNI);
     }
 
     public List<Cliente> obtenerClientes() {
-        return cu.obtenerClientes();
+        return cl.obtenerClientes();
     }
-
+    
     public void nuevoVehiculo(Vehiculo v) {
-     cl.nuevoVehiculo(v);
+     cv.nuevoVehiculo(v);
     }
 
-    public void eliminarVehiculo(Vehiculo vehiculo) {
-        cl.eliminarVehiculo(vehiculo);
-        }
+    public void eliminarVehiculo(String matricula) {
+        cv.eliminarVehiculo(matricula);
+    }
 }
