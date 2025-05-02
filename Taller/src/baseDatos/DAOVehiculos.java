@@ -56,7 +56,7 @@ public class DAOVehiculos extends AbstractDAO {
         con=this.getConexion();
         try {
         stmSupervisor=con.prepareStatement("select matricula, marca, modelo, kilometraje, combustible, supervisor, clientedni "+
-                                        "from vehiculo"+
+                                        "from vehiculo "+
                                         "where matricula = ? ");
         stmSupervisor.setString(1, matricula);
         rsVehiculo=stmSupervisor.executeQuery();

@@ -14,10 +14,10 @@ public class Reparacion {
     private String fecha_inicio;
     private String fecha_fin;
     private String idvehiculo;
-    private TipoReparacion tipo;
+    private String tipo;
     private String supervisorid;
     
-    public Reparacion(Integer idreparacion, String idvehiculo, TipoReparacion tipo, String supervisorid) {
+    public Reparacion(Integer idreparacion, String idvehiculo, String tipo, String supervisorid) {
         this.idreparacion = idreparacion;
         this.fecha_inicio = LocalDate.now().toString();
         this.idvehiculo = idvehiculo;
@@ -42,7 +42,7 @@ public class Reparacion {
         return idvehiculo;
     }
 
-    public TipoReparacion getTipo() {
+    public String getTipo() {
         return tipo;
     }
 
@@ -67,7 +67,7 @@ public class Reparacion {
         this.idvehiculo = idvehiculo;
     }
 
-    public void setTipo(TipoReparacion tipo) {
+    public void setTipo(String tipo) {
         this.tipo = tipo;
     }
 

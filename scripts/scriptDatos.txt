@@ -1,0 +1,83 @@
+insert into Mecanico (idMecanico, nombre, clave, telefonoContacto, fechaIngreso, sueldoBase) values
+('jpe', 'Juan Pérez', 'clave123', '123456789', '2022-01-01', 2600),
+('mlo', 'María López', 'clave456', '987654321', '2021-05-10', 2599),
+('cgo', 'Carlos Gómez', 'clave789', '456123789', '2020-07-15', 1900),
+('ato', 'Ana Torres', 'clave321', '741852963', '2023-03-22', 1650),
+('lme', 'Luis Méndez', 'clave654', '369258147', '2022-09-30', 1700);
+
+
+insert into JefeTaller (idMecanico) values
+('jpe'), ('mlo');
+
+insert into Subordinado (idMecanico) values
+('cgo'), ('ato'), ('lme');
+
+insert into Cliente (DNI,nombre, telefonoContacto) values
+('12345678A','Luis Martínez', '600123456'),
+('87654321B', 'Sergio Gómez','600654321'),
+('11223344C', 'Andrea Peter','601112233'),
+('44332211D', 'Celia Perez','601443322'),
+('55667788E','Mencía Chouza', '602556677');
+
+insert into Vehiculo (matricula, marca, modelo, kilometraje, combustible, supervisor, clienteDNI) values
+('4638DDF', 'Toyota', 'Corolla', 50000, 'Gasolina', NULL, '12345678A'),
+('9937BMN', 'Honda', 'Civic', 70000, 'Diesel', NULL, '87654321B'),
+('7720GRF', 'Ford', 'Focus', 30000, 'Gasolina', NULL, '11223344C'),
+('9923HJJ', 'BMW', 'X5', 90000, 'Híbrido', NULL, '44332211D'),
+('2204KLK', 'Mercedes', 'Clase A', 40000, 'Eléctrico', NULL, '55667788E');
+
+
+insert into Repuesto (idRepuesto, nombre, descripcion, precioUnidad, stock) values
+(1, 'Filtro de aceite', 'Filtro para motor', 15.50, 50),
+(2, 'Pastillas de freno', 'Juego de frenos', 40.00, 30),
+(3, 'Batería', 'Batería de 12V', 80.00, 20),
+(4, 'Neumático', 'Neumático 16 pulgadas', 120.00, 40),
+(5, 'Bujías', 'Juego de 4 bujías', 25.00, 60);
+
+
+insert into Solicitud (repuesto, fecha, cantidad, idMecanico) values
+(1, '2025-04-01', 2, 'jpe'),
+(2, '2025-04-02', 4, 'mlo'),
+(2, '2025-04-03', 1, 'cgo'),
+(4, '2025-04-04', 2, 'ato'),
+(2, '2025-04-05', 3, 'mlo');
+
+insert into EmpleadoPracticas (idAlumno, nombre, tutorID) values
+(1, 'Pedro Jiménez', 'jpe'),
+(2, 'Sofía Martínez', 'mlo'),
+(3, 'Miguel Ángel', 'jpe'),
+(4, 'Clara Fernández', 'jpe'),
+(5, 'David Suárez', 'jpe');
+
+
+
+insert into TipoReparacion (nombre, descripcion, aptoParaPracticas) values
+('Mantenimiento básico', 'Sustitución de aceite y filtro', true),
+('Intervención mínima en motor', 'Reparaciones básicas en el motor', true),
+('Chapa y pintura', 'Arreglos en chapa y pintura', true),
+('Intervención mayor', 'Intervenciones complejas', false),
+('Coches de lujo', 'Operaciones en coches muy caros', false);
+
+insert into Reparacion (fechaInicio, idVehiculo, tipoReparacion, mecanico) values
+('2025-04-01',  '4638DDF','Mantenimiento básico','jpe'),
+('2025-04-03', '9937BMN','Chapa y pintura','cgo'),
+('2025-04-05', '7720GRF','Mantenimiento básico','cgo'),
+('2025-04-06', '9923HJJ','Chapa y pintura','mlo'),
+('2025-04-08', '2204KLK','Intervención mayor','jpe');
+
+insert into Utilizar (idRepuesto, idReparacion, cantidad) values
+(1, 1,1),
+(2, 2,2),
+(3, 3,1),
+(4, 4, 2),
+(5, 5,4);
+
+
+insert into Asistir (idAlumno, idReparacion) values
+(1, 1),
+(2, 1),
+(3, 1),
+(2,2),
+(1, 2),
+(4, 2),
+(5,4);

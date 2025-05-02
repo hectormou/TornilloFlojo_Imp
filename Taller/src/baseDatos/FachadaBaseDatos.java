@@ -10,6 +10,8 @@ import aplicacion.Mecanico;
 import aplicacion.Categoria;
 import aplicacion.Cliente;
 import aplicacion.JefeTaller;
+import aplicacion.Reparacion;
+import aplicacion.TipoReparacion;
 import aplicacion.Vehiculo;
 import aplicacion.TipoUsuario;
 import java.io.FileInputStream;
@@ -31,7 +33,7 @@ public class FachadaBaseDatos {
     private DAOVehiculos daoVehiculos;
     private DAOMecanicos daoMecanicos;
     private DAOClientes daoClientes;
-    public List<String> obtenerClavesJefesTaller;
+    private DAOReparaciones daoReparaciones;
 
     public FachadaBaseDatos (aplicacion.FachadaAplicacion fa){
         
@@ -70,6 +72,7 @@ public class FachadaBaseDatos {
             daoVehiculos = new DAOVehiculos(conexion, fa);
             daoMecanicos = new DAOMecanicos(conexion, fa);
             daoClientes = new DAOClientes(conexion, fa);
+            daoReparaciones = new DAOReparaciones(conexion, fa);
           
 
 
@@ -115,15 +118,15 @@ public class FachadaBaseDatos {
         return daoMecanicos.existeUsuario(id);
     }
     
-public void editarUsuario(String id, String clave, String nombre, String direccion, String email, String tipo){
+    public void editarUsuario(String id, String clave, String nombre, String direccion, String email, String tipo){
         daoMecanicos.editarUsuario(id, clave, nombre, direccion, email, tipo);
     }
     
-public void crearUsuario(String id, String clave, String nombre, String direccion, String email, String tipo){
+    public void crearUsuario(String id, String clave, String nombre, String direccion, String email, String tipo){
         daoMecanicos.crearUsuario(id, clave, nombre, direccion, email, tipo);
     }
 
-public void borrarUsuario(String id){
+    public void borrarUsuario(String id){
         daoMecanicos.borrarUsuario(id);
     }
 
@@ -149,5 +152,13 @@ public void borrarUsuario(String id){
 
     public void eliminarVehiculo(String matricula) {
         daoVehiculos.eliminarVehiculo(matricula);
+    }
+
+    public List<Reparacion> obtenerReparaciones(String matricula) {
+        return daoReparaciones.obtenerReparaciones(matricula);
+    }
+
+    public TipoReparacion obtenerTipoReparacion(String nombre) {
+        return daoReparaciones.obtenerTipoReparacion(nombre);
     }
 }

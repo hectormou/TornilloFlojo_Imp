@@ -14,6 +14,7 @@ package gui;
 import aplicacion.Cliente;
 import aplicacion.Vehiculo;
 import aplicacion.Mecanico;
+import aplicacion.Reparacion;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -47,31 +48,24 @@ public class VVehiculo extends javax.swing.JDialog {
         padre=(VPrincipal) parent;
         
         setBotonesVehiculo(vehiculo);
-        ModeloTablaClientes mc = new ModeloTablaClientes();
-        tablaClientes.setModel(mc);
-        List<Cliente> clientes = new ArrayList<>();
-        clientes=fa.obtenerClientes();
-        mc.setFilas(clientes);
-        
         seleccionarClienteBoton.setEnabled(false);
+        buscarClientes();
+        buscarReparaciones();
     }
     
     //PARA NUEVO VEHÍCULO
     public VVehiculo(java.awt.Frame parent, boolean modal, aplicacion.FachadaAplicacion fa) {
         super(parent, modal);
         this.fa=fa;
+        
         initComponents();
         setLocationRelativeTo(null);
         padre=(VPrincipal) parent;
+        panelVehiculo.setEnabled(false);
         
-        ModeloTablaClientes mc = new ModeloTablaClientes();
-        tablaClientes.setModel(mc);
-        List<Cliente> clientes = new ArrayList<>();
-        clientes=fa.obtenerClientes();
-        mc.setFilas(clientes);
-        
+        buscarClientes();
         for(String s : fa.obtenerIDsJefesTaller())
-        seleccionSupervisor.addItem(s);     
+        seleccionSupervisor.addItem(s); 
     }
 
     /** This method is called from within the constructor to
@@ -107,6 +101,8 @@ public class VVehiculo extends javax.swing.JDialog {
         panelReparaciones = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         TablaReparaciones = new javax.swing.JTable();
+        gestionarBoton = new javax.swing.JButton();
+        anhadirBoton = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -244,21 +240,33 @@ public class VVehiculo extends javax.swing.JDialog {
         TablaReparaciones.setModel(new ModeloTablaReparaciones());
         jScrollPane2.setViewportView(TablaReparaciones);
 
+        gestionarBoton.setText("Gestionar");
+
+        anhadirBoton.setText("Añadir");
+
         javax.swing.GroupLayout panelReparacionesLayout = new javax.swing.GroupLayout(panelReparaciones);
         panelReparaciones.setLayout(panelReparacionesLayout);
         panelReparacionesLayout.setHorizontalGroup(
             panelReparacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelReparacionesLayout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 520, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelReparacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelReparacionesLayout.createSequentialGroup()
+                        .addComponent(gestionarBoton)
+                        .addGap(26, 26, 26)
+                        .addComponent(anhadirBoton))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 520, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
         panelReparacionesLayout.setVerticalGroup(
             panelReparacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelReparacionesLayout.createSequentialGroup()
-                .addGap(39, 39, 39)
+                .addContainerGap(28, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(panelReparacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(gestionarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(anhadirBoton)))
         );
 
         panelVehiculo.addTab("Reparaciones", panelReparaciones);
@@ -275,10 +283,13 @@ public class VVehiculo extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnSalir, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(panelVehiculo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(panelVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSalir)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -315,7 +326,7 @@ public class VVehiculo extends javax.swing.JDialog {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnActualizarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarVehiculoActionPerformed
-        this.propietario=clienteseleccionado;
+        if(clienteseleccionado!=null) this.propietario=clienteseleccionado;
         this.supervisor=fa.obtenerJefeTaller(seleccionSupervisor.getSelectedItem().toString());
         
         if(this.vehiculo!=null){
@@ -334,6 +345,7 @@ public class VVehiculo extends javax.swing.JDialog {
                                             propietario.getDni(), seleccionSupervisor.getSelectedItem().toString());
                     this.vehiculo=v;
                     fa.nuevoVehiculo(v);
+                    panelVehiculo.setEnabled(true);
                 }
         }
     }//GEN-LAST:event_btnActualizarVehiculoActionPerformed
@@ -372,6 +384,7 @@ public class VVehiculo extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TablaReparaciones;
+    private javax.swing.JButton anhadirBoton;
     private javax.swing.JButton btnActualizarVehiculo;
     private javax.swing.JButton btnSalir;
     private javax.swing.JTextField buscaCliente;
@@ -380,6 +393,7 @@ public class VVehiculo extends javax.swing.JDialog {
     private javax.swing.JTextField buscaMarca;
     private javax.swing.JTextField buscaMatricula;
     private javax.swing.JTextField buscaModelo;
+    private javax.swing.JButton gestionarBoton;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -397,4 +411,20 @@ public class VVehiculo extends javax.swing.JDialog {
     private javax.swing.JButton seleccionarClienteBoton;
     private javax.swing.JTable tablaClientes;
     // End of variables declaration//GEN-END:variables
+
+    private void buscarClientes() {
+        ModeloTablaClientes mc;
+        List<Cliente> clientes= fa.obtenerClientes();
+                
+        mc=(ModeloTablaClientes) tablaClientes.getModel();
+        mc.setFilas(clientes);
+    }
+    
+    private void buscarReparaciones() {
+        ModeloTablaReparaciones r;
+        List<Reparacion> reparaciones = fa.obtenerReparaciones(vehiculo.getMatricula());
+
+        r=(ModeloTablaReparaciones) TablaReparaciones.getModel();
+        r.setFilas(reparaciones);
+    }
 }

@@ -65,7 +65,7 @@ public class ModeloTablaReparaciones extends AbstractTableModel{
             case 2: if(reparaciones.get(row).getFecha_fin()==null) resultado = "-";
                     else resultado = reparaciones.get(row).getFecha_fin();
                     break;
-            case 3: resultado=reparaciones.get(row).getTipo().getNombre();break;
+            case 3: resultado=reparaciones.get(row).getTipo();break;
         }
         return resultado;
     }

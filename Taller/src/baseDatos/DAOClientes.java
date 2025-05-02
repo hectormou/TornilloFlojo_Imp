@@ -57,7 +57,7 @@ public class DAOClientes extends AbstractDAO {
 
         con=this.getConexion();
         
-        String consulta = "select* " + "from cliente ";
+        String consulta = "select  dni, nombre, telefonocontacto " + "from cliente ";
         
         
         try  {
