@@ -30,4 +30,10 @@ public class GestionClientes {
     public List<Cliente> obtenerClientes() {
         return fbd.obtenerClientes();
     }
+    public void eliminarCliente(Cliente c) {
+        fbd.eliminarCliente(c);
+    }
+    public void anhadirCliente(Cliente c) {
+        fbd.anhadirCliente(c);
+    }
 }

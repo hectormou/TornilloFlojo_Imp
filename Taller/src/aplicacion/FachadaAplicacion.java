@@ -130,4 +130,16 @@ public class FachadaAplicacion {
     public TipoReparacion obtenerTipoReparacion(String nombre) {
         return cr.obtenerTipoReparacion(nombre);
     }
+    public boolean vehiculoTieneReparacionesPendientes(Vehiculo v) {
+        return cr.vehiculoTieneReparacionesPendientes(v);
+    }
+    public List<Vehiculo> obtenerVehiculosCliente(Cliente c) {
+        return cv.obtenerVehiculosCliente(c);
+    }
+    public void eliminarCliente(Cliente c) {
+        cl.eliminarCliente(c);
+    }
+    public void anhadirCliente(Cliente c) {
+        cl.anhadirCliente(c);
+    }
 }

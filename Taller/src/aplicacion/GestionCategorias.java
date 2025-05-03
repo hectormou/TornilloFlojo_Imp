@@ -22,23 +22,25 @@ public class GestionCategorias {
     }
     
     public java.util.List<Categoria> obtenerCategorias(){
-        return fbd.obtenerCategorias();
+        return null;
+        //return fbd.obtenerCategorias();
     }
     
     public boolean existeCategoria(String nombre){
-        return fbd.existeCategoria(nombre);
+        return false;
+        //return fbd.existeCategoria(nombre);
     }
     
     public void editarCategoria(String nombre, String descripcion){
-        fbd.editarCategoria(nombre,descripcion);
+        //fbd.editarCategoria(nombre,descripcion);
     }
     
     public void crearCategoria(String nombre, String descripcion){
-        fbd.crearCategoria(nombre,descripcion);
+        //fbd.crearCategoria(nombre,descripcion);
     }
     
     public void borrarCategoria(String nombre){
-        fbd.borrarCategoria(nombre);
+        //fbd.borrarCategoria(nombre);
     }
  
 }

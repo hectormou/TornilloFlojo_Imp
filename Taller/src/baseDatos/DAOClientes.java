@@ -77,5 +77,45 @@ public class DAOClientes extends AbstractDAO {
         }
         return resultado;
     }
+    
+    public void eliminarCliente(Cliente c) {
+        Connection con;
+        PreparedStatement stmCliente=null;
+
+        con=this.getConexion();
+        
+        try  {
+            stmCliente=con.prepareStatement("delete " + "from cliente "+" where dni=? ");
+            stmCliente.setString(1, c.getDni());
+            stmCliente.executeUpdate();
+
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmCliente.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+    }
+    
+    public void anhadirCliente(Cliente c) {
+        Connection con;
+        PreparedStatement stmCliente=null;
+
+        con=this.getConexion();
+        
+        try  {
+            stmCliente=con.prepareStatement("insert " + "into cliente "+" values(?, ?, ?) ");
+            stmCliente.setString(1, c.getDni());
+            stmCliente.setString(2, c.getNombre());
+            stmCliente.setString(3, c.getTelefonoContacto());
+            stmCliente.executeUpdate();
+
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmCliente.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+    }
 
 }

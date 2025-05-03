@@ -23,18 +23,20 @@ public class GestionPrestamos {
     }  
     
     public java.util.List<Mecanico> obtenerUsuariosPrestamos(String id, String nombre){
-        return fbd.obtenerUsuariosPrestamos(id, nombre);
+        return null;
+        //return fbd.obtenerUsuariosPrestamos(id, nombre);
     }
     
     public void prestar(Ejemplar e, Mecanico u){
-        fbd.prestar(e,u);
+        //fbd.prestar(e,u);
     }
     
     public void devolver(Integer numEjemplar,Integer idLibro, String idUsuario, Date fechaPrestamo){
-        fbd.devolver(numEjemplar, idLibro, idUsuario, fechaPrestamo);
+        //fbd.devolver(numEjemplar, idLibro, idUsuario, fechaPrestamo);
     }
     
     public boolean ejemplarTienePrestamo(Integer idLibro, Integer numEjemplar){
-        return fbd.ejemplarTienePrestamo(idLibro, numEjemplar);
+        return false;
+        //return fbd.ejemplarTienePrestamo(idLibro, numEjemplar);
     }
 }

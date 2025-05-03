@@ -48,9 +48,10 @@ public class VVehiculo extends javax.swing.JDialog {
         padre=(VPrincipal) parent;
         
         setBotonesVehiculo(vehiculo);
-        seleccionarClienteBoton.setEnabled(false);
+        //  seleccionarClienteBoton.setEnabled(false);
         buscarClientes();
         buscarReparaciones();
+        eliminarClienteBoton.setEnabled(false);
     }
     
     //PARA NUEVO VEHÍCULO
@@ -97,7 +98,8 @@ public class VVehiculo extends javax.swing.JDialog {
         tablaClientes = new javax.swing.JTable();
         buscaCliente = new javax.swing.JTextField();
         seleccionarClienteBoton = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        anadirClienteBoton = new javax.swing.JButton();
+        eliminarClienteBoton = new javax.swing.JButton();
         panelReparaciones = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         TablaReparaciones = new javax.swing.JTable();
@@ -148,7 +150,19 @@ public class VVehiculo extends javax.swing.JDialog {
             }
         });
 
-        jButton1.setText("Añadir Cliente");
+        anadirClienteBoton.setText("Añadir Cliente");
+        anadirClienteBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                anadirClienteBotonActionPerformed(evt);
+            }
+        });
+
+        eliminarClienteBoton.setText("Eliminar Cliente");
+        eliminarClienteBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eliminarClienteBotonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelDatosLayout = new javax.swing.GroupLayout(panelDatos);
         panelDatos.setLayout(panelDatosLayout);
@@ -185,12 +199,14 @@ public class VVehiculo extends javax.swing.JDialog {
                                     .addComponent(seleccionSupervisor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(buscaCombustible, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(buscaModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)))
+                            .addComponent(anadirClienteBoton, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addGroup(panelDatosLayout.createSequentialGroup()
                         .addGap(0, 61, Short.MAX_VALUE)
                         .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(panelDatosLayout.createSequentialGroup()
                                 .addComponent(seleccionarClienteBoton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(eliminarClienteBoton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnActualizarVehiculo))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -217,21 +233,18 @@ public class VVehiculo extends javax.swing.JDialog {
                     .addComponent(buscaKilometraje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
                     .addComponent(seleccionSupervisor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelDatosLayout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(buscaCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDatosLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)))
+                .addGap(24, 24, 24)
+                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(buscaCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(anadirClienteBoton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(seleccionarClienteBoton)
-                    .addComponent(btnActualizarVehiculo))
+                    .addComponent(btnActualizarVehiculo)
+                    .addComponent(eliminarClienteBoton))
                 .addGap(15, 15, 15))
         );
 
@@ -241,8 +254,18 @@ public class VVehiculo extends javax.swing.JDialog {
         jScrollPane2.setViewportView(TablaReparaciones);
 
         gestionarBoton.setText("Gestionar");
+        gestionarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gestionarBotonActionPerformed(evt);
+            }
+        });
 
         anhadirBoton.setText("Añadir");
+        anhadirBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                anhadirBotonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelReparacionesLayout = new javax.swing.GroupLayout(panelReparaciones);
         panelReparaciones.setLayout(panelReparacionesLayout);
@@ -271,7 +294,7 @@ public class VVehiculo extends javax.swing.JDialog {
 
         panelVehiculo.addTab("Reparaciones", panelReparaciones);
 
-        btnSalir.setText("Salír");
+        btnSalir.setText("Salir");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalirActionPerformed(evt);
@@ -283,13 +306,10 @@ public class VVehiculo extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(panelVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnSalir)))
+                    .addComponent(panelVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSalir))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -327,7 +347,9 @@ public class VVehiculo extends javax.swing.JDialog {
 
     private void btnActualizarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarVehiculoActionPerformed
         if(clienteseleccionado!=null) this.propietario=clienteseleccionado;
-        this.supervisor=fa.obtenerJefeTaller(seleccionSupervisor.getSelectedItem().toString());
+        if(seleccionSupervisor.getSelectedItem() != null)
+            this.supervisor=fa.obtenerJefeTaller(seleccionSupervisor.getSelectedItem().toString());
+        else this.supervisor = null;
         
         if(this.vehiculo!=null){
             
@@ -361,22 +383,61 @@ public class VVehiculo extends javax.swing.JDialog {
         vehiculo.setCombustible(buscaCombustible.getText());
         vehiculo.setKilometraje(kilometraje);
         vehiculo.setPropietarioDNI(propietario.getDni());
-        vehiculo.setSupervisorID(supervisor.getIdMecanico());
+        if (supervisor != null)
+            vehiculo.setSupervisorID(supervisor.getIdMecanico());
     }
     
     private void seleccionarClienteBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seleccionarClienteBotonActionPerformed
-        if(clienteseleccionado!=null)
+        eliminarClienteBoton.setEnabled(false);
+        if(clienteseleccionado!=null) {
             buscaCliente.setText(clienteseleccionado.getNombre());
+            propietario = clienteseleccionado;
+        }
     }//GEN-LAST:event_seleccionarClienteBotonActionPerformed
     
     private void tablaClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClientesMouseClicked
         // TODO add your handling code here:
+        btnActualizarVehiculo.setEnabled(true);
         int filaSeleccionada= tablaClientes.getSelectedRow();
         ModeloTablaClientes mtl = (ModeloTablaClientes) tablaClientes.getModel();
 
         this.clienteseleccionado= mtl.obtenerCliente(filaSeleccionada);
+        
+        List<Vehiculo> vehiculosCliente = fa.obtenerVehiculosCliente(clienteseleccionado);
+        int i = 0;
+        if (vehiculosCliente == null) eliminarClienteBoton.setEnabled(true);
+        else {
+            for (Vehiculo v : vehiculosCliente) {
+                if (fa.vehiculoTieneReparacionesPendientes(v)) i++;
+            }
+            if (i>0) eliminarClienteBoton.setEnabled(false);
+            else eliminarClienteBoton.setEnabled(true);
+        }
 
     }//GEN-LAST:event_tablaClientesMouseClicked
+
+    private void anadirClienteBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anadirClienteBotonActionPerformed
+        VNuevoCliente vc = new VNuevoCliente(this, true, this.fa);
+        vc.setVisible(true);
+        buscarClientes();
+    }//GEN-LAST:event_anadirClienteBotonActionPerformed
+
+    private void eliminarClienteBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarClienteBotonActionPerformed
+        fa.eliminarCliente(clienteseleccionado);
+        btnActualizarVehiculo.setEnabled(false);
+        eliminarClienteBoton.setEnabled(false);
+        buscarClientes();
+    }//GEN-LAST:event_eliminarClienteBotonActionPerformed
+
+    private void gestionarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gestionarBotonActionPerformed
+        VReparacion vr = new VReparacion(this, true, this.fa);
+        vr.setVisible(true);
+    }//GEN-LAST:event_gestionarBotonActionPerformed
+
+    private void anhadirBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anhadirBotonActionPerformed
+        VNuevaReparacion vnr = new VNuevaReparacion(this, true, this.fa);
+        vnr.setVisible(true);
+    }//GEN-LAST:event_anhadirBotonActionPerformed
 
     /**
     * @param args the command line arguments
@@ -384,6 +445,7 @@ public class VVehiculo extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TablaReparaciones;
+    private javax.swing.JButton anadirClienteBoton;
     private javax.swing.JButton anhadirBoton;
     private javax.swing.JButton btnActualizarVehiculo;
     private javax.swing.JButton btnSalir;
@@ -393,8 +455,8 @@ public class VVehiculo extends javax.swing.JDialog {
     private javax.swing.JTextField buscaMarca;
     private javax.swing.JTextField buscaMatricula;
     private javax.swing.JTextField buscaModelo;
+    private javax.swing.JButton eliminarClienteBoton;
     private javax.swing.JButton gestionarBoton;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

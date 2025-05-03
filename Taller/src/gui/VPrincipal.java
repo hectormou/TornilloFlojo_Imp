@@ -24,6 +24,7 @@ public class VPrincipal extends javax.swing.JFrame {
   
     aplicacion.FachadaAplicacion fa;
     Vehiculo vehiculoseleccionado;
+    Mecanico mecanicoEnAcceso;
     
     /** Creates new form VPrincipal */
     public VPrincipal(aplicacion.FachadaAplicacion fa) {
@@ -31,6 +32,7 @@ public class VPrincipal extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         modificarVehiculoBoton.setEnabled(false);
+        eliminarVehiculoBoton.setEnabled(false);
     }
 
     /** This method is called from within the constructor to
@@ -277,6 +279,7 @@ public class VPrincipal extends javax.swing.JFrame {
         VVehiculo vnv= new VVehiculo(this, true, this.fa);
         vnv.setVisible(true);
         modificarVehiculoBoton.setEnabled(false);
+        buscarVehiculos();
 
     }//GEN-LAST:event_anhadirVehiculoBotonActionPerformed
 
@@ -285,23 +288,18 @@ public class VPrincipal extends javax.swing.JFrame {
         VVehiculo vv= new VVehiculo(this, true, this.fa, vehiculoseleccionado.getMatricula());
         vv.setVisible(true);
         modificarVehiculoBoton.setEnabled(false);
-       
-        /*
-        else {
-            VAviso aviso=new VAviso(this,true,"Por favor, selecciona un vehículo");
-            aviso.setVisible(true);
-        }
-        */
+        setBotonesBlanco();
+        buscarVehiculos();
     }//GEN-LAST:event_modificarVehiculoBotonActionPerformed
 
     private void eliminarVehiculoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarVehiculoBotonActionPerformed
 
-            if(vehiculoseleccionado!=null){
+            if(vehiculoseleccionado!=null)
                 fa.eliminarVehiculo(vehiculoseleccionado.getMatricula());
-            }
             setBotonesBlanco();
             buscarVehiculos();
             modificarVehiculoBoton.setEnabled(false);
+            eliminarVehiculoBoton.setEnabled(false);
     }//GEN-LAST:event_eliminarVehiculoBotonActionPerformed
 
     private void tablaVehiculosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaVehiculosMouseClicked
@@ -313,17 +311,19 @@ public class VPrincipal extends javax.swing.JFrame {
         
         setBotonesVehiculo(vehiculoseleccionado);
         modificarVehiculoBoton.setEnabled(true);
+        if (fa.vehiculoTieneReparacionesPendientes(vehiculoseleccionado)) eliminarVehiculoBoton.setEnabled(false);
+        else eliminarVehiculoBoton.setEnabled(true);
     }//GEN-LAST:event_tablaVehiculosMouseClicked
 
     
     private void setBotonesVehiculo(Vehiculo vehiculo){
         buscaMatricula.setText(vehiculo.getMatricula());
-        buscaCliente.setText(vehiculo.getPropietarioDNI());    //MIRAR NORMATIVA PROVACIDAD
+        buscaCliente.setText(vehiculo.getPropietarioDNI());   
         buscaModelo.setText(vehiculo.getModelo());
         if(vehiculo.getSupervisorID()!=null) {
             JefeTaller j = fa.obtenerJefeTaller(vehiculo.getSupervisorID());
-            buscaSupervisor.setText(j.getNombre());
-        }
+            buscaSupervisor.setText(j.getIdMecanico());
+        } else buscaSupervisor.setText("");
         buscaCombustible.setText(vehiculo.getCombustible());
         buscaMarca.setText(vehiculo.getMarca());
         
@@ -332,7 +332,7 @@ public class VPrincipal extends javax.swing.JFrame {
     
     private void setBotonesBlanco( ){
         buscaMatricula.setText("");
-        buscaCliente.setText("");    //MIRAR NORMATIVA PROVACIDAD
+        buscaCliente.setText(""); 
         buscaModelo.setText("");
         buscaSupervisor.setText("");
         buscaCombustible.setText("");
@@ -373,6 +373,7 @@ public class VPrincipal extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     public void comprobarMecanico(Mecanico m){
+        mecanicoEnAcceso = m;
         if(m instanceof JefeTaller){
             pestanhaGestion.setEnabled(true);
         } else{
@@ -395,4 +396,6 @@ public class VPrincipal extends javax.swing.JFrame {
         }
         setBotonesBlanco();
     }
+    
+    public Mecanico getMecanicoApp() { return mecanicoEnAcceso; }
 }

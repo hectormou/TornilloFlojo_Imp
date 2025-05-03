@@ -161,4 +161,13 @@ public class FachadaBaseDatos {
     public TipoReparacion obtenerTipoReparacion(String nombre) {
         return daoReparaciones.obtenerTipoReparacion(nombre);
     }
+    public List<Vehiculo> obtenerVehiculosCliente(Cliente c) {
+        return daoVehiculos.obtenerVehiculosCliente(c);
+    }
+    public void eliminarCliente(Cliente c) {
+        daoClientes.eliminarCliente(c);
+    }
+    public void anhadirCliente(Cliente c) {
+        daoClientes.anhadirCliente(c);
+    }
 }

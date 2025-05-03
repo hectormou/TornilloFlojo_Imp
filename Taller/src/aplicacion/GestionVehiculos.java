@@ -38,4 +38,7 @@ public class GestionVehiculos{
     public void eliminarVehiculo(String matricula) {
         fbd.eliminarVehiculo(matricula);
     }
+    public java.util.List<Vehiculo> obtenerVehiculosCliente(Cliente c) {
+        return fbd.obtenerVehiculosCliente(c);
+    }
 }

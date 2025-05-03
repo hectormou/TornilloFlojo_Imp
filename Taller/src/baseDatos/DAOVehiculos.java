@@ -5,6 +5,7 @@
 
 package baseDatos;
 
+import aplicacion.Cliente;
 import aplicacion.JefeTaller;
 import aplicacion.Vehiculo;
 import java.sql.*;
@@ -76,7 +77,7 @@ public class DAOVehiculos extends AbstractDAO {
 
     public java.util.List<Vehiculo> consultarCatalogo(String matricula, String cliente, String marca, String modelo, String supervisor, String combustible){
         java.util.List<Vehiculo> resultado = new java.util.ArrayList<Vehiculo>();
-        int i = 3;
+        int i = 1;
         Vehiculo vehiculoActual;
         Connection con;
         PreparedStatement stmVehiculos=null;
@@ -89,21 +90,32 @@ public class DAOVehiculos extends AbstractDAO {
                                          "where modelo like ?"+
                                          "  and marca like ?";
         if (!matricula.isEmpty())
-            consulta = consulta + " and matricula = ? ";
-        
+            consulta += "AND matricula = ? ";
         if (!cliente.isEmpty())
-            consulta = consulta + " and clienteDNI = ? ";
-        
+            consulta += "AND clienteDNI = ? ";
         if (!supervisor.isEmpty())
-            consulta = consulta + " and supervisor = ? ";
+            consulta += "AND supervisor = ? ";
+        if (!combustible.isEmpty())
+            consulta += "AND combustible = ? ";
 
-        try  {
-         stmVehiculos=con.prepareStatement(consulta);
-         stmVehiculos.setString(1, "%"+modelo+"%");
-         stmVehiculos.setString(2, "%"+marca+"%");
-         if (!matricula.isEmpty()){ stmVehiculos.setString(i, matricula); i++;}
-         if (!cliente.isEmpty()){ stmVehiculos.setString(i, cliente); i++;}
-         if (!supervisor.isEmpty()){ stmVehiculos.setString(i, supervisor); i++;}
+        try {
+            stmVehiculos = con.prepareStatement(consulta);
+            stmVehiculos.setString(i++, "%" + modelo + "%");
+            stmVehiculos.setString(i++, "%" + marca + "%");
+
+            if (!matricula.isEmpty()) {
+                 stmVehiculos.setString(i++, matricula);
+            }
+            if (!cliente.isEmpty()) {
+                stmVehiculos.setString(i++, cliente);
+            }
+            if (!supervisor.isEmpty()) {
+                stmVehiculos.setString(i++, supervisor);
+            }
+            if (!combustible.isEmpty()) {
+                stmVehiculos.setString(i++, combustible);
+            }
+
          rsVehiculos=stmVehiculos.executeQuery();
         while (rsVehiculos.next())
         {
@@ -136,14 +148,16 @@ public class DAOVehiculos extends AbstractDAO {
                                     "    modelo=?, "+
                                     "    kilometraje=?, "+
                                     "    combustible=? ,"+
-                                    "   supervisor=? "+
+                                    "   supervisor=? ,"+
+                                    "   clientedni=? " +
                                     "where matricula=?");
         stmVehiculo.setString(1, vehiculo.getMarca());
         stmVehiculo.setString(2, vehiculo.getModelo());
         stmVehiculo.setInt(3, vehiculo.getKilometraje());
         stmVehiculo.setString(4, vehiculo.getCombustible());
         stmVehiculo.setString(5, vehiculo.getSupervisorID());
-        stmVehiculo.setString(6,vehiculo.getMatricula());
+        stmVehiculo.setString(6, vehiculo.getPropietarioDNI());
+        stmVehiculo.setString(7,vehiculo.getMatricula());
         stmVehiculo.executeUpdate();
 
         }  catch (SQLException e){
@@ -202,5 +216,32 @@ public class DAOVehiculos extends AbstractDAO {
         }finally{
           try {stmVehiculo.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
         }
+    }
+    public java.util.List<Vehiculo> obtenerVehiculosCliente(Cliente c) {
+        Connection con;
+        PreparedStatement stmVehiculo=null;
+        ResultSet rsVehiculos = null;
+        java.util.List<Vehiculo> resultado = new java.util.ArrayList<Vehiculo>();
+        Vehiculo vehiculoActual;
+        con=super.getConexion();
+
+        try {
+        stmVehiculo=con.prepareStatement("select matricula, marca, modelo, combustible, kilometraje, clienteDNI, supervisor " + "from vehiculo where clienteDNI=? ");
+            stmVehiculo.setString(1, c.getDni());
+            rsVehiculos = stmVehiculo.executeQuery();
+        
+            while (rsVehiculos.next()) {
+                vehiculoActual = new Vehiculo(rsVehiculos.getString("matricula"), rsVehiculos.getString("marca"), rsVehiculos.getString("modelo"), rsVehiculos.getString("combustible"),
+                                            rsVehiculos.getInt("kilometraje"), rsVehiculos.getString("clientedni"), rsVehiculos.getString("supervisor"));
+            
+                resultado.add(vehiculoActual);
+            }
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmVehiculo.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+        return resultado;
     }
 }

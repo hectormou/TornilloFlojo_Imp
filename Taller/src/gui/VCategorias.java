@@ -155,7 +155,7 @@ public class VCategorias extends javax.swing.JDialog {
         
         if(!nombre.isEmpty() && !descripcion.isEmpty()) {
             cat=new Categoria(nombre, descripcion);
-            fa.crearCategoria(cat);
+//            fa.crearCategoria(cat);
         }
         actualizarLista();
         NombreTextField.setText("");
@@ -171,7 +171,7 @@ public class VCategorias extends javax.swing.JDialog {
         
         if(CategoriasList.getSelectedIndex()>-1) {
             cat=((ModeloListaStrings) CategoriasList.getModel()).getElementAt(CategoriasList.getSelectedIndex());
-            fa.borrarCategoria(cat);
+//            fa.borrarCategoria(cat);
             actualizarLista();
         }
     }//GEN-LAST:event_BorrarButtonActionPerformed
@@ -183,7 +183,9 @@ public class VCategorias extends javax.swing.JDialog {
         String cat = m.getElementAt(CategoriasList.getSelectedIndex());
         String descripcion = new String();
         
-        List<Categoria> categorias = fa.obtenerCategorias();
+//        List<Categoria> categorias = fa.obtenerCategorias();
+        List<Categoria> categorias = null;
+        
         for(Categoria c : categorias)
             if(c.getNombre().equals(cat))
                 descripcion=c.getDescripcion();
@@ -196,7 +198,10 @@ public class VCategorias extends javax.swing.JDialog {
         List<Categoria> categorias;
         List<String> stringcat = new java.util.ArrayList<String>();
         
-        categorias=fa.obtenerCategorias();
+        
+//      categorias = fa.obtenerCategorias();
+         categorias = null;
+        
         for(Categoria cat : categorias)
             stringcat.add(cat.getNombre());
         
