@@ -13,7 +13,7 @@ import java.util.Date;
 public class JefeTaller extends Mecanico{
     
     
-    public JefeTaller(String idMecanico, String clave, String nombre, String telefonoContacto, Date fechaIngreso) {
-        super(idMecanico, clave, nombre, telefonoContacto, fechaIngreso);
+    public JefeTaller(String idMecanico, String clave, String nombre, String telefonoContacto, Date fechaIngreso, int sueldoBase) {
+        super(idMecanico, clave, nombre, telefonoContacto, fechaIngreso, sueldoBase);
     }
 }

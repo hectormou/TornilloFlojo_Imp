@@ -264,8 +264,9 @@ public class VPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void menuEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEmpleadosActionPerformed
-        VUsuarios vu = new VUsuarios(this, true, this.fa);
-        vu.setVisible(true);
+        VEmpleados ve = new VEmpleados(this, true, this.fa, this.mecanicoEnAcceso);
+        ve.setVisible(true);
+        ve.obtenerDatosMecanicoActual();
     }//GEN-LAST:event_menuEmpleadosActionPerformed
 
     private void menuSolicitudesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSolicitudesActionPerformed

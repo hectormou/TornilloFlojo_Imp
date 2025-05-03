@@ -78,7 +78,7 @@ public class DAOMecanicos extends AbstractDAO {
 
         con=this.getConexion();
         try {
-        stmMecanico=con.prepareStatement("select idMecanico, clave, nombre, telefonoContacto, fechaIngreso "+
+        stmMecanico=con.prepareStatement("select idMecanico, clave, nombre, telefonoContacto, fechaIngreso, sueldoBase "+
                                         "from Mecanico m "+
                                         "where idMecanico = ? and clave = ?");
         stmMecanico.setString(1, idMecanico);
@@ -89,12 +89,12 @@ public class DAOMecanicos extends AbstractDAO {
             if(esJefeTaller(idMecanico)){
                 resultado = new JefeTaller(rsMecanico.getString("idMecanico"), rsMecanico.getString("clave"),
                                       rsMecanico.getString("nombre"), rsMecanico.getString("telefonoContacto"),
-                                      rsMecanico.getDate("fechaIngreso"));
+                                      rsMecanico.getDate("fechaIngreso"), rsMecanico.getInt("sueldoBase"));
             }
             else if(esSubordinado(idMecanico)){
                 resultado = new Subordinado(rsMecanico.getString("idMecanico"), rsMecanico.getString("clave"),
                                       rsMecanico.getString("nombre"), rsMecanico.getString("telefonoContacto"),
-                                      rsMecanico.getDate("fechaIngreso"));
+                                      rsMecanico.getDate("fechaIngreso"), rsMecanico.getInt("sueldoBase"));
             }
         }
         } catch (SQLException e){
@@ -280,7 +280,7 @@ public class DAOMecanicos extends AbstractDAO {
         {
             resultado = new JefeTaller(rsUsuarios.getString("idMecanico"), rsUsuarios.getString("nombre"),
                                       rsUsuarios.getString("clave"), rsUsuarios.getString("telefonoContacto"),
-                                      rsUsuarios.getDate("fechaIngreso"));
+                                      rsUsuarios.getDate("fechaIngreso"), rsUsuarios.getInt("sueldoBase"));
         }
 
         } catch (SQLException e){
@@ -291,5 +291,49 @@ public class DAOMecanicos extends AbstractDAO {
         }
         return resultado;
     
+    }
+
+    void cambiarContraseña(String nuevaContraseña, String idMecanico) {
+        Connection con = this.getConexion();
+        PreparedStatement stmContraseña=null;
+        
+        try  {
+        String consulta = "update mecanico set clave = ? where idmecanico ILIKE ?";
+        stmContraseña=con.prepareStatement(consulta);
+        stmContraseña.setString(1, nuevaContraseña);
+        stmContraseña.setString(2, idMecanico);
+        stmContraseña.executeUpdate();
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmContraseña.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+    }
+    
+    public void editarMecanico(String clave, String nombre, Date fechaIngreso, int sueldoBase, String id){
+        Connection con = this.getConexion();
+        PreparedStatement stmMecanico = null;
+
+        try {
+            String consulta = "UPDATE mecanico SET clave = ?, nombre = ?, fechaingreso = ?, sueldobase = ? WHERE idmecanico ILIKE ?";
+            stmMecanico = con.prepareStatement(consulta);
+            stmMecanico.setString(1, clave);
+            stmMecanico.setString(2, nombre);
+            stmMecanico.setDate(3, new java.sql.Date(fechaIngreso.getTime()));
+            stmMecanico.setInt(4, sueldoBase);
+            stmMecanico.setString(5, id);
+
+            stmMecanico.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        } finally {
+            try {
+                if (stmMecanico != null) stmMecanico.close();
+            } catch (SQLException e) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
     }
 }

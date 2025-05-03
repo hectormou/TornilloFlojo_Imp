@@ -170,4 +170,12 @@ public class FachadaBaseDatos {
     public void anhadirCliente(Cliente c) {
         daoClientes.anhadirCliente(c);
     }
+
+    public void cambiarContraseña(String nuevaContraseña, String idMecanico) {
+        daoMecanicos.cambiarContraseña(nuevaContraseña, idMecanico);
+    }
+
+    public void editarMecanico(String clave, String nombre, Date fechaIngreso, int sueldoBase, String idMecanico) {
+        daoMecanicos.editarMecanico(clave, nombre, (java.sql.Date) fechaIngreso, sueldoBase, idMecanico);
+    }
 }

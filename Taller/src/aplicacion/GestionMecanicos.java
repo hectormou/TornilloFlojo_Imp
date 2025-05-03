@@ -6,6 +6,7 @@
 package aplicacion;
 import gui.FachadaGui;
 import baseDatos.FachadaBaseDatos;
+import java.util.Date;
 import java.util.List;
 /**
  *
@@ -53,6 +54,14 @@ public class GestionMecanicos {
 
     public JefeTaller obtenerJefeTaller(String id) {
         return fbd.obtenerJefesTaller(id);
+    }
+
+    void cambiarContraseña(String nuevaContraseña, String idMecanico) {
+        fbd.cambiarContraseña(nuevaContraseña, idMecanico);
+    }
+
+    void editarMecanico(String clave, String nombre, Date fechaIngreso, int sueldoBase, String idMecanico) {
+        fbd.editarMecanico(clave, nombre, fechaIngreso, sueldoBase, idMecanico);
     }
  
 }

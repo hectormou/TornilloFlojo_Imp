@@ -37,7 +37,8 @@ public class DAOVehiculos extends AbstractDAO {
         rsSupervisor=stmSupervisor.executeQuery();
         if (rsSupervisor.next())
         {
-            resultado = new JefeTaller(rsSupervisor.getString("idMecanico"), rsSupervisor.getString("clave"), rsSupervisor.getString("nombre"), rsSupervisor.getString("telefonoContacto"), rsSupervisor.getDate("fechaingreso"));
+            resultado = new JefeTaller(rsSupervisor.getString("idMecanico"), rsSupervisor.getString("clave"), rsSupervisor.getString("nombre"),
+                                       rsSupervisor.getString("telefonoContacto"), rsSupervisor.getDate("fechaingreso"), rsSupervisor.getInt("sueldoBase"));
         }
         } catch (SQLException e){
           System.out.println(e.getMessage());

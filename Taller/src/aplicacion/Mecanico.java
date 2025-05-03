@@ -19,13 +19,15 @@ public class Mecanico {
     private String nombre;
     private String telefonoContacto;
     private Date fechaIngreso;
+    private int sueldoBase;
 
-   public Mecanico (String idMecanico, String clave, String nombre, String telefonoContacto, Date fechaIngreso){
+   public Mecanico (String idMecanico, String clave, String nombre, String telefonoContacto, Date fechaIngreso, int sueldoBase){
     this.idMecanico=idMecanico;
     this.clave=clave;
     this.nombre=nombre;
     this.telefonoContacto=telefonoContacto;
     this.fechaIngreso=fechaIngreso;
+    this.sueldoBase = sueldoBase;
    }
 
    public String getIdMecanico(){
@@ -46,5 +48,9 @@ public class Mecanico {
 
    public Date getFechaIngreso(){
        return this.fechaIngreso;
+   }
+   
+   public int getSueldoBase(){
+       return this.sueldoBase;
    }
 }

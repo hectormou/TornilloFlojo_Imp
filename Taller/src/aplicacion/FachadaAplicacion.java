@@ -5,6 +5,7 @@
 
 package aplicacion;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -141,5 +142,13 @@ public class FachadaAplicacion {
     }
     public void anhadirCliente(Cliente c) {
         cl.anhadirCliente(c);
+    }
+
+    public void cambiarContraseña(String nuevaContraseña, String idMecanico) {
+        cm.cambiarContraseña(nuevaContraseña, idMecanico);
+    }
+
+    public void editarMecanico(String clave, String nombre, Date fechaIngreso, int sueldoBase, String idMecanico) {
+        cm.editarMecanico(clave, nombre, fechaIngreso, sueldoBase, idMecanico);
     }
 }
