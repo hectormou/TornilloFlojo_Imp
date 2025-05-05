@@ -50,4 +50,10 @@ public class GestionReparaciones {
     public List<TipoReparacion> obtenerTipoReparaciones() {
         return fbd.obtenerTipoReparaciones();
     }
+
+    public void borrarReparacion(Integer idreparacion) {
+        if(fbd.esFinalizadaReparacion(idreparacion))
+            fgui.muestraExcepcion("No se puede borrar, ya es finalizada!!");
+        else fbd.borrarReparacion(idreparacion);
+    }
 }

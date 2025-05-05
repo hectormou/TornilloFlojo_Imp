@@ -84,4 +84,24 @@ public class DAORepuestos extends AbstractDAO{
         return resultado;
     }
     
+    public void anhadirRepuestoNecesario(Integer idReparacion, Integer idRepuesto, int cantidad) {
+        Connection con;
+        PreparedStatement stmReparacion=null;
+
+        con=this.getConexion();
+        try {
+        stmReparacion=con.prepareStatement("insert into utilizar (idrepuesto, idreparacion, cantidad)  "+
+                                        " values (?,?,?) ");
+        stmReparacion.setInt(1, idRepuesto);
+        stmReparacion.setInt(2, idReparacion);
+        stmReparacion.setInt(3, cantidad);
+        stmReparacion.executeUpdate();
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmReparacion.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+    }
+    
 }

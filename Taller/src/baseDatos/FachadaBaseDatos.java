@@ -189,10 +189,18 @@ public class FachadaBaseDatos {
     }
 */
     public void anhadirRepuestoNecesario(Integer idReparacion, Integer idRepuesto, int cantidad) {
-        daoReparaciones.anhadirRepuestoNecesario(idReparacion, idRepuesto, cantidad);
+        daoRepuestos.anhadirRepuestoNecesario(idReparacion, idRepuesto, cantidad);
     }
 
     public List<TipoReparacion> obtenerTipoReparaciones() {
         return daoReparaciones.obtenerTipoReparaciones();
+    }
+
+    public boolean esFinalizadaReparacion(Integer idreparacion) {
+        return daoReparaciones.esFinalizada(idreparacion);
+    }
+
+    public void borrarReparacion(Integer idreparacion) {
+        daoReparaciones.borrarReparacion(idreparacion);
     }
 }

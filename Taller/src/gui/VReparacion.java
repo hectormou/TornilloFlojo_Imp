@@ -33,6 +33,7 @@ public class VReparacion extends javax.swing.JDialog {
         if(reparacion.getSupervisorid()!=null) this.supervisor=fa.obtenerJefeTaller(reparacion.getSupervisorid());
         initComponents();
         setTextos();
+        setBotones();
         buscarStock();
     }
 
@@ -69,6 +70,7 @@ public class VReparacion extends javax.swing.JDialog {
         supervisorIdTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Gestión Vehículo");
 
         jLabel1.setText("Id reparación:");
 
@@ -239,7 +241,7 @@ public class VReparacion extends javax.swing.JDialog {
     }//GEN-LAST:event_anhadirEmpleadoBotonActionPerformed
 
     private void descartarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_descartarBotonActionPerformed
-        // TODO add your handling code here:
+        fa.borrarReparacion(reparacion.getIdreparacion());
     }//GEN-LAST:event_descartarBotonActionPerformed
 
     private void salirBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirBotonActionPerformed
@@ -260,6 +262,11 @@ public class VReparacion extends javax.swing.JDialog {
             supervisorNombreTextField.setText("  -");
             supervisorIdTextField.setText("  -");
         }
+    }
+    
+    private void setBotones() {
+        if(!tipoReparacion.esApto_practicas())anhadirEmpleadoBoton.setEnabled(false);
+        if(reparacion.getFecha_fin()!=null) descartarBoton.setEnabled(false);
     }
     
     private void buscarStock() {

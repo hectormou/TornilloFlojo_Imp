@@ -101,14 +101,14 @@ public class VVehiculo extends javax.swing.JDialog {
         anadirClienteBoton = new javax.swing.JButton();
         eliminarClienteBoton = new javax.swing.JButton();
         panelReparaciones = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        tablaReparaciones = new javax.swing.JScrollPane();
         TablaReparaciones = new javax.swing.JTable();
         gestionarBoton = new javax.swing.JButton();
         anhadirBoton = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Gestión de libros");
+        setTitle("Gestión Vehículo");
         setResizable(false);
 
         jLabel2.setText("Matrícula:");
@@ -251,7 +251,7 @@ public class VVehiculo extends javax.swing.JDialog {
         panelVehiculo.addTab("Vehiculo", panelDatos);
 
         TablaReparaciones.setModel(new ModeloTablaReparaciones(this.fa));
-        jScrollPane2.setViewportView(TablaReparaciones);
+        tablaReparaciones.setViewportView(TablaReparaciones);
 
         gestionarBoton.setText("Gestionar");
         gestionarBoton.addActionListener(new java.awt.event.ActionListener() {
@@ -278,14 +278,14 @@ public class VVehiculo extends javax.swing.JDialog {
                         .addComponent(gestionarBoton)
                         .addGap(26, 26, 26)
                         .addComponent(anhadirBoton))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 520, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tablaReparaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 520, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
         panelReparacionesLayout.setVerticalGroup(
             panelReparacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelReparacionesLayout.createSequentialGroup()
                 .addContainerGap(28, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tablaReparaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(panelReparacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(gestionarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -468,13 +468,13 @@ public class VVehiculo extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel panelDatos;
     private javax.swing.JPanel panelReparaciones;
     private javax.swing.JTabbedPane panelVehiculo;
     private javax.swing.JComboBox<String> seleccionSupervisor;
     private javax.swing.JButton seleccionarClienteBoton;
     private javax.swing.JTable tablaClientes;
+    private javax.swing.JScrollPane tablaReparaciones;
     // End of variables declaration//GEN-END:variables
 
     private void buscarClientes() {

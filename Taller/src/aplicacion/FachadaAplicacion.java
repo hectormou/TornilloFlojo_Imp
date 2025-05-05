@@ -142,7 +142,8 @@ public class FachadaAplicacion {
 
     public List<Stock_U_A> obtenerStock_U_A(Integer idreparacion) {
         return crp.obtenerStock_U_A(idreparacion);
-
+    }
+    
     public List<Repuesto> getTotalRepuestos() {
         return crp.getTotalRepuestos();
     }
@@ -161,5 +162,9 @@ public class FachadaAplicacion {
 
     public List<TipoReparacion> obtenerTipoReparaciones() {
         return cr.obtenerTipoReparaciones();
+    }
+
+    public void borrarReparacion(Integer idreparacion) {
+        cr.borrarReparacion(idreparacion);
     }
 }
