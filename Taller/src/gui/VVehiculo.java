@@ -438,8 +438,9 @@ public class VVehiculo extends javax.swing.JDialog {
     }//GEN-LAST:event_gestionarBotonActionPerformed
 
     private void anhadirBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anhadirBotonActionPerformed
-        VNuevaReparacion vnr = new VNuevaReparacion(this, true, this.fa);
+        VNuevaReparacion vnr = new VNuevaReparacion(this, true, this.fa, this.vehiculo, this.padre.getMecanicoApp());
         vnr.setVisible(true);
+        buscarReparaciones();
     }//GEN-LAST:event_anhadirBotonActionPerformed
 
     /**
