@@ -151,4 +151,23 @@ public class FachadaAplicacion {
     public void editarMecanico(String clave, String nombre, Date fechaIngreso, int sueldoBase, String idMecanico) {
         cm.editarMecanico(clave, nombre, fechaIngreso, sueldoBase, idMecanico);
     }
+    public List<Repuesto> getTotalRepuestos() {
+        return cr.getTotalRepuestos();
+    }
+
+    public Reparacion anhadirReparacion(Vehiculo vehiculo, String tipo, Mecanico mecanico) {
+        return cr.anhadirReparacion(vehiculo, tipo, mecanico);
+    }
+
+    public Repuesto obtenerRepuesto(String nombre) {
+        return cr.obtenerRepuesto(nombre);
+    }
+
+    public void anhadirRepuestoNecesarior(Integer idReparacion, Integer idRepuesto, int cantidad) {
+        cr.anhadirRepuestoNecesario(idReparacion, idRepuesto, cantidad);
+    }
+
+    public List<TipoReparacion> obtenerTipoReparaciones() {
+        return cr.obtenerTipoReparaciones();
+    }
 }

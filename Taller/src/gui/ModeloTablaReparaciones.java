@@ -92,4 +92,5 @@ public class ModeloTablaReparaciones extends AbstractTableModel{
     public Reparacion obtenerReparacion(int i){
         return this.reparaciones.get(i);
     }
+    
 }

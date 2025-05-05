@@ -36,4 +36,25 @@ public class GestionReparaciones {
         }
         return false;
     }
+
+    public List<Repuesto> getTotalRepuestos() {
+        return fbd.getTotalRepuestos();
+    }
+
+    Reparacion anhadirReparacion(Vehiculo vehiculo, String tipo, Mecanico mecanico) {
+        fbd.anhadirReparacion(vehiculo, tipo, mecanico);
+        return fbd.obtenerUltimaReparacionAnhadida();
+    }
+
+    Repuesto obtenerRepuesto(String nombre) {
+        return fbd.obtenerRepuesto(nombre);
+    }
+
+    void anhadirRepuestoNecesario(Integer idReparacion, Integer idRepuesto, int cantidad) {
+        fbd.anhadirRepuestoNecesario(idReparacion, idRepuesto, cantidad);
+    }
+
+    List<TipoReparacion> obtenerTipoReparaciones() {
+        return fbd.obtenerTipoReparaciones();
+    }
 }

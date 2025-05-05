@@ -5,6 +5,10 @@
 package gui;
 
 import aplicacion.FachadaAplicacion;
+import aplicacion.Reparacion;
+import aplicacion.Repuesto;
+import aplicacion.TipoReparacion;
+import java.util.ArrayList;
 
 /**
  *
@@ -22,6 +26,27 @@ public class VNuevaReparacion extends javax.swing.JDialog {
         this.padre = parent;
         this.fa = fa;
         initComponents();
+        ModeloListaStrings mListaRC=new ModeloListaStrings();
+        lstRestoRepuestos.setModel(mListaRC);
+        ArrayList<String> repuestos = new ArrayList<String>();
+        for (Repuesto r : fa.getTotalRepuestos())
+            repuestos.add(r.getNombre());
+        mListaRC.setElementos(repuestos);
+        if (mListaRC.getSize()>0) {
+            lstRestoRepuestos.setSelectedIndex(0);
+            botonDerecha.setEnabled(true);
+        } else botonDerecha.setEnabled(false);
+        
+        ModeloListaStrings mListaC=new ModeloListaStrings();
+        lstRepuestosReparacion.setModel(mListaC);
+        botonIzquierda.setEnabled(false);
+        errorLabel.setVisible(false);
+        errorCantidad.setVisible(false);
+        nombreTextField.setEditable(false);
+        tipoReparacionComboBox.removeAllItems();
+        for (TipoReparacion r : fa.obtenerTipoReparaciones())
+            tipoReparacionComboBox.addItem(r.getNombre());
+        tipoReparacionComboBox.setSelectedIndex(-1);
     }
 
     /**
@@ -34,9 +59,9 @@ public class VNuevaReparacion extends javax.swing.JDialog {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        lstRestoRepuestos = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        lstRepuestosReparacion = new javax.swing.JList<>();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -49,34 +74,34 @@ public class VNuevaReparacion extends javax.swing.JDialog {
         cancelarBoton = new javax.swing.JButton();
         botonDerecha = new javax.swing.JButton();
         botonIzquierda = new javax.swing.JButton();
+        errorLabel = new javax.swing.JLabel();
+        errorCantidad = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+        lstRestoRepuestos.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        lstRestoRepuestos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lstRestoRepuestosMouseClicked(evt);
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        });
+        jScrollPane1.setViewportView(lstRestoRepuestos);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+        lstRepuestosReparacion.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        lstRepuestosReparacion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lstRepuestosReparacionMouseClicked(evt);
             }
-        ));
-        jScrollPane2.setViewportView(jTable2);
+        });
+        jScrollPane2.setViewportView(lstRepuestosReparacion);
 
         jLabel1.setText("Repuestos");
 
@@ -98,6 +123,11 @@ public class VNuevaReparacion extends javax.swing.JDialog {
         });
 
         cancelarBoton.setText("Cancelar");
+        cancelarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelarBotonActionPerformed(evt);
+            }
+        });
 
         botonDerecha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/flechaD.jpg"))); // NOI18N
         botonDerecha.addActionListener(new java.awt.event.ActionListener() {
@@ -113,45 +143,58 @@ public class VNuevaReparacion extends javax.swing.JDialog {
             }
         });
 
+        errorLabel.setForeground(new java.awt.Color(255, 51, 51));
+        errorLabel.setText("Es necesario cubrir todos los campos para poder registrar la reparación");
+
+        errorCantidad.setForeground(new java.awt.Color(255, 0, 0));
+        errorCantidad.setText("Cantidad vacía");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel1))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(nombreTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel4)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel1))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(cantidadTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(botonDerecha)
-                                            .addComponent(botonIzquierda))
-                                        .addGap(30, 30, 30))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel5)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jLabel3)
+                                            .addComponent(nombreTextField)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel4)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(cantidadTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                    .addComponent(botonDerecha)
+                                                    .addComponent(botonIzquierda))
+                                                .addGap(30, 30, 30))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(12, 12, 12)
+                                                .addComponent(errorCantidad))))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel5)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(tipoReparacionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(tipoReparacionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(anhadirBoton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cancelarBoton)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(anhadirBoton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cancelarBoton)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(errorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -172,36 +215,106 @@ public class VNuevaReparacion extends javax.swing.JDialog {
                             .addComponent(cantidadTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(botonDerecha)
-                        .addGap(29, 29, 29)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(errorCantidad)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(botonIzquierda)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(3, 3, 3)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(tipoReparacionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cancelarBoton)
-                    .addComponent(anhadirBoton))
-                .addContainerGap(11, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(errorLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(anhadirBoton)
+                    .addComponent(cancelarBoton))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void anhadirBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anhadirBotonActionPerformed
-        // TODO add your handling code here:
+        if(tipoReparacionComboBox.getSelectedIndex() == -1 ) 
+            errorLabel.setVisible(true);
+        else {
+            ModeloListaStrings ma= (ModeloListaStrings) lstRepuestosReparacion.getModel();
+            if (ma.getElementos() == null) 
+                errorLabel.setVisible(true);
+            else {
+                Reparacion reparacion = fa.anhadirReparacion(padre.getVehiculo(), tipoReparacionComboBox.getSelectedItem().toString(), padre.getMecanico());
+                for (String nombre : ma.getElementos()) {
+                    Repuesto repuesto = fa.obtenerRepuesto(nombre);
+                    fa.anhadirRepuestoNecesarior(reparacion.getIdreparacion(), repuesto.getIdRepuesto(), Integer.parseInt(cantidadTextField.getText()));
+                }
+                    
+                errorLabel.setVisible(false);
+                this.dispose();
+            }
+        }
     }//GEN-LAST:event_anhadirBotonActionPerformed
 
     private void botonIzquierdaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonIzquierdaActionPerformed
-        // TODO add your handling code here:
+        ModeloListaStrings mRC;
+     ModeloListaStrings mC;
+
+     mRC = (ModeloListaStrings) lstRestoRepuestos.getModel();
+     mC = (ModeloListaStrings) lstRepuestosReparacion.getModel();
+     mRC.nuevoElemento(mC.getElementAt(lstRepuestosReparacion.getSelectedIndex()));
+     mC.borrarElemento(lstRepuestosReparacion.getSelectedIndex());
+     if (mC.getSize()==0) botonIzquierda.setEnabled(false);
+     else {
+         lstRepuestosReparacion.setSelectedIndex(0);
+         nombreTextField.setText(lstRestoRepuestos.getSelectedValue());
+     }
+     lstRestoRepuestos.setSelectedIndex(mRC.getSize()-1);
+     botonDerecha.setEnabled(true);
     }//GEN-LAST:event_botonIzquierdaActionPerformed
 
     private void botonDerechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonDerechaActionPerformed
-        // TODO add your handling code here:
+        ModeloListaStrings mRC;
+     ModeloListaStrings mC;
+
+     mRC = (ModeloListaStrings) lstRestoRepuestos.getModel();
+     mC = (ModeloListaStrings) lstRepuestosReparacion.getModel();
+    if (esNumeroValido(cantidadTextField.getText())) {
+        mC.nuevoElemento(mRC.getElementAt(lstRestoRepuestos.getSelectedIndex()));
+        mRC.borrarElemento(lstRestoRepuestos.getSelectedIndex());
+        if (mRC.getSize()==0) botonDerecha.setEnabled(false);
+        else {
+            lstRestoRepuestos.setSelectedIndex(0);
+            nombreTextField.setText(lstRestoRepuestos.getSelectedValue());
+        }
+        lstRepuestosReparacion.setSelectedIndex(mC.getSize()-1);
+        botonIzquierda.setEnabled(true);
+        errorCantidad.setVisible(false);
+     } else errorCantidad.setVisible(true);
     }//GEN-LAST:event_botonDerechaActionPerformed
+
+    private void cancelarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarBotonActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_cancelarBotonActionPerformed
+
+    private void lstRestoRepuestosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstRestoRepuestosMouseClicked
+        ModeloListaStrings m;
+        m = (ModeloListaStrings) lstRestoRepuestos.getModel();
+        if (m.getSize()>0) {
+            String st = m.getElementAt(lstRestoRepuestos.getSelectedIndex());
+            nombreTextField.setText(st);
+            cantidadTextField.setText("");
+        }
+    }//GEN-LAST:event_lstRestoRepuestosMouseClicked
+
+    private void lstRepuestosReparacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstRepuestosReparacionMouseClicked
+        ModeloListaStrings m;
+        m = (ModeloListaStrings) lstRepuestosReparacion.getModel();
+        if (m.getSize()>0) botonIzquierda.setEnabled(true);
+        else botonIzquierda.setEnabled(false);
+    }//GEN-LAST:event_lstRepuestosReparacionMouseClicked
 
     /**
      * @param args the command line arguments
@@ -214,6 +327,8 @@ public class VNuevaReparacion extends javax.swing.JDialog {
     private javax.swing.JButton botonIzquierda;
     private javax.swing.JButton cancelarBoton;
     private javax.swing.JTextField cantidadTextField;
+    private javax.swing.JLabel errorCantidad;
+    private javax.swing.JLabel errorLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -221,9 +336,15 @@ public class VNuevaReparacion extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JList<String> lstRepuestosReparacion;
+    private javax.swing.JList<String> lstRestoRepuestos;
     private javax.swing.JTextField nombreTextField;
     private javax.swing.JComboBox<String> tipoReparacionComboBox;
     // End of variables declaration//GEN-END:variables
+
+private boolean esNumeroValido(String texto) {
+    if (texto.isBlank() || texto == null) return false;
+    else return texto.matches("[1-9]\\d*");
+}
+
 }

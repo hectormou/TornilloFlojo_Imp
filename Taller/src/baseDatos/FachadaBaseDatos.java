@@ -11,6 +11,7 @@ import aplicacion.Categoria;
 import aplicacion.Cliente;
 import aplicacion.JefeTaller;
 import aplicacion.Reparacion;
+import aplicacion.Repuesto;
 import aplicacion.TipoReparacion;
 import aplicacion.Vehiculo;
 import aplicacion.TipoUsuario;
@@ -177,5 +178,29 @@ public class FachadaBaseDatos {
 
     public void editarMecanico(String clave, String nombre, Date fechaIngreso, int sueldoBase, String idMecanico) {
         daoMecanicos.editarMecanico(clave, nombre, (java.sql.Date) fechaIngreso, sueldoBase, idMecanico);
+    }
+
+    public List<Repuesto> getTotalRepuestos() {
+        return daoReparaciones.getTotalRepuestos();
+    }
+
+    public void anhadirReparacion(Vehiculo vehiculo, String tipo, Mecanico mecanico) {
+         daoReparaciones.anhadirReparacion(vehiculo, tipo, mecanico);
+    }
+    
+    public Reparacion obtenerUltimaReparacionAnhadida() {
+        return daoReparaciones.obtenerUltimaReparacionAnhadida();
+    }
+
+    public Repuesto obtenerRepuesto(String nombre) {
+        return daoReparaciones.obtenerRepuesto(nombre);
+    }
+
+    public void anhadirRepuestoNecesario(Integer idReparacion, Integer idRepuesto, int cantidad) {
+        daoReparaciones.anhadirRepuestoNecesario(idReparacion, idRepuesto, cantidad);
+    }
+
+    public List<TipoReparacion> obtenerTipoReparaciones() {
+        return daoReparaciones.obtenerTipoReparaciones();
     }
 }
