@@ -24,8 +24,20 @@ public class GestionRepuestos {
     public Repuesto obtenerRepuesto(Integer id) {
         return fbd.obtenerRepuesto(id);
     }
+    
+    public List<Repuesto> getTotalRepuestos() {
+        return fbd.getTotalRepuestos();
+    }
 
     public List<Stock_U_A> obtenerStock_U_A(Integer idreparacion) {
         return fbd.obtenerStock_U_A(idreparacion);
+    }
+    /*
+    public Repuesto obtenerRepuesto(String nombre) {
+        return fbd.obtenerRepuesto(nombre);
+    }
+*/
+    public void anhadirRepuestoNecesario(Integer idReparacion, Integer idRepuesto, int cantidad) {
+        fbd.anhadirRepuestoNecesario(idReparacion, idRepuesto, cantidad);
     }
 }

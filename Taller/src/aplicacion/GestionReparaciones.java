@@ -37,7 +37,17 @@ public class GestionReparaciones {
         return false;
     }
 
+
     public Reparacion obtenerReparacion(Integer id) {
         return fbd.obtenerReparacion(id);
+    }
+
+    public Reparacion anhadirReparacion(Vehiculo vehiculo, String tipo, Mecanico mecanico) {
+        fbd.anhadirReparacion(vehiculo, tipo, mecanico);
+        return fbd.obtenerUltimaReparacionAnhadida();
+    }
+
+    public List<TipoReparacion> obtenerTipoReparaciones() {
+        return fbd.obtenerTipoReparaciones();
     }
 }

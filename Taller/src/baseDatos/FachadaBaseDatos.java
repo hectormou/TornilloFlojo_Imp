@@ -10,6 +10,7 @@ import aplicacion.Cliente;
 import aplicacion.JefeTaller;
 import aplicacion.Reparacion;
 import aplicacion.Repuesto;
+import java.util.List;
 import aplicacion.Stock_U_A;
 import aplicacion.TipoReparacion;
 import aplicacion.Vehiculo;
@@ -158,6 +159,7 @@ public class FachadaBaseDatos {
         daoMecanicos.editarMecanico(clave, nombre, (java.sql.Date) fechaIngreso, sueldoBase, idMecanico);
     }
 
+
     public Reparacion obtenerReparacion(Integer id) {
         return daoReparaciones.obtenerReparacion(id);
     }
@@ -170,4 +172,27 @@ public class FachadaBaseDatos {
         return daoRepuestos.obtenerStock_U_A(idreparacion);
     }
     
+    public List<Repuesto> getTotalRepuestos() {
+        return daoReparaciones.getTotalRepuestos();
+    }
+
+    public void anhadirReparacion(Vehiculo vehiculo, String tipo, Mecanico mecanico) {
+         daoReparaciones.anhadirReparacion(vehiculo, tipo, mecanico);
+    }
+    
+    public Reparacion obtenerUltimaReparacionAnhadida() {
+        return daoReparaciones.obtenerUltimaReparacionAnhadida();
+    }
+/*
+    public Repuesto obtenerRepuesto(String nombre) {
+        return daoReparaciones.obtenerRepuesto(nombre);
+    }
+*/
+    public void anhadirRepuestoNecesario(Integer idReparacion, Integer idRepuesto, int cantidad) {
+        daoReparaciones.anhadirRepuestoNecesario(idReparacion, idRepuesto, cantidad);
+    }
+
+    public List<TipoReparacion> obtenerTipoReparaciones() {
+        return daoReparaciones.obtenerTipoReparaciones();
+    }
 }

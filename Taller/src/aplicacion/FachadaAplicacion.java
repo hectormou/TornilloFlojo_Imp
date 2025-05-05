@@ -142,5 +142,24 @@ public class FachadaAplicacion {
 
     public List<Stock_U_A> obtenerStock_U_A(Integer idreparacion) {
         return crp.obtenerStock_U_A(idreparacion);
+
+    public List<Repuesto> getTotalRepuestos() {
+        return crp.getTotalRepuestos();
+    }
+
+    public Reparacion anhadirReparacion(Vehiculo vehiculo, String tipo, Mecanico mecanico) {
+        return cr.anhadirReparacion(vehiculo, tipo, mecanico);
+    }
+/*
+    public Repuesto obtenerRepuesto(String nombre) {
+        return cr.obtenerRepuesto(nombre);
+    }
+*/
+    public void anhadirRepuestoNecesarior(Integer idReparacion, Integer idRepuesto, int cantidad) {
+        crp.anhadirRepuestoNecesario(idReparacion, idRepuesto, cantidad);
+    }
+
+    public List<TipoReparacion> obtenerTipoReparaciones() {
+        return cr.obtenerTipoReparaciones();
     }
 }

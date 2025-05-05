@@ -160,6 +160,11 @@ public class VPrincipal extends javax.swing.JFrame {
         pestanhaPrincipal.setText("Principal");
 
         menuPersonal.setText("Personal");
+        menuPersonal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuPersonalActionPerformed(evt);
+            }
+        });
         pestanhaPrincipal.add(menuPersonal);
 
         menuStock.setText("Stock");
@@ -264,9 +269,7 @@ public class VPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void menuEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEmpleadosActionPerformed
-        VEmpleados ve = new VEmpleados(this, true, this.fa, this.mecanicoEnAcceso);
-        ve.setVisible(true);
-        ve.obtenerDatosMecanicoActual();
+        
     }//GEN-LAST:event_menuEmpleadosActionPerformed
 
     private void menuSolicitudesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSolicitudesActionPerformed
@@ -316,7 +319,13 @@ public class VPrincipal extends javax.swing.JFrame {
         else eliminarVehiculoBoton.setEnabled(true);
     }//GEN-LAST:event_tablaVehiculosMouseClicked
 
-    
+    private void menuPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPersonalActionPerformed
+        VPersonal vp = new VPersonal(this, true, this.fa, this.mecanicoEnAcceso);
+        vp.setVisible(true);
+        vp.obtenerDatosMecanicoActual(); 
+    }//GEN-LAST:event_menuPersonalActionPerformed
+
+
     private void setBotonesVehiculo(Vehiculo vehiculo){
         buscaMatricula.setText(vehiculo.getMatricula());
         buscaCliente.setText(vehiculo.getPropietarioDNI());   

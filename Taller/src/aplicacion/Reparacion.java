@@ -17,9 +17,10 @@ public class Reparacion {
     private String tipo;
     private String supervisorid;
     
-    public Reparacion(Integer idreparacion, String idvehiculo, String tipo, String supervisorid) {
+    public Reparacion(Integer idreparacion, String fechainicio, String fechafin, String idvehiculo, String tipo, String supervisorid) {
         this.idreparacion = idreparacion;
-        this.fecha_inicio = LocalDate.now().toString();
+        this.fecha_inicio = fechainicio;
+        this.fecha_fin=fechafin;
         this.idvehiculo = idvehiculo;
         this.tipo = tipo;
         this.supervisorid = supervisorid;

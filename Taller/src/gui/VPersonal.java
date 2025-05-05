@@ -14,14 +14,14 @@ import java.text.SimpleDateFormat;
  *
  * @author alumnogreibd
  */
-public class VEmpleados extends javax.swing.JDialog {
+public class VPersonal extends javax.swing.JDialog {
     private aplicacion.FachadaAplicacion fa;
     private Mecanico mecanicoActual;
     private Frame parent;
     /**
      * Creates new form VEmpleados
      */
-    public VEmpleados(java.awt.Frame parent, boolean modal, FachadaAplicacion fa, Mecanico mecanicoActual) {
+    public VPersonal(java.awt.Frame parent, boolean modal, FachadaAplicacion fa, Mecanico mecanicoActual) {
         super(parent, modal);
         initComponents();
         this.fa = fa;
@@ -107,7 +107,7 @@ public class VEmpleados extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(9, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(actualizarButton)
