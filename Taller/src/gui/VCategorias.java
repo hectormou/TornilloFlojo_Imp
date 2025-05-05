@@ -207,7 +207,7 @@ public class VCategorias extends javax.swing.JDialog {
         
         ModeloListaStrings mListaC=new ModeloListaStrings();
         CategoriasList.setModel(mListaC);
-        mListaC.setElementos(stringcat);
+        //mListaC.setElementos(stringcat);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

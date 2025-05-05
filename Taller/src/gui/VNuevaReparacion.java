@@ -5,9 +5,11 @@
 package gui;
 
 import aplicacion.FachadaAplicacion;
+import aplicacion.Mecanico;
 import aplicacion.Reparacion;
 import aplicacion.Repuesto;
 import aplicacion.TipoReparacion;
+import aplicacion.Vehiculo;
 import java.util.ArrayList;
 
 /**
@@ -18,35 +20,23 @@ public class VNuevaReparacion extends javax.swing.JDialog {
     
     private VVehiculo padre;
     private aplicacion.FachadaAplicacion fa;
+    private Vehiculo vehiculo;
+    private Mecanico mecanico;
+
     /**
      * Creates new form VNuevaReparacion
      */
-    public VNuevaReparacion(VVehiculo parent, boolean modal, FachadaAplicacion fa) {
+    public VNuevaReparacion(VVehiculo parent, boolean modal, FachadaAplicacion fa, Vehiculo vehiculo, Mecanico mecanico) {
         super(parent, modal);
         this.padre = parent;
         this.fa = fa;
+        this.vehiculo = vehiculo;
+        this.mecanico=mecanico;
         initComponents();
-        ModeloListaStrings mListaRC=new ModeloListaStrings();
-        lstRestoRepuestos.setModel(mListaRC);
-        ArrayList<String> repuestos = new ArrayList<String>();
-        for (Repuesto r : fa.getTotalRepuestos())
-            repuestos.add(r.getNombre());
-        mListaRC.setElementos(repuestos);
-        if (mListaRC.getSize()>0) {
-            lstRestoRepuestos.setSelectedIndex(0);
-            botonDerecha.setEnabled(true);
-        } else botonDerecha.setEnabled(false);
         
-        ModeloListaStrings mListaC=new ModeloListaStrings();
-        lstRepuestosReparacion.setModel(mListaC);
-        botonIzquierda.setEnabled(false);
-        errorLabel.setVisible(false);
-        errorCantidad.setVisible(false);
-        nombreTextField.setEditable(false);
-        tipoReparacionComboBox.removeAllItems();
-        for (TipoReparacion r : fa.obtenerTipoReparaciones())
-            tipoReparacionComboBox.addItem(r.getNombre());
-        tipoReparacionComboBox.setSelectedIndex(-1);
+        generarListas();
+        setBotones();
+        setComboBox();
     }
 
     /**
@@ -78,12 +68,9 @@ public class VNuevaReparacion extends javax.swing.JDialog {
         errorCantidad = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Nueva Reparación");
 
-        lstRestoRepuestos.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
+        lstRestoRepuestos.setModel(new ModeloListaStrings());
         lstRestoRepuestos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lstRestoRepuestosMouseClicked(evt);
@@ -91,11 +78,7 @@ public class VNuevaReparacion extends javax.swing.JDialog {
         });
         jScrollPane1.setViewportView(lstRestoRepuestos);
 
-        lstRepuestosReparacion.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
+        lstRepuestosReparacion.setModel(new ModeloListaStrings());
         lstRepuestosReparacion.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lstRepuestosReparacionMouseClicked(evt);
@@ -246,10 +229,10 @@ public class VNuevaReparacion extends javax.swing.JDialog {
             if (ma.getElementos() == null) 
                 errorLabel.setVisible(true);
             else {
-                Reparacion reparacion = fa.anhadirReparacion(padre.getVehiculo(), tipoReparacionComboBox.getSelectedItem().toString(), padre.getMecanico());
-                for (String nombre : ma.getElementos()) {
-                    Repuesto repuesto = fa.obtenerRepuesto(nombre);
-                    fa.anhadirRepuestoNecesarior(reparacion.getIdreparacion(), repuesto.getIdRepuesto(), Integer.parseInt(cantidadTextField.getText()));
+                Reparacion reparacion = fa.anhadirReparacion(this.vehiculo, tipoReparacionComboBox.getSelectedItem().toString(), this.mecanico);
+                for (Integer idRepuesto : ma.getIds()) {
+                    Repuesto repuesto = fa.obtenerRepuesto(idRepuesto);
+                    fa.anhadirRepuestoNecesarior(reparacion.getIdreparacion(), repuesto.getId(), Integer.parseInt(cantidadTextField.getText()));
                 }
                     
                 errorLabel.setVisible(false);
@@ -265,7 +248,9 @@ public class VNuevaReparacion extends javax.swing.JDialog {
      mRC = (ModeloListaStrings) lstRestoRepuestos.getModel();
      mC = (ModeloListaStrings) lstRepuestosReparacion.getModel();
      mRC.nuevoElemento(mC.getElementAt(lstRepuestosReparacion.getSelectedIndex()));
+     mRC.nuevoId(mC.getIdAt(lstRepuestosReparacion.getSelectedIndex()));
      mC.borrarElemento(lstRepuestosReparacion.getSelectedIndex());
+             
      if (mC.getSize()==0) botonIzquierda.setEnabled(false);
      else {
          lstRepuestosReparacion.setSelectedIndex(0);
@@ -283,6 +268,7 @@ public class VNuevaReparacion extends javax.swing.JDialog {
      mC = (ModeloListaStrings) lstRepuestosReparacion.getModel();
     if (esNumeroValido(cantidadTextField.getText())) {
         mC.nuevoElemento(mRC.getElementAt(lstRestoRepuestos.getSelectedIndex()));
+        mC.nuevoId(mRC.getIdAt(lstRestoRepuestos.getSelectedIndex()));
         mRC.borrarElemento(lstRestoRepuestos.getSelectedIndex());
         if (mRC.getSize()==0) botonDerecha.setEnabled(false);
         else {
@@ -342,9 +328,35 @@ public class VNuevaReparacion extends javax.swing.JDialog {
     private javax.swing.JComboBox<String> tipoReparacionComboBox;
     // End of variables declaration//GEN-END:variables
 
-private boolean esNumeroValido(String texto) {
-    if (texto.isBlank() || texto == null) return false;
-    else return texto.matches("[1-9]\\d*");
-}
+    private boolean esNumeroValido(String texto) {
+        if (texto.isBlank() || texto == null) return false;
+        else return texto.matches("[1-9]\\d*");
+    }
+    private void generarListas() {
+        ArrayList<String> repuestos = new ArrayList<String>();
+        ArrayList<Integer> ids = new ArrayList<Integer>();
+        for (Repuesto r : fa.getTotalRepuestos()){
+            repuestos.add(r.getNombre());
+            ids.add(r.getId());
+        }
+        ModeloListaStrings ms = ((ModeloListaStrings) lstRestoRepuestos.getModel());
+        ms.setElementos(repuestos, ids);
+        if (ms.getSize()>0) {
+            lstRestoRepuestos.setSelectedIndex(0);
+            botonDerecha.setEnabled(true);
+        } else botonDerecha.setEnabled(false);
+    }
+    private void setBotones() {
+        botonIzquierda.setEnabled(false);
+        errorLabel.setVisible(false);
+        errorCantidad.setVisible(false);
+        nombreTextField.setEditable(false);
+    }
+    private void setComboBox() {
+        tipoReparacionComboBox.removeAllItems();
+        for (TipoReparacion r : fa.obtenerTipoReparaciones())
+            tipoReparacionComboBox.addItem(r.getNombre());
+        tipoReparacionComboBox.setSelectedIndex(-1);
+    }
 
 }
