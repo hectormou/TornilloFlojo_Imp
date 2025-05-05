@@ -6,6 +6,7 @@
 package aplicacion;
 import gui.FachadaGui;
 import baseDatos.FachadaBaseDatos;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 /**
@@ -42,6 +43,14 @@ public class GestionMecanicos {
 
     public void editarMecanico(String clave, String nombre, Date fechaIngreso, int sueldoBase, String idMecanico) {
         fbd.editarMecanico(clave, nombre, fechaIngreso, sueldoBase, idMecanico);
+    }
+    
+    public ArrayList<Mecanico> buscarMecanicos(String id, String modo){
+        return fbd.buscarMecanicos(id, modo);
+    }
+    
+    public boolean despedirMecanico(String id){
+        return fbd.despedirMecanico(id);
     }
  
 }

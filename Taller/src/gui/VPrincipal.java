@@ -274,7 +274,8 @@ public class VPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void menuEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEmpleadosActionPerformed
-        
+        VEmpleados ve = new VEmpleados(this, true, this.fa);
+        ve.setVisible(true);
     }//GEN-LAST:event_menuEmpleadosActionPerformed
 
     private void menuSolicitudesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSolicitudesActionPerformed
@@ -410,11 +411,9 @@ public class VPrincipal extends javax.swing.JFrame {
             tablaVehiculos.setRowSelectionInterval(0, 0);
             tablaVehiculos.requestFocus();
             
-            ModeloTablaVehiculos mtl = (ModeloTablaVehiculos) tablaVehiculos.getModel();
-            Vehiculo vehiculo= mtl.obtenerVehiculo(0);
+            Vehiculo vehiculo= m.obtenerVehiculo(0);
             setBotonesVehiculo(vehiculo);
-        }
-        setBotonesBlanco();
+        }else setBotonesBlanco();
     }
     
     public Mecanico getMecanicoApp() { return mecanicoEnAcceso; }

@@ -8,6 +8,7 @@ import aplicacion.JefeTaller;
 import aplicacion.Mecanico;
 import aplicacion.Subordinado;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 /**
  *
@@ -144,7 +145,7 @@ public class DAOMecanicos extends AbstractDAO {
         
         String consulta = "select  idMecanico, nombre, clave, telefonoContacto, fechaIngreso, sueldoBase " +
                                          "from mecanico "+
-                                         "where idMecanico = ?";
+                                         "where idMecanico in (select idMecanico from JefeTaller) and idMecanico = ? ";
         
         try  {
          stmUsuarios=con.prepareStatement(consulta);
@@ -209,5 +210,96 @@ public class DAOMecanicos extends AbstractDAO {
                 System.out.println("Imposible cerrar cursores");
             }
         }
+    }
+    
+    public ArrayList<Mecanico> buscarMecanicos(String id, String modo){
+        ArrayList<Mecanico> resultado = new ArrayList<>();
+        Mecanico mecanicoActual = null;
+        Connection con;
+        PreparedStatement stmMecanico=null;
+        ResultSet rsMecanico;
+
+        con=this.getConexion();
+        
+        String consulta = "select  idMecanico, nombre, clave, telefonoContacto, fechaIngreso, sueldoBase " +
+                                         " from mecanico";
+        if(id!=null && !id.trim().isEmpty()){
+            consulta = consulta + " where idMecanico = ? ";
+        }
+        
+        switch(modo){
+            case "Nombre": consulta = consulta + " ORDER BY nombre"; break;
+            case "Sueldo asc.": consulta = consulta + " ORDER BY sueldoBase ASC"; break;
+            case "Sueldo desc.": consulta = consulta + " ORDER BY sueldoBase DESC"; break;
+        }
+        
+        try  {
+         stmMecanico=con.prepareStatement(consulta);
+         if(id!=null && !id.trim().isEmpty()){
+            stmMecanico.setString(1, id);
+        }
+         rsMecanico=stmMecanico.executeQuery();
+        while(rsMecanico.next())
+        {
+            if(esJefeTaller(rsMecanico.getString("idMecanico"))){
+                mecanicoActual = new JefeTaller(rsMecanico.getString("idMecanico"), rsMecanico.getString("clave"),
+                                      rsMecanico.getString("nombre"), rsMecanico.getString("telefonoContacto"),
+                                      rsMecanico.getDate("fechaIngreso"), rsMecanico.getInt("sueldoBase"));
+            }
+            else if(esSubordinado(rsMecanico.getString("idMecanico"))){
+                mecanicoActual = new Subordinado(rsMecanico.getString("idMecanico"), rsMecanico.getString("clave"),
+                                      rsMecanico.getString("nombre"), rsMecanico.getString("telefonoContacto"),
+                                      rsMecanico.getDate("fechaIngreso"), rsMecanico.getInt("sueldoBase"));
+            }
+            resultado.add(mecanicoActual);
+        }
+
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmMecanico.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+        return resultado;
+    }
+    
+    public boolean puedeDespedir(String id){
+        boolean resultado = false;
+        Connection con = this.getConexion();
+        PreparedStatement stmMecanico=null;
+        ResultSet rsMecanico;
+        try  {
+        String consulta = "select 1 where exists (select 1 from vehiculo where supervisor = ?) " +
+                                         " or exists (select 1 from participar where subordinado = ?) ";
+        stmMecanico=con.prepareStatement(consulta);
+        stmMecanico.setString(1, id);
+        stmMecanico.setString(2, id);
+        rsMecanico=stmMecanico.executeQuery();
+        if(rsMecanico.next()) resultado = true;
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmMecanico.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+        return resultado;
+    }
+    
+    public boolean despedirMecanico(String id){
+        Connection con = this.getConexion();
+        PreparedStatement stmMecanico=null;
+        if(!puedeDespedir(id)) return false;
+        try{
+        String consulta = "delete from mecanico where idmecanico = ?";
+        stmMecanico=con.prepareStatement(consulta);
+        stmMecanico.setString(1, id);
+        stmMecanico.executeUpdate();
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmMecanico.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+        return true;
     }
 }
