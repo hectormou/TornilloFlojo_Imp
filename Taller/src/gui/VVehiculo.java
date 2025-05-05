@@ -30,9 +30,9 @@ public class VVehiculo extends javax.swing.JDialog {
      private Vehiculo vehiculo;
      private Cliente propietario;
      private Mecanico supervisor;
-     private VPrincipal padre;
      private Cliente clienteseleccionado;
 
+     private VPrincipal padre;
      private aplicacion.FachadaAplicacion fa;
 
     //PARA MODIFICAR VEHICULO
@@ -250,7 +250,7 @@ public class VVehiculo extends javax.swing.JDialog {
 
         panelVehiculo.addTab("Vehiculo", panelDatos);
 
-        TablaReparaciones.setModel(new ModeloTablaReparaciones());
+        TablaReparaciones.setModel(new ModeloTablaReparaciones(this.fa));
         jScrollPane2.setViewportView(TablaReparaciones);
 
         gestionarBoton.setText("Gestionar");
@@ -430,7 +430,10 @@ public class VVehiculo extends javax.swing.JDialog {
     }//GEN-LAST:event_eliminarClienteBotonActionPerformed
 
     private void gestionarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gestionarBotonActionPerformed
-        VReparacion vr = new VReparacion(this, true, this.fa);
+        int fila = TablaReparaciones.getSelectedRow();
+        Integer idreparacion = (Integer) TablaReparaciones.getValueAt(fila, 0);
+        
+        VReparacion vr = new VReparacion(this, true, this.fa, idreparacion);
         vr.setVisible(true);
     }//GEN-LAST:event_gestionarBotonActionPerformed
 

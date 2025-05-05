@@ -54,7 +54,7 @@ public class ModeloTablaClientes extends AbstractTableModel{
 
     @Override
     public boolean isCellEditable(int row, int col){
-       return col>0 && col<3;
+       return false;
     }
 
     @Override
@@ -76,12 +76,12 @@ public class ModeloTablaClientes extends AbstractTableModel{
         fireTableDataChanged();
     }
 
-    public void nuevoEjemplar(Cliente e){
+    public void nuevoCliente(Cliente e){
         this.clientes.add(e);
         fireTableRowsInserted(this.clientes.size()-1, this.clientes.size()-1);
     }
 
-    public void borrarEjemplar(int indice){
+    public void borrarCliente(int indice){
         this.clientes.remove(indice);
         fireTableRowsDeleted(indice, indice);
     }

@@ -14,18 +14,18 @@ import java.util.List;
  * @author basesdatos
  */
 public class FachadaAplicacion {
-    gui.FachadaGui fgui;
-    baseDatos.FachadaBaseDatos fbd;
+    private final gui.FachadaGui fgui;
+    private final baseDatos.FachadaBaseDatos fbd;
     
     //
     GestionCategorias cc;
-    GestionPrestamos cp;
     //
     //NECESARIOS
-    GestionMecanicos cm;
-    GestionVehiculos cv;
-    GestionClientes cl;
-    GestionReparaciones cr;
+    private final GestionMecanicos cm;
+    private final GestionVehiculos cv;
+    private final GestionClientes cl;
+    private final GestionReparaciones cr;
+    private final GestionRepuestos crp;
     
     
     
@@ -35,13 +35,14 @@ public class FachadaAplicacion {
 
          //
         cc = new GestionCategorias(fgui, fbd);
-        cp = new GestionPrestamos(fgui, fbd);
+
         //
         //NECESARIOS
         cv = new GestionVehiculos(fgui, fbd);
         cm = new GestionMecanicos(fgui, fbd);
         cl = new GestionClientes(fgui, fbd);
         cr = new GestionReparaciones(fgui, fbd);
+        crp = new GestionRepuestos(fgui, fbd);
     }
 
     public static void main(String args[]) {
@@ -78,27 +79,6 @@ public class FachadaAplicacion {
     public Mecanico validarMecanico(String idMecanico, String clave){
         return cm.validarMecanico(idMecanico, clave);
     }
- ///////////////////////////////////////////////////////////////////////////////////////////////////////
-    public java.util.List<Mecanico> obtenerUsuarios(String id, String nombre){
-        return cm.obtenerUsuarios(id, nombre);
-    }
-
-    public boolean existeUsuario(String id){
-        return cm.existeUsuario(id);
-    }
-    
-    public void editarUsuario(String id, String clave, String nombre, String direccion, String email, String tipo){
-        cm.editarUsuario(id, clave, nombre, direccion, email, tipo);
-    }
-
-    public void crearUsuario(String id, String clave, String nombre, String direccion, String email, String tipo){
-        cm.crearUsuario(id, clave, nombre, direccion, email, tipo);
-    }
-
-    public void borrarUsuario(String id){
-        cm.borrarUsuario(id);
-    }
-/////////////////////////////////////////////////////////////////////////////////////
 
     public List<String> obtenerIDsJefesTaller() {
         return cm.obtenerIDsJefesTaller();
@@ -150,5 +130,17 @@ public class FachadaAplicacion {
 
     public void editarMecanico(String clave, String nombre, Date fechaIngreso, int sueldoBase, String idMecanico) {
         cm.editarMecanico(clave, nombre, fechaIngreso, sueldoBase, idMecanico);
+    }
+
+    public Reparacion obtenerReparacion(Integer id) {
+        return cr.obtenerReparacion(id);
+    }
+    
+    public Repuesto obtenerRepuesto(Integer id) {
+        return crp.obtenerRepuesto(id);
+    }
+
+    public List<Stock_U_A> obtenerStock_U_A(Integer idreparacion) {
+        return crp.obtenerStock_U_A(idreparacion);
     }
 }

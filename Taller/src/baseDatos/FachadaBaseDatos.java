@@ -5,20 +5,17 @@
 
 package baseDatos;
 
-import aplicacion.Ejemplar;
 import aplicacion.Mecanico;
-import aplicacion.Categoria;
 import aplicacion.Cliente;
 import aplicacion.JefeTaller;
 import aplicacion.Reparacion;
+import aplicacion.Repuesto;
+import aplicacion.Stock_U_A;
 import aplicacion.TipoReparacion;
 import aplicacion.Vehiculo;
-import aplicacion.TipoUsuario;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -28,12 +25,13 @@ import java.util.Properties;
  * @author basesdatos
  */
 public class FachadaBaseDatos {
-    private aplicacion.FachadaAplicacion fa;
+    private final aplicacion.FachadaAplicacion fa;
     private java.sql.Connection conexion;
     private DAOVehiculos daoVehiculos;
     private DAOMecanicos daoMecanicos;
     private DAOClientes daoClientes;
     private DAOReparaciones daoReparaciones;
+    private DAORepuestos daoRepuestos;
 
     public FachadaBaseDatos (aplicacion.FachadaAplicacion fa){
         
@@ -73,6 +71,7 @@ public class FachadaBaseDatos {
             daoMecanicos = new DAOMecanicos(conexion, fa);
             daoClientes = new DAOClientes(conexion, fa);
             daoReparaciones = new DAOReparaciones(conexion, fa);
+            daoRepuestos = new DAORepuestos(conexion, fa);
           
 
 
@@ -108,26 +107,6 @@ public class FachadaBaseDatos {
 
     public Mecanico validarMecanico(String idUsuario, String clave){
         return daoMecanicos.validarMecanico(idUsuario, clave);
-    }
-        
-    public java.util.List<Mecanico> consultarUsuarios(String id, String nombre){
-        return daoMecanicos.consultarUsuarios(id, nombre);
-    }
-    
-    public boolean existeUsuario(String id){
-        return daoMecanicos.existeUsuario(id);
-    }
-    
-    public void editarUsuario(String id, String clave, String nombre, String direccion, String email, String tipo){
-        daoMecanicos.editarUsuario(id, clave, nombre, direccion, email, tipo);
-    }
-    
-    public void crearUsuario(String id, String clave, String nombre, String direccion, String email, String tipo){
-        daoMecanicos.crearUsuario(id, clave, nombre, direccion, email, tipo);
-    }
-
-    public void borrarUsuario(String id){
-        daoMecanicos.borrarUsuario(id);
     }
 
     public List<String> obtenerIDsJefesTaller() {
@@ -178,4 +157,17 @@ public class FachadaBaseDatos {
     public void editarMecanico(String clave, String nombre, Date fechaIngreso, int sueldoBase, String idMecanico) {
         daoMecanicos.editarMecanico(clave, nombre, (java.sql.Date) fechaIngreso, sueldoBase, idMecanico);
     }
+
+    public Reparacion obtenerReparacion(Integer id) {
+        return daoReparaciones.obtenerReparacion(id);
+    }
+    
+    public Repuesto obtenerRepuesto(Integer id) {
+        return daoRepuestos.obtenerRepuesto(id);
+    }
+
+    public List<Stock_U_A> obtenerStock_U_A(Integer idreparacion) {
+        return daoRepuestos.obtenerStock_U_A(idreparacion);
+    }
+    
 }

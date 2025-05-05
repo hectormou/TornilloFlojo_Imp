@@ -78,4 +78,33 @@ public class DAOReparaciones extends AbstractDAO {
         }
         return resultado;
     }
+
+    public Reparacion obtenerReparacion(Integer id) {
+        Reparacion resultado=null;
+        Connection con;
+        PreparedStatement stmReparaciones=null;
+        ResultSet rsReparaciones;
+
+        con=this.getConexion();
+        
+        String consulta = "select idreparacion, fechainicio, fechafin, idvehiculo, tiporeparacion, mecanico " + "from reparacion " + "where idreparacion = ?";
+        
+        
+        try  {
+         stmReparaciones=con.prepareStatement(consulta);
+         stmReparaciones.setInt(1, id);
+         rsReparaciones=stmReparaciones.executeQuery();
+        while (rsReparaciones.next())
+        {
+            resultado = new Reparacion(rsReparaciones.getInt("idreparacion"), rsReparaciones.getString("idvehiculo"), rsReparaciones.getString("tiporeparacion"), rsReparaciones.getString("mecanico"));
+        }
+
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmReparaciones.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+        return resultado;
+    }
 }

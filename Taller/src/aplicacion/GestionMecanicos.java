@@ -27,26 +27,6 @@ public class GestionMecanicos {
     public Mecanico validarMecanico(String idMecanico, String clave){
         return fbd.validarMecanico(idMecanico, clave);
     }
-  
-    public java.util.List<Mecanico> obtenerUsuarios(String id, String nombre){
-       return fbd.consultarUsuarios(id, nombre);
-    }
-  
-    public boolean existeUsuario(String id){
-        return fbd.existeUsuario(id);
-    }
- 
-    public void editarUsuario(String id, String clave, String nombre, String direccion, String email, String tipo){
-        fbd.editarUsuario(id, clave, nombre, direccion, email, tipo);
-    }
-
-    public void crearUsuario(String id, String clave, String nombre, String direccion, String email, String tipo){
-        fbd.crearUsuario(id, clave, nombre, direccion, email, tipo);
-    }
-
-    public void borrarUsuario(String id){
-        fbd.borrarUsuario(id);
-    }
 
     public List<String> obtenerIDsJefesTaller() {
         return fbd.obtenerIDsJefesTaller();
@@ -56,11 +36,11 @@ public class GestionMecanicos {
         return fbd.obtenerJefesTaller(id);
     }
 
-    void cambiarContraseña(String nuevaContraseña, String idMecanico) {
+    public void cambiarContraseña(String nuevaContraseña, String idMecanico) {
         fbd.cambiarContraseña(nuevaContraseña, idMecanico);
     }
 
-    void editarMecanico(String clave, String nombre, Date fechaIngreso, int sueldoBase, String idMecanico) {
+    public void editarMecanico(String clave, String nombre, Date fechaIngreso, int sueldoBase, String idMecanico) {
         fbd.editarMecanico(clave, nombre, fechaIngreso, sueldoBase, idMecanico);
     }
  

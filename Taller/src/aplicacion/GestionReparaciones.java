@@ -29,11 +29,15 @@ public class GestionReparaciones {
         return fbd.obtenerTipoReparacion(nombre);
     }
 
-    boolean vehiculoTieneReparacionesPendientes(Vehiculo v) {
+    public boolean vehiculoTieneReparacionesPendientes(Vehiculo v) {
         List<Reparacion> reparaciones = fbd.obtenerReparaciones(v.getMatricula());
         for (Reparacion r : reparaciones) {
             if ((r.getFecha_fin()) == null) return true;
         }
         return false;
+    }
+
+    public Reparacion obtenerReparacion(Integer id) {
+        return fbd.obtenerReparacion(id);
     }
 }

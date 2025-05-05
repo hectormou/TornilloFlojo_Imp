@@ -4,6 +4,8 @@
  */
 
 package gui;
+import aplicacion.FachadaAplicacion;
+import aplicacion.Mecanico;
 import aplicacion.Reparacion;
 import javax.swing.table.*;
 /**
@@ -11,14 +13,16 @@ import javax.swing.table.*;
  * @author basesdatos
  */
 public class ModeloTablaReparaciones extends AbstractTableModel{
+    private FachadaAplicacion fa;
     private java.util.List<Reparacion> reparaciones;
 
-    public ModeloTablaReparaciones(){
+    public ModeloTablaReparaciones(FachadaAplicacion fa){
         this.reparaciones = new java.util.ArrayList<Reparacion>();
+        this.fa=fa;
     }
 
     public int getColumnCount (){
-        return 4;
+        return 5;
     }
 
     public int getRowCount(){
@@ -34,6 +38,7 @@ public class ModeloTablaReparaciones extends AbstractTableModel{
             case 1: nombre= "Fecha_inicio"; break;
             case 2: nombre="Fecha_fin"; break;
             case 3: nombre= "Tipo"; break;
+            case 4: nombre= "Supervisor"; break;
         }
         return nombre;
     }
@@ -43,10 +48,11 @@ public class ModeloTablaReparaciones extends AbstractTableModel{
         Class clase=null;
 
         switch (col){
-            case 0: clase= java.lang.String.class; break;
+            case 0: clase= java.lang.Integer.class; break;
             case 1: clase= java.lang.String.class; break;
             case 2: clase=java.lang.String.class; break;
             case 3: clase= java.lang.String.class; break;
+            case 4: clase = java.lang.String.class; break;
         }
         return clase;
     }
@@ -66,6 +72,12 @@ public class ModeloTablaReparaciones extends AbstractTableModel{
                     else resultado = reparaciones.get(row).getFecha_fin();
                     break;
             case 3: resultado=reparaciones.get(row).getTipo();break;
+            case 4: if(reparaciones.get(row).getSupervisorid().isBlank()) resultado = "-";
+                    else {
+                        Mecanico supervisor=fa.obtenerJefeTaller(reparaciones.get(row).getSupervisorid());
+                        resultado = supervisor.getNombre();
+                    }
+                    break;
         }
         return resultado;
     }

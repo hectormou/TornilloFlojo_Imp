@@ -13,8 +13,8 @@ import aplicacion.Mecanico;
  * @author alumno
  */
 public class FachadaGui {
-    aplicacion.FachadaAplicacion fa;
-    VPrincipal vp;
+    private final aplicacion.FachadaAplicacion fa;
+    private final VPrincipal vp;
     
    public FachadaGui(aplicacion.FachadaAplicacion fa){
      this.fa=fa;
