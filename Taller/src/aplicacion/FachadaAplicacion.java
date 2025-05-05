@@ -5,6 +5,7 @@
 
 package aplicacion;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -166,5 +167,13 @@ public class FachadaAplicacion {
 
     public void borrarReparacion(Integer idreparacion) {
         cr.borrarReparacion(idreparacion);
+    }
+    
+    public ArrayList<Mecanico> buscarMecanicos(String id, String modo){
+        return cm.buscarMecanicos(id, modo);
+    }
+    
+    public boolean despedirMecanico(String id){
+        return cm.despedirMecanico(id);
     }
 }

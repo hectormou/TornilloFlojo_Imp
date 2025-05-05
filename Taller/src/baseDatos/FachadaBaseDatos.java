@@ -17,6 +17,7 @@ import aplicacion.Vehiculo;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -202,5 +203,13 @@ public class FachadaBaseDatos {
 
     public void borrarReparacion(Integer idreparacion) {
         daoReparaciones.borrarReparacion(idreparacion);
+    }
+    
+    public ArrayList<Mecanico> buscarMecanicos(String id, String modo){
+        return daoMecanicos.buscarMecanicos(id, modo);
+    }
+    
+    public boolean despedirMecanico(String id){
+        return daoMecanicos.despedirMecanico(id);
     }
 }
