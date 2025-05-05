@@ -203,4 +203,12 @@ public class FachadaBaseDatos {
     public void borrarReparacion(Integer idreparacion) {
         daoReparaciones.borrarReparacion(idreparacion);
     }
+
+    public List<Repuesto> obtenerRepuestos(String id, String nombre) {
+        return daoRepuestos.obtenerRepuestos(id, nombre);
+    }
+
+    public void nuevaSolicitud(Repuesto repuesto, String cantidad, Mecanico mecanico) {
+        daoRepuestos.nuevaSolicitud(repuesto, cantidad, mecanico);
+    }
 }

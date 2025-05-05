@@ -168,6 +168,11 @@ public class VPrincipal extends javax.swing.JFrame {
         pestanhaPrincipal.add(menuPersonal);
 
         menuStock.setText("Stock");
+        menuStock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuStockActionPerformed(evt);
+            }
+        });
         pestanhaPrincipal.add(menuStock);
 
         jMenuBar1.add(pestanhaPrincipal);
@@ -324,6 +329,11 @@ public class VPrincipal extends javax.swing.JFrame {
         vp.setVisible(true);
         vp.obtenerDatosMecanicoActual(); 
     }//GEN-LAST:event_menuPersonalActionPerformed
+
+    private void menuStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuStockActionPerformed
+        VStock vs = new VStock(this, true, this.fa, this.mecanicoEnAcceso);
+        vs.setVisible(true);
+    }//GEN-LAST:event_menuStockActionPerformed
 
 
     private void setBotonesVehiculo(Vehiculo vehiculo){

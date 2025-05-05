@@ -46,6 +46,7 @@ public class VNuevoCliente extends javax.swing.JDialog {
         errorLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Nuevo Cliente");
 
         jLabel1.setText("Nombre:");
 
