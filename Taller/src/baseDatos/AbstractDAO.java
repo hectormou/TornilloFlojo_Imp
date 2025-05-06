@@ -12,7 +12,6 @@ package baseDatos;
 public abstract class AbstractDAO {
    protected aplicacion.FachadaAplicacion fa;
    private java.sql.Connection conexion;
-
    
     protected java.sql.Connection getConexion(){
         return this.conexion;

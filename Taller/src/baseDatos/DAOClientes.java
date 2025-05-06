@@ -19,6 +19,7 @@ public class DAOClientes extends AbstractDAO {
         super.setFachadaAplicacion(fa);
     }
     
+    
     public Cliente obtenerCliente(String dni) {
         Cliente resultado=null;
         Connection con;
@@ -81,14 +82,22 @@ public class DAOClientes extends AbstractDAO {
     public void eliminarCliente(Cliente c) {
         Connection con;
         PreparedStatement stmCliente=null;
+        PreparedStatement stmClienteAux=null;
+        ResultSet rsCliente=null;
 
         con=this.getConexion();
         
         try  {
+            con.setAutoCommit(false);
+            stmClienteAux=con.prepareStatement("select* from cliente where dni=? for update");
+            stmClienteAux.setString(1, c.getDni());
+            rsCliente=stmClienteAux.executeQuery();
+            if(rsCliente.next()){
             stmCliente=con.prepareStatement("delete " + "from cliente "+" where dni=? ");
             stmCliente.setString(1, c.getDni());
             stmCliente.executeUpdate();
-
+            con.commit();
+            }else con.rollback();
         } catch (SQLException e){
           System.out.println(e.getMessage());
           this.getFachadaAplicacion().muestraExcepcion(e.getMessage());

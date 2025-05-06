@@ -24,7 +24,6 @@ public class FachadaGui {
     
     public void iniciaVista(){
       VAutentificacion va;
-    
       va = new VAutentificacion(vp, true, fa);
       vp.setVisible(true);
       va.setVisible(true);

@@ -18,7 +18,6 @@ import aplicacion.Reparacion;
 import java.util.List;
 
 
-
 /**
  *
  * @author basesdatos
@@ -430,6 +429,7 @@ public class VVehiculo extends javax.swing.JDialog {
         btnActualizarVehiculo.setEnabled(false);
         eliminarClienteBoton.setEnabled(false);
         buscarClientes();
+        this.clienteseleccionado=null;
     }//GEN-LAST:event_eliminarClienteBotonActionPerformed
 
     private void gestionarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gestionarBotonActionPerformed

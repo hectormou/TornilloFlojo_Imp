@@ -105,7 +105,7 @@ create table Utilizar (
 
 create table Asistir (
     idAlumno int references EmpleadoPracticas(idAlumno)
-	on delete no action
+	on delete cascade
         on update cascade,
     idReparacion serial,
     primary key (idAlumno, idReparacion),

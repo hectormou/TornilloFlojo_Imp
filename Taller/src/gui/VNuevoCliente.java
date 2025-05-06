@@ -7,7 +7,7 @@ package gui;
 import aplicacion.Cliente;
 import aplicacion.FachadaAplicacion;
 
-/**
+/** 
  *
  * @author alumnogreibd
  */

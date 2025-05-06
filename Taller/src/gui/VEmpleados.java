@@ -1,5 +1,6 @@
 package gui;
 
+import aplicacion.EmpleadoPracticas;
 import aplicacion.FachadaAplicacion;
 import aplicacion.JefeTaller;
 import aplicacion.Mecanico;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 /**
  *
  * @author alumnogreibd
- */
+ */ 
 public class VEmpleados extends javax.swing.JDialog {
     private FachadaAplicacion fa;
     private Frame parent;
@@ -180,6 +181,11 @@ public class VEmpleados extends javax.swing.JDialog {
         botonAñadirPracticas.setText("Añadir");
 
         botonEliminarPracticas.setText("Eliminar");
+        botonEliminarPracticas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonEliminarPracticasActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelPrácticasLayout = new javax.swing.GroupLayout(panelPrácticas);
         panelPrácticas.setLayout(panelPrácticasLayout);
@@ -309,6 +315,22 @@ public class VEmpleados extends javax.swing.JDialog {
         buscarPracticas();
     }//GEN-LAST:event_botonBuscarPracticasActionPerformed
 
+    private void botonEliminarPracticasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarPracticasActionPerformed
+        // TODO add your handling code here:
+        EmpleadoPracticas e = getPracticasSeleccionado();
+        if(e!=null){
+            if(!fa.despedirPracticas(e.getIdalumno()){
+                VAviso va = new VAviso(this.parent, true, "El empleado de prácticas está asistiendo a una reparación y no se puede despedir");
+                va.setVisible(true);
+            }
+            else{
+                ModeloTablaPracticas m;
+                m=(ModeloTablaPracticas) tablaPracticas.getModel();
+                m.borrarEmpleadoPracticas(tablaPracticas.getSelectedRow());
+            }
+        }
+    }//GEN-LAST:event_botonEliminarPracticasActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAñadirPracticas;
     private javax.swing.JButton botonBuscar;
@@ -368,6 +390,16 @@ public class VEmpleados extends javax.swing.JDialog {
             m=((ModeloTablaMecanicos) tablaMecanicos.getModel()).obtenerMecanico(i);
         }
         return m;
+    }
+    
+    public EmpleadoPracticas getPracticasSeleccionado(){
+        EmpleadoPracticas e = null;
+        int i = tablaPracticas.getSelectedRow();
+        
+        if(i>-1) {
+            e=((ModeloTablaPracticas) tablaPracticas.getModel()).obtenerEmpleadoPracticas(i);
+        }
+        return e;
     }
     
 }

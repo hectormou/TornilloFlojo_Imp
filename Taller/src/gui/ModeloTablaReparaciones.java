@@ -11,7 +11,7 @@ import javax.swing.table.*;
 /**
  *
  * @author basesdatos
- */
+ */ 
 public class ModeloTablaReparaciones extends AbstractTableModel{
     private FachadaAplicacion fa;
     private java.util.List<Reparacion> reparaciones;

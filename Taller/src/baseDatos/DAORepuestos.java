@@ -24,6 +24,7 @@ public class DAORepuestos extends AbstractDAO{
         super.setConexion(conexion);
         super.setFachadaAplicacion(fa);
     }
+    
 
     public Repuesto obtenerRepuesto(Integer id) {
         Repuesto resultado=null;

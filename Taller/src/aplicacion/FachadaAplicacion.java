@@ -190,11 +190,6 @@ public class FachadaAplicacion {
     public Mecanico obtenerMecanico(String mecanicoid) {
         return cm.obtenerMecanico(mecanicoid);
     }
-
-        public int obtenerReparacionesAsistidas(String idAlumno) {
-            return cm.obtenerReparacionesAsistidas(idAlumno);
-        }
-
     
     public boolean updateMecanico(String id, String nombre, String clave, String tlf, Integer sueldo){
         return cm.updateMecanico(id,nombre,clave,tlf,sueldo);
@@ -206,5 +201,9 @@ public class FachadaAplicacion {
     
     public ArrayList<EmpleadoPracticas> buscarPracticas(String nombreTutor){
         return cep.buscarPracticas(nombreTutor);
+    }
+    
+    public boolean despedirPracticas(Integer id){
+        return cep.despedirPracticas(id);
     }
 }
