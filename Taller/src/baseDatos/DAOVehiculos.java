@@ -218,6 +218,7 @@ public class DAOVehiculos extends AbstractDAO {
           try {stmVehiculo.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
         }
     }
+    
     public java.util.List<Vehiculo> obtenerVehiculosCliente(Cliente c) {
         Connection con;
         PreparedStatement stmVehiculo=null;
