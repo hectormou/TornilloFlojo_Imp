@@ -29,6 +29,8 @@ public class VPersonal extends javax.swing.JDialog {
         this.mecanicoActual = mecanicoActual;
         this.obtenerDatosMecanicoActual();
         this.parent = parent;
+                setLocationRelativeTo(null);
+
     }
 
     /**

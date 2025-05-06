@@ -223,4 +223,7 @@ public class FachadaBaseDatos {
     public boolean despedirMecanico(String id){
         return daoMecanicos.despedirMecanico(id);
     }
+
+    public Mecanico obtenerMecanico(String mecanicoid) {
+return daoMecanicos.obtenerMecanico(mecanicoid);    }
 }

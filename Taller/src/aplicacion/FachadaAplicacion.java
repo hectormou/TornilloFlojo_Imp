@@ -176,4 +176,7 @@ public class FachadaAplicacion {
     public boolean despedirMecanico(String id){
         return cm.despedirMecanico(id);
     }
+
+    public Mecanico obtenerMecanico(String mecanicoid) {
+return cm.obtenerMecanico(mecanicoid);    }
 }

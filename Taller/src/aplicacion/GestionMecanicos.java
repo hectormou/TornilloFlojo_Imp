@@ -52,5 +52,8 @@ public class GestionMecanicos {
     public boolean despedirMecanico(String id){
         return fbd.despedirMecanico(id);
     }
+
+    Mecanico obtenerMecanico(String mecanicoid) {
+return fbd.obtenerMecanico(mecanicoid);    }
  
 }

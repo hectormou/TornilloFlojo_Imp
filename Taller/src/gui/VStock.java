@@ -26,7 +26,8 @@ public class VStock extends javax.swing.JDialog {
         this.fa = fa;
         this.mecanicoEnAcceso = mecanico;
         initComponents();
-        
+                setLocationRelativeTo(null);
+
         setBotones();
         inicializarTabla();
     }
