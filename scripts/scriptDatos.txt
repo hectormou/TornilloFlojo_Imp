@@ -58,12 +58,12 @@ insert into TipoReparacion (nombre, descripcion, aptoParaPracticas) values
 ('Intervención mayor', 'Intervenciones complejas', false),
 ('Coches de lujo', 'Operaciones en coches muy caros', false);
 
-insert into Reparacion (fechaInicio, idVehiculo, tipoReparacion, mecanico) values
-('2025-04-01',  '4638DDF','Mantenimiento básico','jpe'),
-('2025-04-03', '9937BMN','Chapa y pintura','cgo'),
-('2025-04-05', '7720GRF','Mantenimiento básico','cgo'),
-('2025-04-06', '9923HJJ','Chapa y pintura','mlo'),
-('2025-04-08', '2204KLK','Intervención mayor','jpe');
+insert into Reparacion (fechaInicio, idVehiculo, tipoReparacion) values
+('2025-04-01',  '4638DDF','Mantenimiento básico'),
+('2025-04-03', '9937BMN','Chapa y pintura'),
+('2025-04-05', '7720GRF','Mantenimiento básico'),
+('2025-04-06', '9923HJJ','Chapa y pintura'),
+('2025-04-08', '2204KLK','Intervención mayor');
 
 insert into Utilizar (idRepuesto, idReparacion, cantidad) values
 (1, 1,1),
