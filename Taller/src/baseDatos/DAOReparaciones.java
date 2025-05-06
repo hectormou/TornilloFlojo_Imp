@@ -180,8 +180,38 @@ public class DAOReparaciones extends AbstractDAO {
         }finally{
           try {stmReparacion.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
         }
+    }/*
+       public void finalizarReparacion(Integer idreparacion, List<Stock_U_A> stock) {
+        Connection con;
+        PreparedStatement stmReparaciones=null;
+        ArrayList<Integer> idsrepuestos = new ArrayList<Integer>();
+        ArrayList<Integer> cantidades = new ArrayList<Integer>();
+        con=this.getConexion();
+        
+        String transaccion = "Begin; ";
+        for (Stock_U_A s : stock) {
+            transaccion = transaccion + "Update repuesto set stock = ? " + "where idrepuesto = ?; ";
+            idsrepuestos.add(s.getIdrepuesto());
+            cantidades.add(s.getAlmacen()-s.getUsado());
+        }
+        transaccion = transaccion + "Update reparacion set fechafin = current_date " + "where idreparacion = ?; ";
+        transaccion = transaccion + "commit;";
+        try  {
+         stmReparaciones=con.prepareStatement(transaccion);
+         for(int i = 0; i<stock.size(); i++) {
+             stmReparaciones.setInt(2*(i+1)-1, cantidades.get(i));
+             stmReparaciones.setInt(2*(i+1), idsrepuestos.get(i));
+         }
+         stmReparaciones.setInt(stock.size()+2, idreparacion);
+         stmReparaciones.executeUpdate();
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmReparaciones.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
     }
-    
+    */
     public Reparacion obtenerUltimaReparacionAnhadida() {
         Reparacion resultado=null;
         Connection con;
