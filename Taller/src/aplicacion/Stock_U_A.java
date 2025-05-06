@@ -14,13 +14,14 @@ public class Stock_U_A {
     private Integer idrepuesto;
     private Integer usado;
     private Integer almacen;
-
+    private String nombre;
     
-    public Stock_U_A(Integer idreparacion, Integer idrepuesto, Integer usado, Integer almacen) {
+    public Stock_U_A(Integer idreparacion, Integer idrepuesto, Integer usado, Integer almacen, String nombre) {
         this.idreparacion = idreparacion;
         this.idrepuesto = idrepuesto;
         this.usado = usado;
         this.almacen = almacen;
+        this.nombre = nombre;
     }
 
     // Getters
@@ -40,20 +41,7 @@ public class Stock_U_A {
         return almacen;
     }
 
-    // Setters
-    public void setIdreparacion(Integer idreparacion) {
-        this.idreparacion = idreparacion;
-    }
-
-    public void setIdrepuesto(Integer idrepuesto) {
-        this.idrepuesto = idrepuesto;
-    }
-
-    public void setUsado(Integer usado) {
-        this.usado = usado;
-    }
-
-    public void setAlmacen(Integer almacen) {
-        this.almacen = almacen;
+    public String getNombre() {
+        return nombre;
     }
 }

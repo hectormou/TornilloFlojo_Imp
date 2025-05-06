@@ -13,7 +13,7 @@ import java.util.Date;
  *
  * @author basesdatos
  */
-public class Mecanico {
+public abstract class Mecanico {
     private String idMecanico;
     private String clave;
     private String nombre;

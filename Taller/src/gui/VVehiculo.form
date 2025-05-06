@@ -332,6 +332,9 @@
                       <Connection code="new ModeloTablaReparaciones(this.fa)" type="code"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="TablaReparacionesMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>

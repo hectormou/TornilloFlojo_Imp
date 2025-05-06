@@ -56,4 +56,8 @@ public class GestionReparaciones {
             fgui.muestraExcepcion("No se puede borrar, ya es finalizada!!");
         else fbd.borrarReparacion(idreparacion);
     }
+
+    public void finalizarReparacion(Integer idreparacion, List<Stock_U_A> stock) {
+        fbd.finalizarReparacion(idreparacion, stock);
+    }
 }

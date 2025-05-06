@@ -4,10 +4,9 @@
  */
 package baseDatos;
 
-import aplicacion.Reparacion;
+
 import aplicacion.Repuesto;
 import aplicacion.Stock_U_A;
-import aplicacion.TipoReparacion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -71,7 +70,8 @@ public class DAORepuestos extends AbstractDAO{
          rsUA=stmUA.executeQuery();
         while (rsUA.next())
         {
-            Stock_U_A ua = new Stock_U_A(rsUA.getInt("idreparacion"), rsUA.getInt("idrepuesto"), rsUA.getInt("cantidad"), rsUA.getInt("stock"));
+            Repuesto r = fa.obtenerRepuesto(rsUA.getInt("idrepuesto"));
+            Stock_U_A ua = new Stock_U_A(rsUA.getInt("idreparacion"), rsUA.getInt("idrepuesto"), rsUA.getInt("cantidad"), rsUA.getInt("stock"), r.getNombre());
             resultado.add(ua);
         }
 

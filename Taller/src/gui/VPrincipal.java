@@ -273,9 +273,7 @@ public class VPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_menuEmpleadosActionPerformed
 
     private void menuSolicitudesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSolicitudesActionPerformed
-        // TODO add your handling code here:
-        VCategorias vc = new VCategorias(this, true, this.fa);
-        vc.setVisible(true);
+
     }//GEN-LAST:event_menuSolicitudesActionPerformed
 
     private void anhadirVehiculoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anhadirVehiculoBotonActionPerformed

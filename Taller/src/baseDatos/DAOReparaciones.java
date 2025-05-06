@@ -7,12 +7,15 @@ package baseDatos;
 import aplicacion.Mecanico;
 import aplicacion.Reparacion;
 import aplicacion.Repuesto;
+import aplicacion.Stock_U_A;
 import aplicacion.TipoReparacion;
 import aplicacion.Vehiculo;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -203,43 +206,9 @@ public class DAOReparaciones extends AbstractDAO {
         }
         return resultado;
     }
-/*
-    public Repuesto obtenerRepuesto(String nombre) {
-        Repuesto resultado=null;
-        Connection con;
-        PreparedStatement stmRepuesto=null;
-        ResultSet rsRepuesto;
-
-        con=this.getConexion();
-        try {
-        stmRepuesto=con.prepareStatement("select idrepuesto, nombre, descripcion, preciounidad, stock "+
-                                        "from repuesto "+
-                                        "where nombre = ? ");
-        stmRepuesto.setString(1, nombre);
-        rsRepuesto=stmRepuesto.executeQuery();
-        if (rsRepuesto.next())
-        {
-            resultado = new Repuesto(rsRepuesto.getInt("idrepuesto"), rsRepuesto.getString("nombre"), rsRepuesto.getString("descripcion"), rsRepuesto.getFloat("preciounidad"), rsRepuesto.getInt("stock"));
-        }
-        } catch (SQLException e){
-          System.out.println(e.getMessage());
-          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
-        }finally{
-          try {stmReparaciones.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
-        }
-        return resultado;
-    }
-          try {stmRepuesto.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
-        }
-        return resultado;
-    }
-
-*/
-
-    
 
     public boolean esFinalizada(Integer idreparacion) {
-        Boolean resultado=null;
+        boolean resultado=true;
         Connection con;
         PreparedStatement stmReparaciones=null;
         ResultSet rsReparaciones;
@@ -255,7 +224,7 @@ public class DAOReparaciones extends AbstractDAO {
          rsReparaciones=stmReparaciones.executeQuery();
         while (rsReparaciones.next())
         {
-            resultado = !rsReparaciones.getString("fechafin").isBlank();
+            resultado = rsReparaciones.getString("fechafin")!=null;
         }
         } catch (SQLException e){
           System.out.println(e.getMessage());
@@ -277,7 +246,38 @@ public class DAOReparaciones extends AbstractDAO {
         try  {
          stmReparaciones=con.prepareStatement(consulta);
          stmReparaciones.setInt(1, idreparacion);
-         stmReparaciones.executeQuery();
+         stmReparaciones.executeUpdate();
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmReparaciones.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+    }
+
+    public void finalizarReparacion(Integer idreparacion, List<Stock_U_A> stock) {
+        Connection con;
+        PreparedStatement stmReparaciones=null;
+        ArrayList<Integer> idsrepuestos = new ArrayList<Integer>();
+        ArrayList<Integer> cantidades = new ArrayList<Integer>();
+        con=this.getConexion();
+        
+        String transaccion = "Begin; ";
+        for (Stock_U_A s : stock) {
+            transaccion = transaccion + "Update repuesto set stock = ? " + "where idrepuesto = ?; ";
+            idsrepuestos.add(s.getIdrepuesto());
+            cantidades.add(s.getAlmacen()-s.getUsado());
+        }
+        transaccion = transaccion + "Update reparacion set fechafin = current_date " + "where idreparacion = ?; ";
+        transaccion = transaccion + "commit;";
+        try  {
+         stmReparaciones=con.prepareStatement(transaccion);
+         for(int i = 0; i<stock.size(); i++) {
+             stmReparaciones.setInt(2*(i+1)-1, cantidades.get(i));
+             stmReparaciones.setInt(2*(i+1), idsrepuestos.get(i));
+         }
+         stmReparaciones.setInt(stock.size()+2, idreparacion);
+         stmReparaciones.executeUpdate();
         } catch (SQLException e){
           System.out.println(e.getMessage());
           this.getFachadaAplicacion().muestraExcepcion(e.getMessage());

@@ -4,8 +4,7 @@
  */
 package gui;
 
-import aplicacion.Categoria;
-import aplicacion.Vehiculo;
+
 import aplicacion.Mecanico;
 
 /**

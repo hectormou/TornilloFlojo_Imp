@@ -4,10 +4,12 @@
  */
 package gui;
 
+import aplicacion.EmpleadoPracticas;
 import aplicacion.FachadaAplicacion;
 import aplicacion.JefeTaller;
 import aplicacion.Reparacion;
 import aplicacion.Stock_U_A;
+import aplicacion.Subordinado;
 import aplicacion.TipoReparacion;
 import java.util.List;
 
@@ -20,6 +22,8 @@ public class VReparacion extends javax.swing.JDialog {
     private Reparacion reparacion;
     private TipoReparacion tipoReparacion;
     private JefeTaller supervisor;
+    private List<Subordinado> mecanicos;
+    private List<EmpleadoPracticas> practicas;
     
     private VVehiculo padre;
     private aplicacion.FachadaAplicacion fa;
@@ -31,7 +35,10 @@ public class VReparacion extends javax.swing.JDialog {
         this.reparacion=fa.obtenerReparacion(idreparacion);
         this.tipoReparacion=fa.obtenerTipoReparacion(reparacion.getTipo());
         if(reparacion.getSupervisorid()!=null) this.supervisor=fa.obtenerJefeTaller(reparacion.getSupervisorid());
+        //empleados
+        //
         initComponents();
+        setLocationRelativeTo(null);
         setTextos();
         setBotones();
         buscarStock();
@@ -55,7 +62,6 @@ public class VReparacion extends javax.swing.JDialog {
         tablaStock = new javax.swing.JTable();
         repararBoton = new javax.swing.JButton();
         descartarBoton = new javax.swing.JButton();
-        anhadirEmpleadoBoton = new javax.swing.JButton();
         salirBoton = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         descripcionTipoReparacionTextArea = new javax.swing.JTextArea();
@@ -68,6 +74,8 @@ public class VReparacion extends javax.swing.JDialog {
         supervisorNombreTextField = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         supervisorIdTextField = new javax.swing.JTextField();
+        anhadirMecanicoBoton = new javax.swing.JButton();
+        anhadirPracticasBoton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gestión Vehículo");
@@ -96,13 +104,6 @@ public class VReparacion extends javax.swing.JDialog {
         descartarBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 descartarBotonActionPerformed(evt);
-            }
-        });
-
-        anhadirEmpleadoBoton.setText("Añadir empleado\n en prácticas");
-        anhadirEmpleadoBoton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                anhadirEmpleadoBotonActionPerformed(evt);
             }
         });
 
@@ -137,14 +138,36 @@ public class VReparacion extends javax.swing.JDialog {
 
         supervisorIdTextField.setEditable(false);
 
+        anhadirMecanicoBoton.setText("Añadir mecánico");
+        anhadirMecanicoBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                anhadirMecanicoBotonActionPerformed(evt);
+            }
+        });
+
+        anhadirPracticasBoton.setText("Añadir empleado en prácticas");
+        anhadirPracticasBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                anhadirPracticasBotonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(repararBoton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(descartarBoton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(salirBoton))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -160,15 +183,19 @@ public class VReparacion extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(supervisorNombreTextField))
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(anhadirEmpleadoBoton)
-                                    .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(anhadirPracticasBoton, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                         .addComponent(jLabel8)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(supervisorIdTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(28, 28, 28)
+                                        .addComponent(supervisorIdTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addGap(77, 77, 77)
+                                        .addComponent(jLabel5))
+                                    .addComponent(anhadirMecanicoBoton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
                             .addGroup(layout.createSequentialGroup()
@@ -179,13 +206,7 @@ public class VReparacion extends javax.swing.JDialog {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(fechaFinTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
                                     .addComponent(fechaInicioTextField)))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(repararBoton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(descartarBoton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(salirBoton)))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -203,50 +224,64 @@ public class VReparacion extends javax.swing.JDialog {
                     .addComponent(tipoReparacionTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
                     .addComponent(fechaFinTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(supervisorNombreTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel4))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel7)
+                        .addComponent(supervisorNombreTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
                             .addComponent(supervisorIdTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(anhadirEmpleadoBoton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel5))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(anhadirMecanicoBoton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(anhadirPracticasBoton))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(repararBoton)
                     .addComponent(descartarBoton)
                     .addComponent(salirBoton))
-                .addGap(14, 14, 14))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void repararBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_repararBotonActionPerformed
-        // TODO add your handling code here:
+        ModeloTablaStock_U_A r= (ModeloTablaStock_U_A) tablaStock.getModel();
+        List<Stock_U_A> stock = r.getFilas();
+        
+        if(r.hayStock()) {
+            fa.finalizarReparacion(reparacion.getIdreparacion(), stock);
+            this.dispose();
+        }
     }//GEN-LAST:event_repararBotonActionPerformed
-
-    private void anhadirEmpleadoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anhadirEmpleadoBotonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_anhadirEmpleadoBotonActionPerformed
 
     private void descartarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_descartarBotonActionPerformed
         fa.borrarReparacion(reparacion.getIdreparacion());
+        this.dispose();
     }//GEN-LAST:event_descartarBotonActionPerformed
 
     private void salirBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirBotonActionPerformed
         this.dispose();
     }//GEN-LAST:event_salirBotonActionPerformed
+
+    private void anhadirMecanicoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anhadirMecanicoBotonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_anhadirMecanicoBotonActionPerformed
+
+    private void anhadirPracticasBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anhadirPracticasBotonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_anhadirPracticasBotonActionPerformed
 
     private void setTextos() {
         idTextField.setText(String.valueOf(reparacion.getIdreparacion()));
@@ -259,14 +294,17 @@ public class VReparacion extends javax.swing.JDialog {
             supervisorNombreTextField.setText(supervisor.getNombre());
             supervisorIdTextField.setText(supervisor.getIdMecanico());
         } else {
-            supervisorNombreTextField.setText("  -");
-            supervisorIdTextField.setText("  -");
+            supervisorNombreTextField.setText("      -");
+            supervisorIdTextField.setText("      -");
         }
     }
     
     private void setBotones() {
-        if(!tipoReparacion.esApto_practicas())anhadirEmpleadoBoton.setEnabled(false);
-        if(reparacion.getFecha_fin()!=null) descartarBoton.setEnabled(false);
+        if(reparacion.getFecha_fin()!=null) {
+            descartarBoton.setEnabled(false);
+            repararBoton.setEnabled(false);
+            anhadirMecanicoBoton.setEnabled(false);
+        }
     }
     
     private void buscarStock() {
@@ -279,7 +317,8 @@ public class VReparacion extends javax.swing.JDialog {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton anhadirEmpleadoBoton;
+    private javax.swing.JButton anhadirMecanicoBoton;
+    private javax.swing.JButton anhadirPracticasBoton;
     private javax.swing.JButton descartarBoton;
     private javax.swing.JTextArea descripcionTipoReparacionTextArea;
     private javax.swing.JTextField fechaFinTextField;

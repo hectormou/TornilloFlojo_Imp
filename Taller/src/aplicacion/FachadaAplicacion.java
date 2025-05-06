@@ -17,10 +17,6 @@ public class FachadaAplicacion {
     private final gui.FachadaGui fgui;
     private final baseDatos.FachadaBaseDatos fbd;
     
-    //
-    GestionCategorias cc;
-    //
-    //NECESARIOS
     private final GestionMecanicos cm;
     private final GestionVehiculos cv;
     private final GestionClientes cl;
@@ -33,11 +29,6 @@ public class FachadaAplicacion {
         fgui=new gui.FachadaGui(this);
         fbd= new baseDatos.FachadaBaseDatos(this);
 
-         //
-        cc = new GestionCategorias(fgui, fbd);
-
-        //
-        //NECESARIOS
         cv = new GestionVehiculos(fgui, fbd);
         cm = new GestionMecanicos(fgui, fbd);
         cl = new GestionClientes(fgui, fbd);
@@ -166,5 +157,9 @@ public class FachadaAplicacion {
 
     public void borrarReparacion(Integer idreparacion) {
         cr.borrarReparacion(idreparacion);
+    }
+
+    public void finalizarReparacion(Integer idreparacion, List<Stock_U_A> stock) {
+        cr.finalizarReparacion(idreparacion, stock);
     }
 }

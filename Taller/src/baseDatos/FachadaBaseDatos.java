@@ -203,4 +203,8 @@ public class FachadaBaseDatos {
     public void borrarReparacion(Integer idreparacion) {
         daoReparaciones.borrarReparacion(idreparacion);
     }
+
+    public void finalizarReparacion(Integer idreparacion, List<Stock_U_A> stock) {
+        daoReparaciones.finalizarReparacion(idreparacion, stock);
+    }
 }

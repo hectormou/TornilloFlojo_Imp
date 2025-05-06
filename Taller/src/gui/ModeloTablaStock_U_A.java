@@ -32,7 +32,7 @@ public class ModeloTablaStock_U_A extends AbstractTableModel {
         String nombre="";
 
         switch (col){
-            case 0: nombre= "ID"; break;
+            case 0: nombre= "Nombre"; break;
             case 1: nombre= "Cantidad"; break;
             case 2: nombre="En almacén"; break;
         }
@@ -44,7 +44,7 @@ public class ModeloTablaStock_U_A extends AbstractTableModel {
         Class clase=null;
 
         switch (col){
-            case 0: clase= java.lang.Integer.class; break;
+            case 0: clase= java.lang.String.class; break;
             case 1: clase= java.lang.Integer.class; break;
             case 2: clase=java.lang.Integer.class; break;
         }
@@ -61,7 +61,7 @@ public class ModeloTablaStock_U_A extends AbstractTableModel {
         Object resultado=null;
 
         switch (col){
-            case 0: resultado= ua.get(i).getIdrepuesto(); break;
+            case 0: resultado= ua.get(i).getNombre(); break;
             case 1: resultado= ua.get(i).getUsado(); break;
             case 2: resultado=ua.get(i).getAlmacen();break;
         }
@@ -91,5 +91,11 @@ public class ModeloTablaStock_U_A extends AbstractTableModel {
 
     public Stock_U_A obtenerCliente(int i){
         return this.ua.get(i);
+    }
+    
+    public boolean hayStock() {
+        for(Stock_U_A s : ua)
+            if(s.getAlmacen()-s.getUsado() < 0) return false;
+        return true;
     }
 }

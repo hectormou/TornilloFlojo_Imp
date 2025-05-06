@@ -15,8 +15,6 @@ import aplicacion.Cliente;
 import aplicacion.Vehiculo;
 import aplicacion.Mecanico;
 import aplicacion.Reparacion;
-import java.util.ArrayList;
-
 import java.util.List;
 
 
@@ -32,8 +30,8 @@ public class VVehiculo extends javax.swing.JDialog {
      private Mecanico supervisor;
      private Cliente clienteseleccionado;
 
-     private VPrincipal padre;
-     private aplicacion.FachadaAplicacion fa;
+     private final VPrincipal padre;
+     private final aplicacion.FachadaAplicacion fa;
 
     //PARA MODIFICAR VEHICULO
     public VVehiculo(java.awt.Frame parent, boolean modal, aplicacion.FachadaAplicacion fa, String matricula) {
@@ -48,7 +46,6 @@ public class VVehiculo extends javax.swing.JDialog {
         padre=(VPrincipal) parent;
         
         setBotonesVehiculo(vehiculo);
-        //  seleccionarClienteBoton.setEnabled(false);
         buscarClientes();
         buscarReparaciones();
         eliminarClienteBoton.setEnabled(false);
@@ -251,6 +248,11 @@ public class VVehiculo extends javax.swing.JDialog {
         panelVehiculo.addTab("Vehiculo", panelDatos);
 
         TablaReparaciones.setModel(new ModeloTablaReparaciones(this.fa));
+        TablaReparaciones.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TablaReparacionesMouseClicked(evt);
+            }
+        });
         tablaReparaciones.setViewportView(TablaReparaciones);
 
         gestionarBoton.setText("Gestionar");
@@ -335,10 +337,11 @@ public class VVehiculo extends javax.swing.JDialog {
         buscaKilometraje.setText(vehiculo.getKilometraje().toString());
         buscaCliente.setText(this.propietario.getNombre());
         
+        seleccionSupervisor.setSelectedItem(vehiculo.getSupervisorID());
         for(String s : fa.obtenerIDsJefesTaller())
         seleccionSupervisor.addItem(s);
         
-        seleccionSupervisor.setSelectedItem(vehiculo.getSupervisorID());
+        gestionarBoton.setEnabled(false);
     }
     
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -435,6 +438,8 @@ public class VVehiculo extends javax.swing.JDialog {
         
         VReparacion vr = new VReparacion(this, true, this.fa, idreparacion);
         vr.setVisible(true);
+        gestionarBoton.setEnabled(false);
+        buscarReparaciones();
     }//GEN-LAST:event_gestionarBotonActionPerformed
 
     private void anhadirBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anhadirBotonActionPerformed
@@ -442,6 +447,10 @@ public class VVehiculo extends javax.swing.JDialog {
         vnr.setVisible(true);
         buscarReparaciones();
     }//GEN-LAST:event_anhadirBotonActionPerformed
+
+    private void TablaReparacionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaReparacionesMouseClicked
+        gestionarBoton.setEnabled(true);
+    }//GEN-LAST:event_TablaReparacionesMouseClicked
 
     /**
     * @param args the command line arguments

@@ -10,7 +10,7 @@ package baseDatos;
  * @author basesdatos
  */
 public abstract class AbstractDAO {
-   private aplicacion.FachadaAplicacion fa;
+   protected aplicacion.FachadaAplicacion fa;
    private java.sql.Connection conexion;
 
    
