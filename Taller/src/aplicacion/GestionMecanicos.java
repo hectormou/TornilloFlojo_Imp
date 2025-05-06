@@ -70,4 +70,12 @@ public class GestionMecanicos {
         public int obtenerReparacionesAsistidas(String idAlumno) {
             return fbd.obtenerReparacionesAsistidas(idAlumno);
         }
+    
+    public boolean updateMecanico(String id, String nombre, String clave, String tlf, Integer sueldo){
+        return fbd.updateMecanico(id,nombre,clave,tlf,sueldo);
+    }
+    
+    public void ascenderMecanico(String id){
+        fbd.ascenderMecanico(id);
+    }
 }

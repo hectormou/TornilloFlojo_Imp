@@ -7,6 +7,7 @@ package baseDatos;
 
 import aplicacion.Mecanico;
 import aplicacion.Cliente;
+import aplicacion.EmpleadoPracticas;
 import aplicacion.JefeTaller;
 import aplicacion.Reparacion;
 import aplicacion.Repuesto;
@@ -33,6 +34,7 @@ public class FachadaBaseDatos {
     private DAOClientes daoClientes;
     private DAOReparaciones daoReparaciones;
     private DAORepuestos daoRepuestos;
+    private DAOPracticas daoPracticas;
 
     public FachadaBaseDatos (aplicacion.FachadaAplicacion fa){
         
@@ -73,6 +75,7 @@ public class FachadaBaseDatos {
             daoClientes = new DAOClientes(conexion, fa);
             daoReparaciones = new DAOReparaciones(conexion, fa);
             daoRepuestos = new DAORepuestos(conexion, fa);
+            daoPracticas = new DAOPracticas(conexion, fa);
           
 
 
@@ -240,4 +243,15 @@ public class FachadaBaseDatos {
     public int obtenerReparacionesAsistidas(String idAlumno) {
 return daoMecanicos.obtenerReparacionesAsistidas(idAlumno) ;   }
 
+    public boolean updateMecanico(String id, String nombre, String clave, String tlf, Integer sueldo){
+        return daoMecanicos.updateMecanico(id,nombre,clave,tlf,sueldo);
+    }
+    
+    public void ascenderMecanico(String id){
+        daoMecanicos.ascenderMecanico(id);
+    }
+    
+    public ArrayList<EmpleadoPracticas> buscarPracticas(String nombreTutor){
+        return daoPracticas.buscarPracticas(nombreTutor);
+    }
 }

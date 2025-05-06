@@ -11,13 +11,15 @@ package aplicacion;
 public class EmpleadoPracticas {
     private int idalumno;
     private String nombre;
-    private String tutorid;
+    private JefeTaller tutor;
+    private Integer reparacionesAsistidas;
 
     // Constructor
-    public EmpleadoPracticas(int idalumno, String nombre, String tutorid) {
+    public EmpleadoPracticas(int idalumno, String nombre, JefeTaller tutor, Integer reparacionesAsistidas) {
         this.idalumno = idalumno;
         this.nombre = nombre;
-        this.tutorid = tutorid;
+        this.tutor = tutor;
+        this.reparacionesAsistidas = reparacionesAsistidas;
     }
 
     // Getters
@@ -29,8 +31,12 @@ public class EmpleadoPracticas {
         return nombre;
     }
 
-    public String getTutorid() {
-        return tutorid;
+    public JefeTaller getTutor() {
+        return tutor;
+    }
+    
+    public Integer getReparacionesAsistidas() {
+        return this.reparacionesAsistidas;
     }
 
     // Setters
@@ -42,7 +48,11 @@ public class EmpleadoPracticas {
         this.nombre = nombre;
     }
 
-    public void setTutorid(String tutorid) {
-        this.tutorid = tutorid;
+    public void setTutor(JefeTaller tutor) {
+        this.tutor = tutor;
+    }
+    
+    public void setReparacionesAsistidas(Integer reparacionesAsistidas) {
+        this.reparacionesAsistidas = reparacionesAsistidas;
     }
 }
