@@ -5,6 +5,7 @@
 
 package aplicacion;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -142,11 +143,7 @@ public class FachadaAplicacion {
     public Reparacion anhadirReparacion(Vehiculo vehiculo, String tipo, Mecanico mecanico) {
         return cr.anhadirReparacion(vehiculo, tipo, mecanico);
     }
-/*
-    public Repuesto obtenerRepuesto(String nombre) {
-        return cr.obtenerRepuesto(nombre);
-    }
-*/
+
     public void anhadirRepuestoNecesarior(Integer idReparacion, Integer idRepuesto, int cantidad) {
         crp.anhadirRepuestoNecesario(idReparacion, idRepuesto, cantidad);
     }
@@ -161,5 +158,22 @@ public class FachadaAplicacion {
 
     public void finalizarReparacion(Integer idreparacion, List<Stock_U_A> stock) {
         cr.finalizarReparacion(idreparacion, stock);
+    }
+
+    public List<Repuesto> obtenerRepuestos(String id, String nombre) {
+        return crp.obtenerRepuestos(id, nombre);
+    }
+
+    public void nuevaSolicitud(Repuesto repuesto, String cantidad, Mecanico mecanico) {
+        crp.nuevaSolicitud(repuesto, cantidad, mecanico);
+    }
+    
+    
+    public ArrayList<Mecanico> buscarMecanicos(String id, String modo){
+        return cm.buscarMecanicos(id, modo);
+    }
+    
+    public boolean despedirMecanico(String id){
+        return cm.despedirMecanico(id);
     }
 }

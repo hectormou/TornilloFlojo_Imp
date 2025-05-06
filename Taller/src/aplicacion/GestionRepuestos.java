@@ -40,4 +40,12 @@ public class GestionRepuestos {
     public void anhadirRepuestoNecesario(Integer idReparacion, Integer idRepuesto, int cantidad) {
         fbd.anhadirRepuestoNecesario(idReparacion, idRepuesto, cantidad);
     }
+
+    public List<Repuesto> obtenerRepuestos(String id, String nombre) {
+        return fbd.obtenerRepuestos(id, nombre);
+    }
+
+    void nuevaSolicitud(Repuesto repuesto, String cantidad, Mecanico mecanico) {
+        fbd.nuevaSolicitud(repuesto, cantidad, mecanico);
+    }
 }

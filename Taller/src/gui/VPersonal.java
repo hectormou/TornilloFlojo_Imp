@@ -24,6 +24,7 @@ public class VPersonal extends javax.swing.JDialog {
     public VPersonal(java.awt.Frame parent, boolean modal, FachadaAplicacion fa, Mecanico mecanicoActual) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);
         this.fa = fa;
         this.mecanicoActual = mecanicoActual;
         this.obtenerDatosMecanicoActual();

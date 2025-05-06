@@ -10,13 +10,13 @@ import aplicacion.Cliente;
 import aplicacion.JefeTaller;
 import aplicacion.Reparacion;
 import aplicacion.Repuesto;
-import java.util.List;
 import aplicacion.Stock_U_A;
 import aplicacion.TipoReparacion;
 import aplicacion.Vehiculo;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -26,7 +26,7 @@ import java.util.Properties;
  * @author basesdatos
  */
 public class FachadaBaseDatos {
-    private final aplicacion.FachadaAplicacion fa;
+    private  aplicacion.FachadaAplicacion fa;
     private java.sql.Connection conexion;
     private DAOVehiculos daoVehiculos;
     private DAOMecanicos daoMecanicos;
@@ -206,5 +206,21 @@ public class FachadaBaseDatos {
 
     public void finalizarReparacion(Integer idreparacion, List<Stock_U_A> stock) {
         daoReparaciones.finalizarReparacion(idreparacion, stock);
+    }
+    
+    public List<Repuesto> obtenerRepuestos(String id, String nombre) {
+        return daoRepuestos.obtenerRepuestos(id, nombre);
+    }
+
+    public void nuevaSolicitud(Repuesto repuesto, String cantidad, Mecanico mecanico) {
+        daoRepuestos.nuevaSolicitud(repuesto, cantidad, mecanico);
+    }
+    
+    public ArrayList<Mecanico> buscarMecanicos(String id, String modo){
+        return daoMecanicos.buscarMecanicos(id, modo);
+    }
+    
+    public boolean despedirMecanico(String id){
+        return daoMecanicos.despedirMecanico(id);
     }
 }

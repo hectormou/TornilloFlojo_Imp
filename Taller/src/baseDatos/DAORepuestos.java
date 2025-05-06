@@ -5,6 +5,8 @@
 package baseDatos;
 
 
+
+import aplicacion.Mecanico;
 import aplicacion.Repuesto;
 import aplicacion.Stock_U_A;
 import java.sql.Connection;
@@ -101,6 +103,62 @@ public class DAORepuestos extends AbstractDAO{
           this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
         }finally{
           try {stmReparacion.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+    }
+
+    public List<Repuesto> obtenerRepuestos(String id, String nombre) {
+        java.util.List<Repuesto> resultado = new java.util.ArrayList<Repuesto>();
+        Connection con;
+        PreparedStatement stmRepuestos=null;
+        ResultSet rsRepuestos;
+
+        con=this.getConexion();
+        
+        String consulta = "select idrepuesto, nombre, descripcion, preciounidad, stock " + 
+                "from repuesto where nombre like ? ";
+        
+        
+        try  {
+         stmRepuestos=con.prepareStatement(consulta);
+         stmRepuestos.setString(1, nombre+"%");
+         if(id != null && !id.isBlank()) {
+             stmRepuestos = con.prepareStatement(consulta + " and idrepuesto = ?");
+             stmRepuestos.setString(1, nombre+"%");
+             stmRepuestos.setInt(2, Integer.parseInt(id));
+         }
+         rsRepuestos=stmRepuestos.executeQuery();
+        while (rsRepuestos.next())
+        {
+            resultado.add(new Repuesto(rsRepuestos.getInt("idrepuesto"), rsRepuestos.getString("nombre"), rsRepuestos.getString("descripcion"), rsRepuestos.getFloat("preciounidad"), rsRepuestos.getInt("stock")));
+        }
+
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmRepuestos.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+        return resultado;
+    }
+
+    public void nuevaSolicitud(Repuesto repuesto, String cantidad, Mecanico mecanico) {
+        Connection con;
+        PreparedStatement stmRepuesto=null;
+
+        con=this.getConexion();
+        try {
+        stmRepuesto=con.prepareStatement("insert into solicitud (repuesto, fecha, cantidad, idmecanico)  "+
+                                        " values (?, ?, ?, ?) ");
+        stmRepuesto.setInt(1, repuesto.getId());
+        stmRepuesto.setDate(2, new java.sql.Date(System.currentTimeMillis()));
+        stmRepuesto.setInt(3, Integer.parseInt(cantidad));
+        stmRepuesto.setString(4, mecanico.getIdMecanico());
+        stmRepuesto.executeUpdate();
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmRepuesto.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
         }
     }
     
