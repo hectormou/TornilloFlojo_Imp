@@ -93,7 +93,7 @@ public class ModeloTablaMecanicos extends AbstractTableModel{
         fireTableRowsInserted(this.mecanicos.size()-1, this.mecanicos.size()-1);
     }
 
-    public void borrarCliente(int indice){
+    public void borrarMecanico(int indice){
         this.mecanicos.remove(indice);
         fireTableRowsDeleted(indice, indice);
     }

@@ -64,4 +64,12 @@ public class GestionMecanicos {
     public void anhadirSubordinado(String id, String nombre, String clave, String tlf, Integer sueldo){
         fbd.anhadirSubordinado(id, nombre, clave, tlf, sueldo);
     }
+    
+    public boolean updateMecanico(String id, String nombre, String clave, String tlf, Integer sueldo){
+        return fbd.updateMecanico(id,nombre,clave,tlf,sueldo);
+    }
+    
+    public void ascenderMecanico(String id){
+        fbd.ascenderMecanico(id);
+    }
 }
