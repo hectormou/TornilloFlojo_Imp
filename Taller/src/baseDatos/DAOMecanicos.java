@@ -172,13 +172,26 @@ public class DAOMecanicos extends AbstractDAO {
     public void cambiarContraseña(String nuevaContraseña, String idMecanico) {
         Connection con = this.getConexion();
         PreparedStatement stmContraseña=null;
+        PreparedStatement stmContraseñaAux;
+        ResultSet rsCon;
+
         
         try  {
+        con.setAutoCommit(false);
+        stmContraseñaAux=con.prepareStatement("Select * from mecanico where idmecanico = ? for update");
+        stmContraseñaAux.setString(1, idMecanico);
+        rsCon=stmContraseñaAux.executeQuery();
+
+        if(rsCon.next()){
         String consulta = "update mecanico set clave = ? where idmecanico ILIKE ?";
         stmContraseña=con.prepareStatement(consulta);
         stmContraseña.setString(1, nuevaContraseña);
         stmContraseña.setString(2, idMecanico);
         stmContraseña.executeUpdate();
+        
+        con.commit();
+        }else con.rollback();
+
         } catch (SQLException e){
           System.out.println(e.getMessage());
           this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
@@ -190,8 +203,19 @@ public class DAOMecanicos extends AbstractDAO {
     public void editarMecanico(String clave, String nombre, Date fechaIngreso, int sueldoBase, String id){
         Connection con = this.getConexion();
         PreparedStatement stmMecanico = null;
+        PreparedStatement stmMecanicoAux = null;
+        ResultSet rsMec=null;
+
 
         try {
+            con.setAutoCommit(false);
+            stmMecanicoAux=con.prepareStatement("select * from mecanico where idmecanico= ? for update");
+            stmMecanicoAux.setString(1,id);
+            
+            rsMec=stmMecanicoAux.executeQuery();
+            
+            if(rsMec.next()){
+            
             String consulta = "UPDATE mecanico SET clave = ?, nombre = ?, fechaingreso = ?, sueldobase = ? WHERE idmecanico ILIKE ?";
             stmMecanico = con.prepareStatement(consulta);
             stmMecanico.setString(1, clave);
@@ -201,6 +225,9 @@ public class DAOMecanicos extends AbstractDAO {
             stmMecanico.setString(5, id);
 
             stmMecanico.executeUpdate();
+            
+            con.commit();
+            }else con.rollback();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
@@ -510,11 +537,20 @@ public class DAOMecanicos extends AbstractDAO {
     public boolean updateMecanico(String id, String nombre, String clave, String tlf, Integer sueldo){
         Connection con = this.getConexion();
         PreparedStatement stmMecanico=null;
+        PreparedStatement stmMecanicoAux=null;
+        ResultSet rsMec=null;
+
         if(!puedeAscender(id)){
             return false;
         }
         
         try{
+        con.setAutoCommit(false);
+        stmMecanicoAux=con.prepareStatement("select * from mecanico where idMecanico= ? for update");
+        stmMecanicoAux.setString(1,id);
+        
+        rsMec=stmMecanicoAux.executeQuery();
+        if(rsMec.next()){
         String consulta = "update mecanico set nombre = ?, clave = ?, telefonoContacto = ?, sueldoBase = ? "+
                 "where idMecanico = ?";
         stmMecanico=con.prepareStatement(consulta);
@@ -524,6 +560,9 @@ public class DAOMecanicos extends AbstractDAO {
         stmMecanico.setInt(4, sueldo);
         stmMecanico.setString(5, id);
         stmMecanico.executeUpdate();
+        
+        con.commit();
+        }else con.rollback();
         } catch (SQLException e){
           System.out.println(e.getMessage());
           this.getFachadaAplicacion().muestraExcepcion(e.getMessage());

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 /**
  *
  * @author alumnogreibd
- */
+ */ 
 public class VEmpleados extends javax.swing.JDialog {
     private FachadaAplicacion fa;
     private Frame parent;
