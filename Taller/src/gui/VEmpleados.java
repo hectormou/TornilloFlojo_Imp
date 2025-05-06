@@ -1,8 +1,10 @@
 package gui;
 
 import aplicacion.FachadaAplicacion;
+import aplicacion.JefeTaller;
 import aplicacion.Mecanico;
 import java.awt.Frame;
+import java.util.ArrayList;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -252,8 +254,8 @@ public class VEmpleados extends javax.swing.JDialog {
 
     public void buscarMecanicos(){
         ModeloTablaMecanicos m;
-
         m=(ModeloTablaMecanicos) tablaMecanicos.getModel();
+        
         m.setFilas(fa.buscarMecanicos(buscaId.getText(),(String) comboOrdenar.getSelectedItem()));
         if (m.getRowCount() > 0) {
             tablaMecanicos.setRowSelectionInterval(0, 0);
@@ -275,4 +277,5 @@ public class VEmpleados extends javax.swing.JDialog {
         }
         return m;
     }
+    
 }

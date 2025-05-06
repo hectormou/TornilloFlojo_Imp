@@ -188,4 +188,9 @@ public class FachadaAplicacion {
     public Mecanico obtenerMecanico(String mecanicoid) {
         return cm.obtenerMecanico(mecanicoid);
     }
+        public int obtenerReparacionesAsistidas(String idAlumno) {
+            return cm.obtenerReparacionesAsistidas(idAlumno);
+        }
+
+    
 }

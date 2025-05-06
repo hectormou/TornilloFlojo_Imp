@@ -140,10 +140,14 @@ public class DAOVehiculos extends AbstractDAO {
     public void modificarVehiculo(Vehiculo vehiculo){
         Connection con;
         PreparedStatement stmVehiculo=null;
+        PreparedStatement compVehiculo=null;
 
         con=super.getConexion();
 
         try {
+            con.setAutoCommit(false);
+            compVehiculo=con.prepareStatement("select")
+            
         stmVehiculo=con.prepareStatement("update vehiculo "+
                                     "set marca=?, "+
                                     "    modelo=?, "+
@@ -160,6 +164,8 @@ public class DAOVehiculos extends AbstractDAO {
         stmVehiculo.setString(6, vehiculo.getPropietarioDNI());
         stmVehiculo.setString(7,vehiculo.getMatricula());
         stmVehiculo.executeUpdate();
+        
+        con.commit();
 
         }  catch (SQLException e){
           System.out.println(e.getMessage());

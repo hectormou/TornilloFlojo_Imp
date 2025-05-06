@@ -236,4 +236,8 @@ public class FachadaBaseDatos {
         return daoMecanicos.obtenerMecanico(mecanicoid);
     }
 
+    
+    public int obtenerReparacionesAsistidas(String idAlumno) {
+return daoMecanicos.obtenerReparacionesAsistidas(idAlumno) ;   }
+
 }
