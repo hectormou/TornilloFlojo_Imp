@@ -52,5 +52,12 @@ public class GestionMecanicos {
     public boolean despedirMecanico(String id){
         return fbd.despedirMecanico(id);
     }
+    
+    public void anhadirJefeDeTaller(String id, String nombre, String clave, String tlf, Integer sueldo){
+        fbd.anhadirJefeDeTaller(id, nombre, clave, tlf, sueldo);
+    }
  
+    public void anhadirSubordinado(String id, String nombre, String clave, String tlf, Integer sueldo){
+        fbd.anhadirSubordinado(id, nombre, clave, tlf, sueldo);
+    }
 }

@@ -26,6 +26,10 @@ public class VEmpleados extends javax.swing.JDialog {
         this.fa = fa;
         this.parent = parent;
     }
+    
+    public java.awt.Frame getParent(){
+        return this.parent;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -84,6 +88,11 @@ public class VEmpleados extends javax.swing.JDialog {
         jScrollPane1.setViewportView(tablaMecanicos);
 
         botonContratar.setText("Contratar");
+        botonContratar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonContratarActionPerformed(evt);
+            }
+        });
 
         botonDespedir.setText("Despedir");
         botonDespedir.addActionListener(new java.awt.event.ActionListener() {
@@ -215,6 +224,13 @@ public class VEmpleados extends javax.swing.JDialog {
             }
         }
     }//GEN-LAST:event_botonDespedirActionPerformed
+
+    private void botonContratarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonContratarActionPerformed
+        // TODO add your handling code here:
+        VNuevoMecanico vn = new VNuevoMecanico(this, true, this.fa);
+        vn.setVisible(true);
+        buscarMecanicos();
+    }//GEN-LAST:event_botonContratarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonBuscar;

@@ -223,4 +223,12 @@ public class FachadaBaseDatos {
     public boolean despedirMecanico(String id){
         return daoMecanicos.despedirMecanico(id);
     }
+    
+    public void anhadirJefeDeTaller(String id, String nombre, String clave, String tlf, Integer sueldo){
+        daoMecanicos.anhadirJefeDeTaller(id, nombre, clave, tlf, sueldo);
+    }
+    
+    public void anhadirSubordinado(String id, String nombre, String clave, String tlf, Integer sueldo){
+        daoMecanicos.anhadirSubordinado(id, nombre, clave, tlf, sueldo);
+    }
 }

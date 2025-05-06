@@ -10,6 +10,7 @@ import aplicacion.Subordinado;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  *
  * @author basesdatos
@@ -301,5 +302,63 @@ public class DAOMecanicos extends AbstractDAO {
           try {stmMecanico.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
         }
         return true;
+    }
+    
+    public void anhadirJefeDeTaller(String id, String nombre, String clave, String tlf, Integer sueldo){
+        Connection con = this.getConexion();
+        PreparedStatement stmMecanico=null;
+        PreparedStatement stmJefeDeTaller=null;
+        Date fechaHoy = Date.valueOf(java.time.LocalDate.now());
+        try{
+        String consulta = "insert into mecanico (idMecanico, nombre, clave, telefonoContacto, sueldoBase, fechaIngreso) "+
+                "values (?, ?, ?, ?, ?, ?)";
+        stmMecanico=con.prepareStatement(consulta);
+        stmMecanico.setString(1, id);
+        stmMecanico.setString(2, nombre);
+        stmMecanico.setString(3, clave);
+        stmMecanico.setString(4, tlf);
+        stmMecanico.setInt(5, sueldo);
+        stmMecanico.setDate(6, fechaHoy);
+        consulta = "insert into JefeTaller (idMecanico) values (?)";
+        stmJefeDeTaller=con.prepareStatement(consulta);
+        stmJefeDeTaller.setString(1, id);
+        stmMecanico.executeUpdate();
+        stmJefeDeTaller.executeUpdate();
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmMecanico.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+          try {stmJefeDeTaller.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+    }
+    
+    public void anhadirSubordinado(String id, String nombre, String clave, String tlf, Integer sueldo){
+        Connection con = this.getConexion();
+        PreparedStatement stmMecanico=null;
+        PreparedStatement stmSubordinado=null;
+        Date fechaHoy = Date.valueOf(java.time.LocalDate.now());
+        try{
+        String consulta = "insert into mecanico (idMecanico, nombre, clave, telefonoContacto, sueldoBase, fechaIngreso) "+
+                "values (?, ?, ?, ?, ?, ?)";
+        stmMecanico=con.prepareStatement(consulta);
+        stmMecanico.setString(1, id);
+        stmMecanico.setString(2, nombre);
+        stmMecanico.setString(3, clave);
+        stmMecanico.setString(4, tlf);
+        stmMecanico.setInt(5, sueldo);
+        stmMecanico.setDate(6, fechaHoy);
+        consulta = "insert into Subordinado (idMecanico) values (?)";
+        stmSubordinado=con.prepareStatement(consulta);
+        stmSubordinado.setString(1, id);
+        stmMecanico.executeUpdate();
+        stmSubordinado.executeUpdate();
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmMecanico.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+          try {stmSubordinado.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
     }
 }

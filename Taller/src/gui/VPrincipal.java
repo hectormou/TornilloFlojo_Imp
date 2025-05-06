@@ -72,7 +72,7 @@ public class VPrincipal extends javax.swing.JFrame {
         menuStock = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Biblioteca de Informática");
+        setTitle("Tornillo flojo");
         setName("vPrincipal"); // NOI18N
         setResizable(false);
 

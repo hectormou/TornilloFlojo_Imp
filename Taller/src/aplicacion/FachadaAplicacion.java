@@ -176,4 +176,12 @@ public class FachadaAplicacion {
     public boolean despedirMecanico(String id){
         return cm.despedirMecanico(id);
     }
+    
+    public void anhadirJefeDeTaller(String id, String nombre, String clave, String tlf, Integer sueldo){
+        cm.anhadirJefeDeTaller(id, nombre, clave, tlf, sueldo);
+    }
+    
+    public void anhadirSubordinado(String id, String nombre, String clave, String tlf, Integer sueldo){
+        cm.anhadirSubordinado(id, nombre, clave, tlf, sueldo);
+    }
 }
