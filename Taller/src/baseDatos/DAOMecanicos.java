@@ -361,4 +361,35 @@ public class DAOMecanicos extends AbstractDAO {
           try {stmSubordinado.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
         }
     }
+
+    public Mecanico obtenerMecanico(String mecanicoid) {
+        JefeTaller resultado=null;
+        Connection con;
+        PreparedStatement stmUsuarios=null;
+        ResultSet rsMecanico;
+
+        con=this.getConexion();
+        
+        String consulta = "select  idMecanico, nombre, clave, telefonoContacto, fechaIngreso, sueldoBase " +
+                                         "from mecanico "+
+                                         "where idMecanico = ? ";
+        
+        try{
+         stmUsuarios=con.prepareStatement(consulta);
+         stmUsuarios.setString(1, mecanicoid);
+         rsMecanico=stmUsuarios.executeQuery();
+        if(rsMecanico.next())
+        {
+            resultado = new JefeTaller(rsMecanico.getString("idMecanico"), rsMecanico.getString("clave"),
+                                      rsMecanico.getString("nombre"), rsMecanico.getString("telefonoContacto"),
+                                      rsMecanico.getDate("fechaIngreso"), rsMecanico.getInt("sueldoBase"));
+        }
+        }catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmUsuarios.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+        return resultado;
+        }
 }

@@ -33,7 +33,8 @@ public class VNuevaReparacion extends javax.swing.JDialog {
         this.vehiculo = vehiculo;
         this.mecanico=mecanico;
         initComponents();
-        
+                setLocationRelativeTo(null);
+
         generarListas();
         setBotones();
         setComboBox();

@@ -56,6 +56,10 @@ public class GestionMecanicos {
     public void anhadirJefeDeTaller(String id, String nombre, String clave, String tlf, Integer sueldo){
         fbd.anhadirJefeDeTaller(id, nombre, clave, tlf, sueldo);
     }
+
+    Mecanico obtenerMecanico(String mecanicoid) {
+        return fbd.obtenerMecanico(mecanicoid);
+    }
  
     public void anhadirSubordinado(String id, String nombre, String clave, String tlf, Integer sueldo){
         fbd.anhadirSubordinado(id, nombre, clave, tlf, sueldo);

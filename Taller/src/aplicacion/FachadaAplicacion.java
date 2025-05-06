@@ -184,4 +184,8 @@ public class FachadaAplicacion {
     public void anhadirSubordinado(String id, String nombre, String clave, String tlf, Integer sueldo){
         cm.anhadirSubordinado(id, nombre, clave, tlf, sueldo);
     }
+
+    public Mecanico obtenerMecanico(String mecanicoid) {
+        return cm.obtenerMecanico(mecanicoid);
+    }
 }

@@ -231,4 +231,9 @@ public class FachadaBaseDatos {
     public void anhadirSubordinado(String id, String nombre, String clave, String tlf, Integer sueldo){
         daoMecanicos.anhadirSubordinado(id, nombre, clave, tlf, sueldo);
     }
+
+    public Mecanico obtenerMecanico(String mecanicoid) {
+        return daoMecanicos.obtenerMecanico(mecanicoid);
+    }
+
 }

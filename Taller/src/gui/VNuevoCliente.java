@@ -24,6 +24,8 @@ public class VNuevoCliente extends javax.swing.JDialog {
         this.padre = parent;
         initComponents();
         errorLabel.setVisible(false);
+                setLocationRelativeTo(null);
+
     }
 
     /**
