@@ -239,10 +239,6 @@ public class FachadaBaseDatos {
         return daoMecanicos.obtenerMecanico(mecanicoid);
     }
 
-    
-    public int obtenerReparacionesAsistidas(String idAlumno) {
-return daoMecanicos.obtenerReparacionesAsistidas(idAlumno) ;   }
-
     public boolean updateMecanico(String id, String nombre, String clave, String tlf, Integer sueldo){
         return daoMecanicos.updateMecanico(id,nombre,clave,tlf,sueldo);
     }
@@ -253,5 +249,9 @@ return daoMecanicos.obtenerReparacionesAsistidas(idAlumno) ;   }
     
     public ArrayList<EmpleadoPracticas> buscarPracticas(String nombreTutor){
         return daoPracticas.buscarPracticas(nombreTutor);
+    }
+    
+    public boolean despedirPracticas(Integer id){
+        return daoPracticas.despedirPracticas(id);
     }
 }

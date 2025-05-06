@@ -27,4 +27,8 @@ public class GestionEmpleadosPracticas {
     public ArrayList<EmpleadoPracticas> buscarPracticas(String nombreTutor){
         return fbd.buscarPracticas(nombreTutor);
     }
+    
+    public boolean despedirPracticas(Integer id){
+        return fbd.despedirPracticas(id);
+    }
 }

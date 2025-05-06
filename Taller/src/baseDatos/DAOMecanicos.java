@@ -485,35 +485,6 @@ public class DAOMecanicos extends AbstractDAO {
         return resultado;
     }
     
-    
-    public int obtenerReparacionesAsistidas(String idAlumno) {
-        Connection con = this.getConexion();
-        PreparedStatement stmMecanico = null;
-        ResultSet rsBonus=null;
-        int resultado=0;
-
-        try {
-            String consulta = "SELECT COUNT(*) as practicas FROM Asistir WHERE idAlumno = ?";
-            stmMecanico = con.prepareStatement(consulta);
-            
-            stmMecanico.setString(1, idAlumno);
-
-            rsBonus=stmMecanico.executeQuery();
-            if(rsBonus.next()){
-                resultado= rsBonus.getInt("practicas");
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
-        } finally {
-            try {
-                if (stmMecanico != null) stmMecanico.close();
-            } catch (SQLException e) {
-                System.out.println("Imposible cerrar cursores");
-            }
-        }
-        return resultado;
-    }
     public boolean puedeAscender(String id){
         Connection con = this.getConexion();
         PreparedStatement stmMecanico=null;
