@@ -87,9 +87,6 @@ create table Reparacion (
     foreign key (tipoReparacion) references TipoReparacion(nombre)
 	on delete no action
         on update cascade,
-    foreign key (mecanico) references Mecanico(idMecanico)
-	on delete set null
-        on update cascade
 );
 
 create table Utilizar (

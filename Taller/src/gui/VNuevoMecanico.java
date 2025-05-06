@@ -5,6 +5,9 @@
 package gui;
 
 import aplicacion.FachadaAplicacion;
+import aplicacion.JefeTaller;
+import aplicacion.Mecanico;
+import aplicacion.Subordinado;
 
 /**
  *
@@ -14,6 +17,9 @@ public class VNuevoMecanico extends javax.swing.JDialog {
 
     private aplicacion.FachadaAplicacion fa;
     private VEmpleados padre;
+    private boolean edicion;
+    private Mecanico mEditar;
+    
     /**
      * Creates new form VNuevoCliente
      */
@@ -23,6 +29,48 @@ public class VNuevoMecanico extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(null);
         this.padre = parent;
+        this.edicion = false;
+        this.mEditar = null;
+        comprobarModo();
+    }
+    
+    public VNuevoMecanico(VEmpleados parent, boolean modal, FachadaAplicacion fa, Mecanico m) {
+        super(parent, modal);
+        this.fa = fa;
+        initComponents();
+        setLocationRelativeTo(null);
+        this.padre = parent;
+        this.edicion = true;
+        this.mEditar = m;
+        comprobarModo();
+    }
+    
+    private void comprobarModo(){
+        if(edicion){
+            botonAnhadir.setText("Editar");
+            anhadirId.setText(mEditar.getIdMecanico());
+            anhadirId.setEditable(false);
+            anhadirNombre.setText(mEditar.getNombre());
+            anhadirClave.setText(mEditar.getClave());
+            anhadirTlf.setText(mEditar.getTelefonoContacto());
+            anhadirSueldo.setText(String.valueOf(mEditar.getSueldoBase()));
+            botonAscender.setVisible(true);
+            textoTipo.setVisible(false);
+            comboTipo.setVisible(false);
+            estadoBotonAscender();
+        }
+        else{
+            botonAnhadir.setText("Añadir");
+            anhadirId.setText("");
+            anhadirId.setEditable(true);
+            anhadirNombre.setText("");
+            anhadirClave.setText("");
+            anhadirTlf.setText("");
+            anhadirSueldo.setText("");
+            botonAscender.setVisible(false);
+            textoTipo.setVisible(true);
+            comboTipo.setVisible(true);
+        }
     }
 
     /**
@@ -44,10 +92,11 @@ public class VNuevoMecanico extends javax.swing.JDialog {
         botonCancelar = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         anhadirSueldo = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
+        textoTipo = new javax.swing.JLabel();
         comboTipo = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         anhadirClave = new javax.swing.JTextField();
+        botonAscender = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Nuevo Cliente");
@@ -80,11 +129,18 @@ public class VNuevoMecanico extends javax.swing.JDialog {
 
         jLabel4.setText("Sueldo base:");
 
-        jLabel5.setText("Tipo:");
+        textoTipo.setText("Tipo:");
 
         comboTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Jefe de taller", "Subordinado" }));
 
         jLabel6.setText("Clave:");
+
+        botonAscender.setText("Ascender");
+        botonAscender.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAscenderActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -97,22 +153,30 @@ public class VNuevoMecanico extends javax.swing.JDialog {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(anhadirTlf, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(comboTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel1)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(anhadirId, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel3)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(anhadirNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(51, 51, 51)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(textoTipo)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(comboTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel1)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(anhadirId, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel3)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(anhadirNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(51, 51, 51))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGap(30, 30, 30)
+                                .addComponent(botonAnhadir)
+                                .addGap(18, 18, 18)
+                                .addComponent(botonAscender)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(botonCancelar)
@@ -126,10 +190,6 @@ public class VNuevoMecanico extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(anhadirSueldo, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(19, 19, 19))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(botonAnhadir)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -148,14 +208,15 @@ public class VNuevoMecanico extends javax.swing.JDialog {
                     .addComponent(anhadirSueldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
+                    .addComponent(textoTipo)
                     .addComponent(comboTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
                     .addComponent(anhadirClave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonAnhadir)
-                    .addComponent(botonCancelar))
+                    .addComponent(botonCancelar)
+                    .addComponent(botonAscender))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
@@ -167,13 +228,23 @@ public class VNuevoMecanico extends javax.swing.JDialog {
     }//GEN-LAST:event_anhadirNombreActionPerformed
 
     private void botonAnhadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAnhadirActionPerformed
-        anhadirMecanico(); 
+        if(this.edicion){
+            updateMecanico();
+        }else{
+            anhadirMecanico(); 
+        }
         this.dispose();
     }//GEN-LAST:event_botonAnhadirActionPerformed
 
     private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
         this.dispose();
     }//GEN-LAST:event_botonCancelarActionPerformed
+
+    private void botonAscenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAscenderActionPerformed
+        // TODO add your handling code here:
+        fa.ascenderMecanico(mEditar.getIdMecanico());
+        this.dispose();
+    }//GEN-LAST:event_botonAscenderActionPerformed
 
     /**
      * @param args the command line arguments
@@ -187,14 +258,15 @@ public class VNuevoMecanico extends javax.swing.JDialog {
     private javax.swing.JTextField anhadirSueldo;
     private javax.swing.JTextField anhadirTlf;
     private javax.swing.JButton botonAnhadir;
+    private javax.swing.JButton botonAscender;
     private javax.swing.JButton botonCancelar;
     private javax.swing.JComboBox<String> comboTipo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel textoTipo;
     // End of variables declaration//GEN-END:variables
 
     public void anhadirMecanico(){
@@ -215,6 +287,35 @@ public class VNuevoMecanico extends javax.swing.JDialog {
                 case "Jefe de taller": fa.anhadirJefeDeTaller(id,nombre,clave,tlf,sueldo); break;
                 case "Subordinado": fa.anhadirSubordinado(id,nombre,clave,tlf,sueldo); break;
             }
+        }
+    }
+    
+    public void updateMecanico(){
+        String id = mEditar.getIdMecanico();
+        String nombre = anhadirNombre.getText().trim();
+        String clave = anhadirClave.getText().trim();
+        String tlf = anhadirTlf.getText().trim();
+        String s = anhadirSueldo.getText().trim();
+        Integer sueldo = 0;
+        if(!s.isEmpty()) sueldo = Integer.parseInt(s);
+        if(id.isEmpty() || nombre.isEmpty() || clave.isEmpty() || tlf.isEmpty()){
+            VAviso va = new VAviso(this.padre.getParent(), true, "Alguno de los campos obligatorios es vacío");
+            va.setVisible(true);
+        }
+        else{
+            if(!fa.updateMecanico(id, nombre, clave, tlf, sueldo)){
+                VAviso va = new VAviso(this.padre.getParent(), true, "El subordinado está participando en una reparación y no puede ser ascendido todavía");
+                va.setVisible(true);
+            }
+        }
+    }
+    
+    public void estadoBotonAscender(){
+        if(this.mEditar instanceof Subordinado){
+            botonAscender.setEnabled(true);
+        }
+        else{
+            botonAscender.setEnabled(false);
         }
     }
 }

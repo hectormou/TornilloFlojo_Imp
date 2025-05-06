@@ -243,14 +243,20 @@ public class DAOMecanicos extends AbstractDAO {
         while(rsMecanico.next())
         {
             if(esJefeTaller(rsMecanico.getString("idMecanico"))){
+                int b1=0;
+                int b2=0;
+                b1=this.obtenerBonusUsualJefe(rsMecanico.getString("idMecanico"));
+                b2=this.obtenerBonusJefe(rsMecanico.getString("idMecanico"));
                 mecanicoActual = new JefeTaller(rsMecanico.getString("idMecanico"), rsMecanico.getString("clave"),
                                       rsMecanico.getString("nombre"), rsMecanico.getString("telefonoContacto"),
-                                      rsMecanico.getDate("fechaIngreso"), rsMecanico.getInt("sueldoBase"));
+                                      rsMecanico.getDate("fechaIngreso"), rsMecanico.getInt("sueldoBase")+b1+b2,b1,b2);
             }
             else if(esSubordinado(rsMecanico.getString("idMecanico"))){
+                int b=0;
+                b=this.obtenerBonusSubordinado(rsMecanico.getString("idMecanico"));
                 mecanicoActual = new Subordinado(rsMecanico.getString("idMecanico"), rsMecanico.getString("clave"),
                                       rsMecanico.getString("nombre"), rsMecanico.getString("telefonoContacto"),
-                                      rsMecanico.getDate("fechaIngreso"), rsMecanico.getInt("sueldoBase"));
+                                      rsMecanico.getDate("fechaIngreso"), rsMecanico.getInt("sueldoBase")+b,b);
             }
             resultado.add(mecanicoActual);
         }
@@ -265,7 +271,7 @@ public class DAOMecanicos extends AbstractDAO {
     }
     
     public boolean puedeDespedir(String id){
-        boolean resultado = false;
+        boolean resultado = true;
         Connection con = this.getConexion();
         PreparedStatement stmMecanico=null;
         ResultSet rsMecanico;
@@ -276,7 +282,7 @@ public class DAOMecanicos extends AbstractDAO {
         stmMecanico.setString(1, id);
         stmMecanico.setString(2, id);
         rsMecanico=stmMecanico.executeQuery();
-        if(rsMecanico.next()) resultado = true;
+        if(rsMecanico.next()) resultado = false;
         } catch (SQLException e){
           System.out.println(e.getMessage());
           this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
@@ -391,5 +397,191 @@ public class DAOMecanicos extends AbstractDAO {
           try {stmUsuarios.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
         }
         return resultado;
+    }
+    private int obtenerBonusUsualJefe(String idMecanico) {
+        Connection con = this.getConexion();
+        PreparedStatement stmMecanico = null;
+        ResultSet rsBonus=null;
+        int resultado=0;
+
+        try {
+            String consulta = "SELECT COUNT(*) as bonus FROM EmpleadoPracticas WHERE tutorID = ?";
+            stmMecanico = con.prepareStatement(consulta);
+            
+            stmMecanico.setString(1, idMecanico);
+
+            rsBonus=stmMecanico.executeQuery();
+            if(rsBonus.next()){
+                resultado= rsBonus.getInt("bonus")*50;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        } finally {
+            try {
+                if (stmMecanico != null) stmMecanico.close();
+            } catch (SQLException e) {
+                System.out.println("Imposible cerrar cursores");
+            }
         }
+        return resultado;
+    }
+    
+    private int obtenerBonusJefe(String idMecanico) {
+        Connection con = this.getConexion();
+        PreparedStatement stmMecanico = null;
+        ResultSet rsBonus=null;
+        int resultado=0;
+
+        try {
+            String consulta = "SELECT COUNT(*) as bonus FROM Vehiculo WHERE supervisor = ?";
+            stmMecanico = con.prepareStatement(consulta);
+            
+            stmMecanico.setString(1, idMecanico);
+
+            rsBonus=stmMecanico.executeQuery();
+            if(rsBonus.next()){
+                resultado= rsBonus.getInt("bonus")*10;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        } finally {
+            try {
+                if (stmMecanico != null) stmMecanico.close();
+            } catch (SQLException e) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+        return resultado;
+    }
+    
+    private int obtenerBonusSubordinado(String idMecanico) {
+        Connection con = this.getConexion();
+        PreparedStatement stmMecanico = null;
+        ResultSet rsBonus=null;
+        int resultado=0;
+
+        try {
+            String consulta = "SELECT COUNT(*) as bonus FROM Participar WHERE subordinado = ?";
+            stmMecanico = con.prepareStatement(consulta);
+            
+            stmMecanico.setString(1, idMecanico);
+
+            rsBonus=stmMecanico.executeQuery();
+            if(rsBonus.next()){
+                resultado= rsBonus.getInt("bonus")*3;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        } finally {
+            try {
+                if (stmMecanico != null) stmMecanico.close();
+            } catch (SQLException e) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+        return resultado;
+    }
+    
+    
+    public int obtenerReparacionesAsistidas(String idAlumno) {
+        Connection con = this.getConexion();
+        PreparedStatement stmMecanico = null;
+        ResultSet rsBonus=null;
+        int resultado=0;
+
+        try {
+            String consulta = "SELECT COUNT(*) as practicas FROM Asistir WHERE idAlumno = ?";
+            stmMecanico = con.prepareStatement(consulta);
+            
+            stmMecanico.setString(1, idAlumno);
+
+            rsBonus=stmMecanico.executeQuery();
+            if(rsBonus.next()){
+                resultado= rsBonus.getInt("practicas");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        } finally {
+            try {
+                if (stmMecanico != null) stmMecanico.close();
+            } catch (SQLException e) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+        return resultado;
+    }
+    public boolean puedeAscender(String id){
+        Connection con = this.getConexion();
+        PreparedStatement stmMecanico=null;
+        ResultSet rsMecanico;
+        
+        try{
+        String consulta = "select 1 from participar where subordinado = ? ";
+        stmMecanico=con.prepareStatement(consulta);
+        stmMecanico.setString(1, id);
+        rsMecanico = stmMecanico.executeQuery();
+        if(rsMecanico.next()){
+            return false;
+        }
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmMecanico.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+        return true;
+    }
+    
+    public boolean updateMecanico(String id, String nombre, String clave, String tlf, Integer sueldo){
+        Connection con = this.getConexion();
+        PreparedStatement stmMecanico=null;
+        if(!puedeAscender(id)){
+            return false;
+        }
+        
+        try{
+        String consulta = "update mecanico set nombre = ?, clave = ?, telefonoContacto = ?, sueldoBase = ? "+
+                "where idMecanico = ?";
+        stmMecanico=con.prepareStatement(consulta);
+        stmMecanico.setString(1, nombre);
+        stmMecanico.setString(2, clave);
+        stmMecanico.setString(3, tlf);
+        stmMecanico.setInt(4, sueldo);
+        stmMecanico.setString(5, id);
+        stmMecanico.executeUpdate();
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmMecanico.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+        return true;
+    }
+    
+    public void ascenderMecanico(String id){
+        Connection con = this.getConexion();
+        PreparedStatement stmSubordinado=null;
+        PreparedStatement stmJefeTaller=null;
+        
+        try{
+        String consulta = "delete from Subordinado where idMecanico = ?";
+        stmSubordinado=con.prepareStatement(consulta);
+        stmSubordinado.setString(1, id);
+        consulta = "insert into JefeTaller(idMecanico) values(?)";
+        stmJefeTaller=con.prepareStatement(consulta);
+        stmJefeTaller.setString(1, id);
+        stmSubordinado.executeUpdate();
+        stmJefeTaller.executeUpdate();
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmSubordinado.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+          try {stmJefeTaller.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+    }
 }

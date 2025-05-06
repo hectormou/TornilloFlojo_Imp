@@ -23,6 +23,7 @@ public class FachadaAplicacion {
     private final GestionClientes cl;
     private final GestionReparaciones cr;
     private final GestionRepuestos crp;
+    private final GestionEmpleadosPracticas cep;
     
     
     
@@ -35,6 +36,7 @@ public class FachadaAplicacion {
         cl = new GestionClientes(fgui, fbd);
         cr = new GestionReparaciones(fgui, fbd);
         crp = new GestionRepuestos(fgui, fbd);
+        cep = new GestionEmpleadosPracticas(fgui, fbd);
     }
 
     public static void main(String args[]) {
@@ -187,5 +189,22 @@ public class FachadaAplicacion {
 
     public Mecanico obtenerMecanico(String mecanicoid) {
         return cm.obtenerMecanico(mecanicoid);
+    }
+
+        public int obtenerReparacionesAsistidas(String idAlumno) {
+            return cm.obtenerReparacionesAsistidas(idAlumno);
+        }
+
+    
+    public boolean updateMecanico(String id, String nombre, String clave, String tlf, Integer sueldo){
+        return cm.updateMecanico(id,nombre,clave,tlf,sueldo);
+    }
+    
+    public void ascenderMecanico(String id){
+        cm.ascenderMecanico(id);
+    }
+    
+    public ArrayList<EmpleadoPracticas> buscarPracticas(String nombreTutor){
+        return cep.buscarPracticas(nombreTutor);
     }
 }
