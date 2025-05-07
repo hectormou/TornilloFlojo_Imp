@@ -27,6 +27,7 @@ public class VReparacion extends javax.swing.JDialog {
     
     private VVehiculo padre;
     private aplicacion.FachadaAplicacion fa;
+
     
     public VReparacion(VVehiculo parent, boolean modal, FachadaAplicacion fa, Integer idreparacion) {
         super(parent, modal);
@@ -38,6 +39,7 @@ public class VReparacion extends javax.swing.JDialog {
         //empleados
         //
         initComponents();
+        
         setLocationRelativeTo(null);
         setTextos();
         setBotones();

@@ -127,6 +127,8 @@
                       <Component id="modificarVehiculoBoton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="eliminarVehiculoBoton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="81" max="-2" attributes="0"/>
+                      <Component id="borrarVehiculoBoton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="btnSalir" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -166,6 +168,7 @@
                   <Component id="anhadirVehiculoBoton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="modificarVehiculoBoton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="eliminarVehiculoBoton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="borrarVehiculoBoton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -281,10 +284,18 @@
     </Component>
     <Component class="javax.swing.JButton" name="eliminarVehiculoBoton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Eliminar"/>
+        <Property name="text" type="java.lang.String" value="Sacar del taller"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="eliminarVehiculoBotonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="borrarVehiculoBoton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Borrar"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="borrarVehiculoBotonActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

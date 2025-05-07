@@ -36,7 +36,9 @@ public class GestionReparaciones {
         }
         return false;
     }
-
+public boolean vehiculoTieneReparacionesPendientes(String matricula) {
+        return fbd.vehiculoTieneReparacionesPendientes(matricula);
+    }
 
     public Reparacion obtenerReparacion(Integer id) {
         return fbd.obtenerReparacion(id);

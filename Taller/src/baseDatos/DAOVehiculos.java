@@ -257,4 +257,73 @@ public class DAOVehiculos extends AbstractDAO {
         }
         return resultado;
     }
+
+    public boolean borrarVehiculo(String matricula) {
+        Connection con;
+        PreparedStatement stmVehiculo=null;
+        boolean resultado=false;
+        con=super.getConexion();
+
+        try {
+        stmVehiculo=con.prepareStatement("delete " + "from vehiculo where matricula=? AND matricula not in(select idVehiculo from reparacion)");
+            stmVehiculo.setString(1, matricula);
+            if(stmVehiculo.executeUpdate()>0){
+                resultado=true;
+            }
+            
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmVehiculo.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+        return resultado;
+        
+    }
+
+    boolean vehiculoTuvoReparaciones(String matricula) {
+        Connection con;
+        PreparedStatement stmVehiculo=null;
+        boolean resultado=false;
+        con=super.getConexion();
+        ResultSet rsVehiculo=null;
+        try {
+        stmVehiculo=con.prepareStatement("select* " + "from vehiculo where matricula=? AND matricula in(select idVehiculo from reparacion)");
+            stmVehiculo.setString(1, matricula);
+            rsVehiculo=stmVehiculo.executeQuery();
+            if(rsVehiculo.next()){
+                resultado=true;
+            }
+            
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmVehiculo.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+        return resultado;
+    }
+
+    boolean vehiculoTieneReparacionesPendientes(String matricula) {
+Connection con;
+        PreparedStatement stmVehiculo=null;
+        boolean resultado=false;
+        con=super.getConexion();
+        ResultSet rsVehiculo=null;
+        try {
+        stmVehiculo=con.prepareStatement("select* " + "from vehiculo where matricula=? AND matricula in(select idVehiculo from reparacion where fechaFin is null)");
+            stmVehiculo.setString(1, matricula);
+            rsVehiculo=stmVehiculo.executeQuery();
+            if(rsVehiculo.next()){
+                resultado=true;
+            }
+            
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmVehiculo.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+        return resultado;
+    }
 }

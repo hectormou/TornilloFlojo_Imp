@@ -32,6 +32,7 @@ public class VPrincipal extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         modificarVehiculoBoton.setEnabled(false);
         eliminarVehiculoBoton.setEnabled(false);
+        borrarVehiculoBoton.setEnabled(false);
     }
 
     /** This method is called from within the constructor to
@@ -62,6 +63,7 @@ public class VPrincipal extends javax.swing.JFrame {
         anhadirVehiculoBoton = new javax.swing.JButton();
         modificarVehiculoBoton = new javax.swing.JButton();
         eliminarVehiculoBoton = new javax.swing.JButton();
+        borrarVehiculoBoton = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         pestanhaGestion = new javax.swing.JMenu();
         menuEmpleados = new javax.swing.JMenuItem();
@@ -129,10 +131,17 @@ public class VPrincipal extends javax.swing.JFrame {
             }
         });
 
-        eliminarVehiculoBoton.setText("Eliminar");
+        eliminarVehiculoBoton.setText("Sacar del taller");
         eliminarVehiculoBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 eliminarVehiculoBotonActionPerformed(evt);
+            }
+        });
+
+        borrarVehiculoBoton.setText("Borrar");
+        borrarVehiculoBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                borrarVehiculoBotonActionPerformed(evt);
             }
         });
 
@@ -222,6 +231,8 @@ public class VPrincipal extends javax.swing.JFrame {
                         .addComponent(modificarVehiculoBoton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(eliminarVehiculoBoton)
+                        .addGap(81, 81, 81)
+                        .addComponent(borrarVehiculoBoton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnSalir)))
                 .addContainerGap())
@@ -254,7 +265,8 @@ public class VPrincipal extends javax.swing.JFrame {
                     .addComponent(btnSalir)
                     .addComponent(anhadirVehiculoBoton)
                     .addComponent(modificarVehiculoBoton)
-                    .addComponent(eliminarVehiculoBoton))
+                    .addComponent(eliminarVehiculoBoton)
+                    .addComponent(borrarVehiculoBoton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -318,8 +330,10 @@ public class VPrincipal extends javax.swing.JFrame {
         
         setBotonesVehiculo(vehiculoseleccionado);
         modificarVehiculoBoton.setEnabled(true);
-        if (fa.vehiculoTieneReparacionesPendientes(vehiculoseleccionado)) eliminarVehiculoBoton.setEnabled(false);
+        if (fa.vehiculoTieneReparacionesPendientes(vehiculoseleccionado.getMatricula())) eliminarVehiculoBoton.setEnabled(false);
         else eliminarVehiculoBoton.setEnabled(true);
+        if(fa.vehiculoTuvoReparaciones(vehiculoseleccionado.getMatricula()))borrarVehiculoBoton.setEnabled(false);
+        else borrarVehiculoBoton.setEnabled(true);
     }//GEN-LAST:event_tablaVehiculosMouseClicked
 
     private void menuPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPersonalActionPerformed
@@ -332,6 +346,13 @@ public class VPrincipal extends javax.swing.JFrame {
         VStock vs = new VStock(this, true, this.fa, this.mecanicoEnAcceso);
         vs.setVisible(true);
     }//GEN-LAST:event_menuStockActionPerformed
+
+    private void borrarVehiculoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrarVehiculoBotonActionPerformed
+        // TODO add your handling code here:
+        if(!fa.borrarVehiculo(this.vehiculoseleccionado.getMatricula())){
+            VAviso v=new VAviso(this, true,"El vehículo ha tenido reparaciones, no se puede borrar");
+        }
+    }//GEN-LAST:event_borrarVehiculoBotonActionPerformed
 
 
     private void setBotonesVehiculo(Vehiculo vehiculo){
@@ -363,6 +384,7 @@ public class VPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton anhadirVehiculoBoton;
+    private javax.swing.JButton borrarVehiculoBoton;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JTextField buscaCliente;

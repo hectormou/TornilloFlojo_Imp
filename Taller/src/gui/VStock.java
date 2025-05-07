@@ -8,7 +8,7 @@ import aplicacion.Mecanico;
 import aplicacion.Repuesto;
 import java.util.ArrayList;
 
-/**
+/** 
  *
  * @author alumnogreibd
  */

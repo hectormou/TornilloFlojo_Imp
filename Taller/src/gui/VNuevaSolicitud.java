@@ -8,7 +8,7 @@ import aplicacion.Mecanico;
 import aplicacion.Repuesto;
 
 /**
- *
+ * 
  * @author alumnogreibd
  */
 public class VNuevaSolicitud extends javax.swing.JDialog {
@@ -26,7 +26,7 @@ public class VNuevaSolicitud extends javax.swing.JDialog {
         this.mecanicoEnAcceso = mecanico;
         this.repuestoSeleccionado=repuesto;
         initComponents();
-        
+        setLocationRelativeTo(null);
         inicializarComponentes();
     }
 

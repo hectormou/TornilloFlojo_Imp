@@ -275,4 +275,15 @@ public class FachadaBaseDatos {
     public boolean despedirPracticas(Integer id){
         return daoPracticas.despedirPracticas(id);
     }
+
+    public boolean borrarVehiculo(String matricula) {
+        return daoVehiculos.borrarVehiculo(matricula);
+    }
+
+    public boolean vehiculoTuvoReparaciones(String matricula) {
+        return daoVehiculos.vehiculoTuvoReparaciones(matricula);
+    }
+
+    public boolean vehiculoTieneReparacionesPendientes(String matricula) {
+return daoVehiculos.vehiculoTieneReparacionesPendientes(matricula);    }
 }

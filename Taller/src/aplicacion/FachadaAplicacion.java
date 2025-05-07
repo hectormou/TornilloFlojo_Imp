@@ -108,6 +108,9 @@ public class FachadaAplicacion {
     public boolean vehiculoTieneReparacionesPendientes(Vehiculo v) {
         return cr.vehiculoTieneReparacionesPendientes(v);
     }
+    public boolean vehiculoTieneReparacionesPendientes(String v) {
+        return cr.vehiculoTieneReparacionesPendientes(v);
+    }    
     public List<Vehiculo> obtenerVehiculosCliente(Cliente c) {
         return cv.obtenerVehiculosCliente(c);
     }
@@ -235,4 +238,11 @@ public class FachadaAplicacion {
     public boolean despedirPracticas(Integer id){
         return cep.despedirPracticas(id);
     }
+
+    public boolean borrarVehiculo(String matricula) {
+return cm.borrarVehiculo( matricula);
+    }
+
+    public boolean vehiculoTuvoReparaciones(String matricula) {
+return cm.vehiculoTuvoReparaciones(matricula);    }
 }
