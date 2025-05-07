@@ -5,6 +5,7 @@
 
 package aplicacion;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -145,7 +146,7 @@ public class FachadaAplicacion {
         return crp.getTotalRepuestos();
     }
 
-    public void anhadirReparacion(Vehiculo vehiculo, String tipo, List<Repuesto> repuestos, List<Integer> cantidades) {
+    public void anhadirReparacion(Vehiculo vehiculo, String tipo, List<Repuesto> repuestos, List<Integer> cantidades) throws SQLException {
         cr.anhadirReparacion(vehiculo, tipo, repuestos, cantidades);
     }
 
