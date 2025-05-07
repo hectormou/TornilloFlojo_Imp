@@ -48,7 +48,8 @@ public class DAOReparaciones extends AbstractDAO {
          rsReparaciones=stmReparaciones.executeQuery();
         while (rsReparaciones.next())
         {
-            Reparacion reparacion = new Reparacion(rsReparaciones.getInt("idreparacion"), rsReparaciones.getString("fechainicio"), rsReparaciones.getString("fechafin"), rsReparaciones.getString("idvehiculo"), rsReparaciones.getString("tiporeparacion"), rsReparaciones.getString("mecanico"));
+            Vehiculo v = obtenerVehiculo(rsReparaciones.getString("idvehiculo"));
+            Reparacion reparacion = new Reparacion(rsReparaciones.getInt("idreparacion"), rsReparaciones.getString("fechainicio"), rsReparaciones.getString("fechafin"), rsReparaciones.getString("idvehiculo"), rsReparaciones.getString("tiporeparacion"), v.getSupervisorID());
             resultado.add(reparacion);
         }
 
@@ -128,7 +129,8 @@ public class DAOReparaciones extends AbstractDAO {
          rsReparaciones=stmReparaciones.executeQuery();
         while (rsReparaciones.next())
         {
-            resultado = new Reparacion(rsReparaciones.getInt("idreparacion"), rsReparaciones.getString("fechainicio"), rsReparaciones.getString("fechafin"), rsReparaciones.getString("idvehiculo"), rsReparaciones.getString("tiporeparacion"), rsReparaciones.getString("mecanico"));
+            Vehiculo v = obtenerVehiculo(rsReparaciones.getString("idvehiculo"));
+            resultado = new Reparacion(rsReparaciones.getInt("idreparacion"), rsReparaciones.getString("fechainicio"), rsReparaciones.getString("fechafin"), rsReparaciones.getString("idvehiculo"), rsReparaciones.getString("tiporeparacion"), v.getSupervisorID());
         }
         } catch (SQLException e){
           System.out.println(e.getMessage());
@@ -538,6 +540,33 @@ public class DAOReparaciones extends AbstractDAO {
             } catch (SQLException e) {
                 System.out.println("Imposible cerrar cursores");
             }
+        }
+        return resultado;
+    }
+    
+    private Vehiculo obtenerVehiculo(String matricula) {
+        Vehiculo resultado=null;
+        Connection con;
+        PreparedStatement stmSupervisor=null;
+        ResultSet rsVehiculo;
+
+        con=this.getConexion();
+        try {
+        stmSupervisor=con.prepareStatement("select matricula, marca, modelo, kilometraje, combustible, supervisor, clientedni "+
+                                        "from vehiculo "+
+                                        "where matricula = ? ");
+        stmSupervisor.setString(1, matricula);
+        rsVehiculo=stmSupervisor.executeQuery();
+        if (rsVehiculo.next())
+        {
+            resultado = new Vehiculo(rsVehiculo.getString("matricula"), rsVehiculo.getString("marca"), rsVehiculo.getString("modelo"), rsVehiculo.getString("combustible"),
+                                        rsVehiculo.getInt("kilometraje"), rsVehiculo.getString("clientedni"), rsVehiculo.getString("supervisor"));
+        }
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmSupervisor.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
         }
         return resultado;
     }
