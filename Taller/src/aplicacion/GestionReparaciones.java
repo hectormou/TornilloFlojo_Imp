@@ -6,6 +6,7 @@ package aplicacion;
 
 import baseDatos.FachadaBaseDatos;
 import gui.FachadaGui;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -44,7 +45,7 @@ public boolean vehiculoTieneReparacionesPendientes(String matricula) {
         return fbd.obtenerReparacion(id);
     }
 
-    public void anhadirReparacion(Vehiculo vehiculo, String tipo, List<Repuesto> repuestos, List<Integer> cantidades) {
+    public void anhadirReparacion(Vehiculo vehiculo, String tipo, List<Repuesto> repuestos, List<Integer> cantidades) throws SQLException {
         fbd.anhadirReparacion(vehiculo, tipo, repuestos, cantidades);
     }
 
