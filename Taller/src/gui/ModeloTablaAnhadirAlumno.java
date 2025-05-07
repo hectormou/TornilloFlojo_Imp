@@ -4,20 +4,20 @@
  */
 package gui;
 
-import aplicacion.Subordinado;
+import aplicacion.EmpleadoPracticas;
 import javax.swing.table.AbstractTableModel;
 
 /**
  *
  * @author alumnogreibd
  */
-public class ModeloTablaAnhadirMecanico extends AbstractTableModel {
+public class ModeloTablaAnhadirAlumno extends AbstractTableModel {
    
-    private java.util.List<Subordinado> subordinados;
+    private java.util.List<EmpleadoPracticas> subordinados;
 
     
-    public ModeloTablaAnhadirMecanico(){
-        this.subordinados =new java.util.ArrayList<Subordinado>();
+    public ModeloTablaAnhadirAlumno(){
+        this.subordinados =new java.util.ArrayList<EmpleadoPracticas>();
     }
 
     public int getColumnCount (){
@@ -61,18 +61,18 @@ public class ModeloTablaAnhadirMecanico extends AbstractTableModel {
         Object resultado=null;
 
         switch (col){
-            case 0: resultado= subordinados.get(i).getIdMecanico(); break;
+            case 0: resultado= subordinados.get(i).getIdalumno(); break;
             case 1: resultado= subordinados.get(i).getNombre(); break;
         }
         return resultado;
     }
 
-    public void setFilas(java.util.List<Subordinado> subordinados){
+    public void setFilas(java.util.List<EmpleadoPracticas> subordinados){
         this.subordinados=subordinados;
         fireTableDataChanged();
     }
 
-    public void nuevoSubordinado(Subordinado e){
+    public void nuevoSubordinado(EmpleadoPracticas e){
         this.subordinados.add(e);
         fireTableRowsInserted(this.subordinados.size()-1, this.subordinados.size()-1);
     }
@@ -82,11 +82,11 @@ public class ModeloTablaAnhadirMecanico extends AbstractTableModel {
         fireTableRowsDeleted(indice, indice);
     }
 
-    public java.util.List<Subordinado> getFilas(){
+    public java.util.List<EmpleadoPracticas> getFilas(){
         return this.subordinados;
     }
 
-    public Subordinado obtenerSubordinado(int i){
+    public EmpleadoPracticas obtenerSubordinado(int i){
         return this.subordinados.get(i);
     }
 }

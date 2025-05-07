@@ -4,17 +4,18 @@
  */
 package baseDatos;
 
+import aplicacion.EmpleadoPracticas;
 import aplicacion.Mecanico;
 import aplicacion.Reparacion;
 import aplicacion.Repuesto;
 import aplicacion.Stock_U_A;
+import aplicacion.Subordinado;
 import aplicacion.TipoReparacion;
 import aplicacion.Vehiculo;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -276,13 +277,223 @@ public class DAOReparaciones extends AbstractDAO {
              stmReparaciones.setInt(2*(i+1)-1, cantidades.get(i));
              stmReparaciones.setInt(2*(i+1), idsrepuestos.get(i));
          }
-         stmReparaciones.setInt(stock.size()+2, idreparacion);
+         stmReparaciones.setInt(stock.size()*2+1, idreparacion);
          stmReparaciones.executeUpdate();
         } catch (SQLException e){
           System.out.println(e.getMessage());
           this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
         }finally{
           try {stmReparaciones.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+    }
+
+    public List<Subordinado> obtenerMecanicosDisp(Integer idreparacion) {
+        java.util.List<Subordinado> resultado = new java.util.ArrayList<Subordinado>();
+        Connection con;
+        PreparedStatement stmReparaciones=null;
+        ResultSet rsAlumnos;
+
+        con=this.getConexion();
+        
+        String consulta = "select idmecanico, nombre, clave, telefonocontacto, fechaingreso, sueldobase " +
+                            "from (SELECT idmecanico " +
+                            "	from subordinado " +
+                            "	except " +
+                            "	select subordinado " +
+                            "	from participar " +
+                            "	where participar.idreparacion = ?)as sin_participar natural join mecanico as m; ";
+        
+        try  {
+         stmReparaciones=con.prepareStatement(consulta);
+         stmReparaciones.setInt(1, idreparacion);
+         rsAlumnos=stmReparaciones.executeQuery();
+        while (rsAlumnos.next())
+        {
+            Subordinado a = new Subordinado(rsAlumnos.getString("idmecanico"), rsAlumnos.getString("clave"), rsAlumnos.getString("nombre"),
+                                            rsAlumnos.getString("telefonocontacto"), rsAlumnos.getDate("fechaingreso"), rsAlumnos.getInt("sueldobase"));
+            resultado.add(a);
+        }
+
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmReparaciones.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+        return resultado;
+    }
+
+    public List<Subordinado> obtenerMecanicosOcup(Integer idreparacion) {
+        java.util.List<Subordinado> resultado = new java.util.ArrayList<Subordinado>();
+        Connection con;
+        PreparedStatement stmReparaciones=null;
+        ResultSet rsAlumnos;
+
+        con=this.getConexion();
+        
+        String consulta = "SELECT idmecanico, nombre, clave, telefonocontacto, fechaingreso, sueldobase, idreparacion " +
+                            "FROM participar, mecanico " +
+                            "WHERE participar.idreparacion = ? and participar.subordinado = mecanico.idmecanico; ";
+        
+        try  {
+         stmReparaciones=con.prepareStatement(consulta);
+         stmReparaciones.setInt(1, idreparacion);
+         rsAlumnos=stmReparaciones.executeQuery();
+        while (rsAlumnos.next())
+        {
+            Subordinado a = new Subordinado(rsAlumnos.getString("idmecanico"), rsAlumnos.getString("clave"), rsAlumnos.getString("nombre"),
+                                            rsAlumnos.getString("telefonocontacto"), rsAlumnos.getDate("fechaingreso"), rsAlumnos.getInt("sueldobase"));
+            resultado.add(a);
+        }
+
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmReparaciones.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+        return resultado;
+    }
+
+    public List<EmpleadoPracticas> obtenerAlumnosDisp(Integer idreparacion, String supervisor) {
+        java.util.List<EmpleadoPracticas> resultado = new java.util.ArrayList<EmpleadoPracticas>();
+        Connection con;
+        PreparedStatement stmReparaciones=null;
+        ResultSet rsAlumnos;
+
+        con=this.getConexion();
+        
+        String consulta = "select idalumno, nombre, tutorid " +
+                            "from (SELECT idalumno " +
+                            "	from empleadopracticas e  " +
+                            "	except " +
+                            "	select idalumno " +
+                            "	from asistir " +
+                            "	where asistir.idreparacion = ?)as sin_participar natural join empleadopracticas e " +
+                            "where tutorid = ?; ";
+        
+        try  {
+         stmReparaciones=con.prepareStatement(consulta);
+         stmReparaciones.setInt(1, idreparacion);
+         stmReparaciones.setString(2, supervisor);
+         rsAlumnos=stmReparaciones.executeQuery();
+        while (rsAlumnos.next())
+        {
+            EmpleadoPracticas a = new EmpleadoPracticas(rsAlumnos.getInt("idalumno"), rsAlumnos.getString("nombre"), rsAlumnos.getString("tutorid"));
+            resultado.add(a);
+        }
+
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmReparaciones.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+        return resultado;
+    }
+
+    public List<EmpleadoPracticas> obtenerAlumnosOcup(Integer idreparacion) {
+        java.util.List<EmpleadoPracticas> resultado = new java.util.ArrayList<EmpleadoPracticas>();
+        Connection con;
+        PreparedStatement stmReparaciones=null;
+        ResultSet rsAlumnos;
+
+        con=this.getConexion();
+        
+        String consulta = "SELECT asistir.idalumno, empleadopracticas.nombre, empleadopracticas.tutorid, asistir.idreparacion " +
+                            "FROM asistir JOIN empleadopracticas ON asistir.idalumno = empleadopracticas.idalumno " +
+                            "WHERE asistir.idreparacion = ?; ";
+        
+        try  {
+         stmReparaciones=con.prepareStatement(consulta);
+         stmReparaciones.setInt(1, idreparacion);
+         rsAlumnos=stmReparaciones.executeQuery();
+        while (rsAlumnos.next())
+        {
+            EmpleadoPracticas a = new EmpleadoPracticas(rsAlumnos.getInt("idalumno"), rsAlumnos.getString("nombre"), rsAlumnos.getString("tutorid"));
+            resultado.add(a);
+        }
+
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmReparaciones.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+        return resultado;
+    }
+
+    public void quitarSubordinadoReparacion(Integer idreparacion, String idMecanico) {
+        Connection con;
+        PreparedStatement stmReparacion=null;
+
+        con=this.getConexion();
+        try {
+        stmReparacion=con.prepareStatement("delete " + "from participar " + "where idreparacion = ?  and subordinado = ?; ");
+        stmReparacion.setInt(1, idreparacion);
+        stmReparacion.setString(2, idMecanico);
+        stmReparacion.executeUpdate();
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmReparacion.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+    }
+
+    public void quitarAlumnoReparacion(Integer idreparacion, int idalumno) {
+        Connection con;
+        PreparedStatement stmReparacion=null;
+
+        con=this.getConexion();
+        try {
+        stmReparacion=con.prepareStatement("delete " + "from asistir " + "where idreparacion = ?  and idalumno = ?; ");
+        stmReparacion.setInt(1, idreparacion);
+        stmReparacion.setInt(2, idalumno);
+        stmReparacion.executeUpdate();
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmReparacion.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+    }
+
+    public void anhadirSubordinadoReparacion(Integer idreparacion, String idMecanico) {
+        Connection con;
+        PreparedStatement stmReparacion=null;
+
+        con=this.getConexion();
+        try {
+        stmReparacion=con.prepareStatement("insert into participar (subordinado, idreparacion)  "+
+                                        " values (?,?); ");
+        stmReparacion.setString(1, idMecanico);
+        stmReparacion.setInt(2, idreparacion);
+        stmReparacion.executeUpdate();
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmReparacion.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+    }
+
+    public void anhadirAlumnoReparacion(Integer idreparacion, int idalumno) {
+        Connection con;
+        PreparedStatement stmReparacion=null;
+
+        con=this.getConexion();
+        try {
+        stmReparacion=con.prepareStatement("insert into asistir (idalumno, idreparacion)  "+
+                                        " values (?,?); ");
+        stmReparacion.setInt(1, idalumno);
+        stmReparacion.setInt(2, idreparacion);
+        stmReparacion.executeUpdate();
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmReparacion.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
         }
     }
 }

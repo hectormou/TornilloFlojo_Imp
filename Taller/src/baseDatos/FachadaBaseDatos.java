@@ -7,10 +7,12 @@ package baseDatos;
 
 import aplicacion.Mecanico;
 import aplicacion.Cliente;
+import aplicacion.EmpleadoPracticas;
 import aplicacion.JefeTaller;
 import aplicacion.Reparacion;
 import aplicacion.Repuesto;
 import aplicacion.Stock_U_A;
+import aplicacion.Subordinado;
 import aplicacion.TipoReparacion;
 import aplicacion.Vehiculo;
 import java.io.FileInputStream;
@@ -236,4 +238,34 @@ public class FachadaBaseDatos {
         return daoMecanicos.obtenerMecanico(mecanicoid);
     }
 
+    public List<Subordinado> obtenerMecanicosDisp(Integer idreparacion) {
+        return daoReparaciones.obtenerMecanicosDisp(idreparacion);
+    }
+
+    public List<Subordinado> obtenerMecanicosOcup(Integer idreparacion) {
+        return daoReparaciones.obtenerMecanicosOcup(idreparacion);    }
+
+    public List<EmpleadoPracticas> obtenerAlumnosDisp(Integer idreparacion, String supervisor) {
+        return daoReparaciones.obtenerAlumnosDisp(idreparacion, supervisor);
+    }
+
+    public List<EmpleadoPracticas> obtenerAlumnosOcup(Integer idreparacion) {
+        return daoReparaciones.obtenerAlumnosOcup(idreparacion);    
+    }
+
+    public void quitarSubordinadoReparacion(Integer idreparacion, String idMecanico) {
+        daoReparaciones.quitarSubordinadoReparacion(idreparacion, idMecanico);
+    }
+
+    public void quitarAlumnoReparacion(Integer idreparacion, int idalumno) {
+        daoReparaciones.quitarAlumnoReparacion(idreparacion, idalumno);
+    }
+
+    public void anhadirSubordinadoReparacion(Integer idreparacion, String idMecanico) {
+        daoReparaciones.anhadirSubordinadoReparacion(idreparacion, idMecanico);
+    }
+
+    public void anhadirAlumnoReparacion(Integer idreparacion, int idalumno) {
+        daoReparaciones.anhadirAlumnoReparacion(idreparacion, idalumno);
+    }
 }

@@ -4,14 +4,12 @@
  */
 package gui;
 
+import aplicacion.EmpleadoPracticas;
 import aplicacion.FachadaAplicacion;
-import aplicacion.Mecanico;
 import aplicacion.Reparacion;
-import aplicacion.Repuesto;
 import aplicacion.Subordinado;
-import aplicacion.TipoReparacion;
-import aplicacion.Vehiculo;
-import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  *
@@ -19,21 +17,24 @@ import java.util.ArrayList;
  */
 public class VAnhadirMecanico extends javax.swing.JDialog {
     
-    private VVehiculo padre;
+    private VReparacion padre;
     private aplicacion.FachadaAplicacion fa;
+    
+    private Reparacion re;
     private Subordinado subseleccionado;
+    private EmpleadoPracticas pracseleccionado;
 
 
-    /**
-     * Creates new form VNuevaReparacion
-     */
-    public VAnhadirMecanico (VVehiculo parent, boolean modal, FachadaAplicacion fa) {
+    public VAnhadirMecanico (VReparacion parent, boolean modal, FachadaAplicacion fa, Integer idreparacion) {
         super(parent, modal);
         this.padre = parent;
         this.fa = fa;
+        this.re=fa.obtenerReparacion(idreparacion);
         initComponents();
+        setLocationRelativeTo(null);
         
-        generarListas();
+        generarListasSubordinados();
+        generarListasAlumnos();
     }
 
     /**
@@ -45,48 +46,45 @@ public class VAnhadirMecanico extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        disponiblesTable = new javax.swing.JTable();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        ocupadosTable = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        botonDerechaS = new javax.swing.JButton();
+        botonIzquierdaS = new javax.swing.JButton();
         cancelarBoton = new javax.swing.JButton();
-        botonDerecha = new javax.swing.JButton();
-        botonIzquierda = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        disponiblesS = new javax.swing.JTable();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        disponiblesA = new javax.swing.JTable();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        ocupadosS = new javax.swing.JTable();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        ocupadosA = new javax.swing.JTable();
+        botonDerechaA = new javax.swing.JButton();
+        botonIzquierdaA = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Nueva Reparación");
 
-        disponiblesTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(disponiblesTable);
-
-        ocupadosTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane2.setViewportView(ocupadosTable);
-
-        jLabel1.setText("Disponibles:");
+        jLabel1.setText("Subordinados Disponibles:");
 
         jLabel2.setText("Ocupados:");
+
+        jLabel3.setText("Alumnos Disponibles:");
+
+        botonDerechaS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/flechaD.jpg"))); // NOI18N
+        botonDerechaS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonDerechaSActionPerformed(evt);
+            }
+        });
+
+        botonIzquierdaS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/flechaI.jpg"))); // NOI18N
+        botonIzquierdaS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonIzquierdaSActionPerformed(evt);
+            }
+        });
 
         cancelarBoton.setText("Cancelar");
         cancelarBoton.addActionListener(new java.awt.event.ActionListener() {
@@ -95,17 +93,49 @@ public class VAnhadirMecanico extends javax.swing.JDialog {
             }
         });
 
-        botonDerecha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/flechaD.jpg"))); // NOI18N
-        botonDerecha.addActionListener(new java.awt.event.ActionListener() {
+        disponiblesS.setModel(new ModeloTablaAnhadirMecanico());
+        disponiblesS.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                disponiblesSMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(disponiblesS);
+
+        disponiblesA.setModel(new ModeloTablaAnhadirAlumno());
+        disponiblesA.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                disponiblesAMouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(disponiblesA);
+
+        ocupadosS.setModel(new ModeloTablaAnhadirMecanico());
+        ocupadosS.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ocupadosSMouseClicked(evt);
+            }
+        });
+        jScrollPane5.setViewportView(ocupadosS);
+
+        ocupadosA.setModel(new ModeloTablaAnhadirAlumno());
+        ocupadosA.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ocupadosAMouseClicked(evt);
+            }
+        });
+        jScrollPane6.setViewportView(ocupadosA);
+
+        botonDerechaA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/flechaD.jpg"))); // NOI18N
+        botonDerechaA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonDerechaActionPerformed(evt);
+                botonDerechaAActionPerformed(evt);
             }
         });
 
-        botonIzquierda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/flechaI.jpg"))); // NOI18N
-        botonIzquierda.addActionListener(new java.awt.event.ActionListener() {
+        botonIzquierdaA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/flechaI.jpg"))); // NOI18N
+        botonIzquierdaA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonIzquierdaActionPerformed(evt);
+                botonIzquierdaAActionPerformed(evt);
             }
         });
 
@@ -114,42 +144,74 @@ public class VAnhadirMecanico extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(35, 35, 35)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(botonDerecha)
-                            .addComponent(botonIzquierda))
-                        .addGap(36, 36, 36)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel3)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(cancelarBoton)))
-                .addContainerGap(18, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(53, 53, 53)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(botonIzquierdaS)
+                                    .addComponent(botonDerechaS))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(botonIzquierdaA)
+                                    .addComponent(botonDerechaA))
+                                .addGap(45, 45, 45)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(cancelarBoton)
+                                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(26, 26, 26))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(191, 191, 191))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(81, 81, 81)
-                        .addComponent(botonDerecha)
-                        .addGap(29, 29, 29)
-                        .addComponent(botonIzquierda))
-                    .addComponent(jScrollPane1)
-                    .addComponent(jScrollPane2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(15, 15, 15)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(87, 87, 87)
+                                .addComponent(botonDerechaS)
+                                .addGap(18, 18, 18)
+                                .addComponent(botonIzquierdaS))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(80, 80, 80)
+                        .addComponent(botonDerechaA)
+                        .addGap(18, 18, 18)
+                        .addComponent(botonIzquierdaA)))
+                .addGap(20, 20, 20)
                 .addComponent(cancelarBoton)
                 .addContainerGap())
         );
@@ -157,49 +219,77 @@ public class VAnhadirMecanico extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void botonIzquierdaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonIzquierdaActionPerformed
-        ModeloListaStrings mRC;
-     ModeloListaStrings mC;
-
-     mRC = (ModeloListaStrings) disponiblesList.getModel();
-     mC = (ModeloListaStrings) ocupadosList.getModel();
-     mRC.nuevoElemento(mC.getElementAt(ocupadosList.getSelectedIndex()));
-     mRC.nuevoId(mC.getIdAt(ocupadosList.getSelectedIndex()));
-     mC.borrarElemento(ocupadosList.getSelectedIndex());
-             
-     if (mC.getSize()==0) botonIzquierda.setEnabled(false);
-     else {
-         ocupadosList.setSelectedIndex(0);
-         nombreTextField.setText(disponiblesList.getSelectedValue());
-     }
-     disponiblesList.setSelectedIndex(mRC.getSize()-1);
-     botonDerecha.setEnabled(true);
-    }//GEN-LAST:event_botonIzquierdaActionPerformed
-
-    private void botonDerechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonDerechaActionPerformed
-        ModeloListaStrings mRC;
-     ModeloListaStrings mC;
-
-     mRC = (ModeloListaStrings) disponiblesList.getModel();
-     mC = (ModeloListaStrings) ocupadosList.getModel();
-    if (esNumeroValido(cantidadTextField.getText())) {
-        mC.nuevoElemento(mRC.getElementAt(disponiblesList.getSelectedIndex()));
-        mC.nuevoId(mRC.getIdAt(disponiblesList.getSelectedIndex()));
-        mRC.borrarElemento(disponiblesList.getSelectedIndex());
-        if (mRC.getSize()==0) botonDerecha.setEnabled(false);
-        else {
-            disponiblesList.setSelectedIndex(0);
-            nombreTextField.setText(disponiblesList.getSelectedValue());
+    private void botonIzquierdaSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonIzquierdaSActionPerformed
+        ModeloTablaAnhadirMecanico tsO = (ModeloTablaAnhadirMecanico) ocupadosS.getModel();
+        List<Subordinado> sO = tsO.getFilas();
+        
+        if(sO.contains(subseleccionado)) {
+            fa.quitarSubordinadoReparacion(re.getIdreparacion(), subseleccionado.getIdMecanico());
+            subseleccionado=null;
+            ocupadosS.clearSelection();
+            generarListasSubordinados();
         }
-        ocupadosList.setSelectedIndex(mC.getSize()-1);
-        botonIzquierda.setEnabled(true);
-        errorCantidad.setVisible(false);
-     } else errorCantidad.setVisible(true);
-    }//GEN-LAST:event_botonDerechaActionPerformed
+    }//GEN-LAST:event_botonIzquierdaSActionPerformed
+
+    private void botonDerechaSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonDerechaSActionPerformed
+        ModeloTablaAnhadirMecanico tsD = (ModeloTablaAnhadirMecanico) disponiblesS.getModel();
+        List<Subordinado> sD = tsD.getFilas();
+        
+        if(sD.contains(subseleccionado)) {
+            fa.anhadirSubordinadoReparacion(re.getIdreparacion(), subseleccionado.getIdMecanico());
+            subseleccionado=null;
+            disponiblesS.clearSelection();     
+            generarListasSubordinados();
+        }    
+    }//GEN-LAST:event_botonDerechaSActionPerformed
 
     private void cancelarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarBotonActionPerformed
         this.dispose();
     }//GEN-LAST:event_cancelarBotonActionPerformed
+
+    private void botonDerechaAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonDerechaAActionPerformed
+        ModeloTablaAnhadirAlumno taD = (ModeloTablaAnhadirAlumno) disponiblesA.getModel();
+        List<EmpleadoPracticas> aD = taD.getFilas();
+        
+        if(aD.contains(pracseleccionado)) {
+                fa.anhadirAlumnoReparacion(re.getIdreparacion(), pracseleccionado.getIdalumno());
+                pracseleccionado=null;
+                disponiblesA.clearSelection();
+                generarListasAlumnos();
+        }
+    }//GEN-LAST:event_botonDerechaAActionPerformed
+
+    private void disponiblesSMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_disponiblesSMouseClicked
+        ModeloTablaAnhadirMecanico r= (ModeloTablaAnhadirMecanico) disponiblesS.getModel();
+        subseleccionado= r.obtenerSubordinado(disponiblesS.getSelectedRow());
+    }//GEN-LAST:event_disponiblesSMouseClicked
+
+    private void disponiblesAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_disponiblesAMouseClicked
+        ModeloTablaAnhadirAlumno r = (ModeloTablaAnhadirAlumno) disponiblesA.getModel();
+        pracseleccionado= r.obtenerSubordinado(disponiblesA.getSelectedRow());
+    }//GEN-LAST:event_disponiblesAMouseClicked
+
+    private void ocupadosSMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ocupadosSMouseClicked
+        ModeloTablaAnhadirMecanico r= (ModeloTablaAnhadirMecanico) ocupadosS.getModel();
+        subseleccionado= r.obtenerSubordinado(ocupadosS.getSelectedRow());
+    }//GEN-LAST:event_ocupadosSMouseClicked
+
+    private void ocupadosAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ocupadosAMouseClicked
+        ModeloTablaAnhadirAlumno r = (ModeloTablaAnhadirAlumno) ocupadosA.getModel();
+        pracseleccionado= r.obtenerSubordinado(ocupadosA.getSelectedRow());
+    }//GEN-LAST:event_ocupadosAMouseClicked
+
+    private void botonIzquierdaAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonIzquierdaAActionPerformed
+        ModeloTablaAnhadirAlumno taO = (ModeloTablaAnhadirAlumno) ocupadosA.getModel();
+        List<EmpleadoPracticas> aO = taO.getFilas();
+        
+        if(aO.contains(pracseleccionado)) {
+                fa.quitarAlumnoReparacion(re.getIdreparacion(), pracseleccionado.getIdalumno());
+                pracseleccionado=null;
+                ocupadosA.clearSelection();
+                generarListasAlumnos();
+            }
+    }//GEN-LAST:event_botonIzquierdaAActionPerformed
 
     /**
      * @param args the command line arguments
@@ -207,18 +297,39 @@ public class VAnhadirMecanico extends javax.swing.JDialog {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton botonDerecha;
-    private javax.swing.JButton botonIzquierda;
+    private javax.swing.JButton botonDerechaA;
+    private javax.swing.JButton botonDerechaS;
+    private javax.swing.JButton botonIzquierdaA;
+    private javax.swing.JButton botonIzquierdaS;
     private javax.swing.JButton cancelarBoton;
-    private javax.swing.JTable disponiblesTable;
+    private javax.swing.JTable disponiblesA;
+    private javax.swing.JTable disponiblesS;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable ocupadosTable;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JTable ocupadosA;
+    private javax.swing.JTable ocupadosS;
     // End of variables declaration//GEN-END:variables
 
-    private void generarListas() {
+    private void generarListasSubordinados() {
+        List<Subordinado> disponibles = fa.obtenerMecanicosDisp(re.getIdreparacion());
+        List<Subordinado> ocupados = fa.obtenerMecanicosOcup(re.getIdreparacion());
         
+        ModeloTablaAnhadirMecanico r;
+        if(!disponibles.isEmpty()) { r= (ModeloTablaAnhadirMecanico) disponiblesS.getModel();   r.setFilas(disponibles); }
+        if(!ocupados.isEmpty()) { r= (ModeloTablaAnhadirMecanico) ocupadosS.getModel();   r.setFilas(ocupados); }
+    }
+    
+    private void generarListasAlumnos() {
+        List<EmpleadoPracticas> disponibles = fa.obtenerAlumnosDisp(re.getIdreparacion(), re.getSupervisorid());
+        List<EmpleadoPracticas> ocupados = fa.obtenerAlumnosOcup(re.getIdreparacion());
+        
+        ModeloTablaAnhadirAlumno r;
+        if(!disponibles.isEmpty()) { r= (ModeloTablaAnhadirAlumno) disponiblesA.getModel();   r.setFilas(disponibles); }
+        if(!ocupados.isEmpty()) { r= (ModeloTablaAnhadirAlumno) ocupadosA.getModel();   r.setFilas(ocupados); }
     }
 }

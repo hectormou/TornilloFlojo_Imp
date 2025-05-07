@@ -188,4 +188,36 @@ public class FachadaAplicacion {
     public Mecanico obtenerMecanico(String mecanicoid) {
         return cm.obtenerMecanico(mecanicoid);
     }
+
+    public List<Subordinado> obtenerMecanicosDisp(Integer idreparacion) {
+        return cr.obtenerMecanicosDisp(idreparacion);
+    }
+
+    public List<Subordinado> obtenerMecanicosOcup(Integer idreparacion) {
+        return cr.obtenerMecanicosOcup(idreparacion);    
+    }
+
+    public List<EmpleadoPracticas> obtenerAlumnosDisp(Integer idreparacion, String supervisor) {
+        return cr.obtenerAlumnosDisp(idreparacion, supervisor);
+    }
+
+    public List<EmpleadoPracticas> obtenerAlumnosOcup(Integer idreparacion) {
+        return cr.obtenerAlumnosOcup(idreparacion);    
+    }
+
+    public void quitarSubordinadoReparacion(Integer idreparacion, String idMecanico) {
+        cr.quitarSubordinadoReparacion(idreparacion, idMecanico);
+    }
+
+    public void quitarAlumnoReparacion(Integer idreparacion, int idalumno) {
+        cr.quitarAlumnoReparacion(idreparacion, idalumno);
+    }
+
+    public void anhadirSubordinadoReparacion(Integer idreparacion, String idMecanico) {
+        cr.anhadirSubordinadoReparacion(idreparacion, idMecanico);
+    }
+
+    public void anhadirAlumnoReparacion(Integer idreparacion, int idalumno) {
+        cr.anhadirAlumnoReparacion(idreparacion, idalumno);
+    }
 }

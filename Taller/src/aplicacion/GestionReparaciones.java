@@ -60,4 +60,43 @@ public class GestionReparaciones {
     public void finalizarReparacion(Integer idreparacion, List<Stock_U_A> stock) {
         fbd.finalizarReparacion(idreparacion, stock);
     }
+
+    public List<Subordinado> obtenerMecanicosDisp(Integer idreparacion) {
+        return fbd.obtenerMecanicosDisp(idreparacion);
+    }
+
+    public List<Subordinado> obtenerMecanicosOcup(Integer idreparacion) {
+        return fbd.obtenerMecanicosOcup(idreparacion);    }
+
+    public List<EmpleadoPracticas> obtenerAlumnosDisp(Integer idreparacion, String supervisor) {
+        return fbd.obtenerAlumnosDisp(idreparacion, supervisor);
+    }
+
+    public List<EmpleadoPracticas> obtenerAlumnosOcup(Integer idreparacion) {
+        return fbd.obtenerAlumnosOcup(idreparacion);    
+    }
+
+    public void quitarSubordinadoReparacion(Integer idreparacion, String idMecanico) {
+        if(!fbd.esFinalizadaReparacion(idreparacion)) {
+            fbd.quitarSubordinadoReparacion(idreparacion, idMecanico);
+        }
+    }
+
+    public void quitarAlumnoReparacion(Integer idreparacion, int idalumno) {
+        if(!fbd.esFinalizadaReparacion(idreparacion)) {
+            fbd.quitarAlumnoReparacion(idreparacion, idalumno);
+        }
+    }
+
+    public void anhadirSubordinadoReparacion(Integer idreparacion, String idMecanico) {
+        if(!fbd.esFinalizadaReparacion(idreparacion)) {
+            fbd.anhadirSubordinadoReparacion(idreparacion, idMecanico);
+        }
+    }
+
+    public void anhadirAlumnoReparacion(Integer idreparacion, int idalumno) {
+        if(!fbd.esFinalizadaReparacion(idreparacion)) {
+            fbd.anhadirAlumnoReparacion(idreparacion, idalumno);
+        }
+    }
 }

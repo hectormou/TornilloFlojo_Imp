@@ -63,7 +63,7 @@ public class DAORepuestos extends AbstractDAO{
 
         con=this.getConexion();
         
-        String consulta = "select idreparacion, idrepuesto, cantidad, stock " + "from utilizar natural join repuesto " + "where idreparacion = ?";
+        String consulta = "select idreparacion, idrepuesto, cantidad, stock " + "from utilizar natural join repuesto " + "where idreparacion = ? ;";
         
         
         try  {
