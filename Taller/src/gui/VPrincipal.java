@@ -339,7 +339,7 @@ public class VPrincipal extends javax.swing.JFrame {
         }
         if(!fa.vehiculoTuvoReparaciones(vehiculoseleccionado.getMatricula())){
             eliminarVehiculoBoton.setEnabled(true);
-        }
+        }else eliminarVehiculoBoton.setEnabled(false);
     }//GEN-LAST:event_tablaVehiculosMouseClicked
 
     private void menuPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPersonalActionPerformed
