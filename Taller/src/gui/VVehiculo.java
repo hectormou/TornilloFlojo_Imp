@@ -450,6 +450,7 @@ public class VVehiculo extends javax.swing.JDialog {
         VNuevaReparacion vnr = new VNuevaReparacion(this, true, this.fa, this.vehiculo, this.padre.getMecanicoApp());
         vnr.setVisible(true);
         buscarReparaciones();
+        gestionarBoton.setEnabled(false);
     }//GEN-LAST:event_anhadirBotonActionPerformed
 
     private void TablaReparacionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaReparacionesMouseClicked
