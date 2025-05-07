@@ -89,14 +89,20 @@ public class DAOMecanicos extends AbstractDAO {
         if (rsMecanico.next())
         {
             if(esJefeTaller(idMecanico)){
+                int b1=0;
+                int b2=0;
+                b1=this.obtenerBonusUsualJefe(rsMecanico.getString("idMecanico"));
+                b2=this.obtenerBonusJefe(rsMecanico.getString("idMecanico"));
                 resultado = new JefeTaller(rsMecanico.getString("idMecanico"), rsMecanico.getString("clave"),
                                       rsMecanico.getString("nombre"), rsMecanico.getString("telefonoContacto"),
-                                      rsMecanico.getDate("fechaIngreso"), rsMecanico.getInt("sueldoBase"));
+                                      rsMecanico.getDate("fechaIngreso"), rsMecanico.getInt("sueldoBase")+b1+b2);
             }
             else if(esSubordinado(idMecanico)){
+                int b=0;
+                b=this.obtenerBonusSubordinado(rsMecanico.getString("idMecanico"));
                 resultado = new Subordinado(rsMecanico.getString("idMecanico"), rsMecanico.getString("clave"),
                                       rsMecanico.getString("nombre"), rsMecanico.getString("telefonoContacto"),
-                                      rsMecanico.getDate("fechaIngreso"), rsMecanico.getInt("sueldoBase"));
+                                      rsMecanico.getDate("fechaIngreso"), rsMecanico.getInt("sueldoBase")+b);
             }
         }
         } catch (SQLException e){
