@@ -29,13 +29,8 @@ public class GestionSolicitudes {
         return fbd.obtenerSolicitudes();
     }
 
-    void eliminarSolicitud(Solicitud solicitudSeleccionada) {
-        fbd.eliminarSolicitud(solicitudSeleccionada);
-    }
+    
 
-    void aumentarStockPorSolicitud(Solicitud solicitudSeleccionada) {
-        fbd.aumentarStockPorSolicitud(solicitudSeleccionada);
-    }
     
     
 }

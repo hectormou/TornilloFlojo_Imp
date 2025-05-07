@@ -83,48 +83,5 @@ public class DAOSolicitudes extends AbstractDAO {
           try {stmSolicitudes.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
         }
         return resultado;
-    }    
-
-    void eliminarSolicitud(Solicitud solicitudSeleccionada) {
-        Connection con;
-        PreparedStatement stmSolicitud=null;
-
-        con=super.getConexion();
-
-        try {
-            String fechaString = solicitudSeleccionada.getFecha();
-            java.sql.Date fechaSql = java.sql.Date.valueOf(fechaString);
-            stmSolicitud=con.prepareStatement("delete from solicitud where repuesto=? and fecha = ? and cantidad = ? and idmecanico = ? ");
-            stmSolicitud.setInt(1, solicitudSeleccionada.getIdRepuesto());
-            stmSolicitud.setDate(2, fechaSql);
-            stmSolicitud.setInt(3, solicitudSeleccionada.getCantidad());
-            stmSolicitud.setString(4, solicitudSeleccionada.getIdSolicitante());
-            stmSolicitud.executeUpdate();
-        
-        } catch (SQLException e){
-          System.out.println(e.getMessage());
-          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
-        }finally{
-          try {stmSolicitud.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
-        }    }
-
-    void aumentarStockPorSolicitud(Solicitud solicitudSeleccionada) {
-        Connection con;
-        PreparedStatement stmSolicitud=null;
-
-        con=super.getConexion();
-        
-        try{
-            stmSolicitud = con.prepareStatement("update repuesto set stock = stock + ? where idrepuesto = ?");
-            stmSolicitud.setInt(1, solicitudSeleccionada.getCantidad());
-            stmSolicitud.setInt(2, solicitudSeleccionada.getIdRepuesto());
-            stmSolicitud.executeUpdate();
-        } catch (SQLException e){
-          System.out.println(e.getMessage());
-          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
-        }finally{
-          try {stmSolicitud.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
-        }  
-
     }
 }

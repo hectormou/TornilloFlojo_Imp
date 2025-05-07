@@ -26,7 +26,6 @@ public class FachadaAplicacion {
     private final GestionReparaciones cr;
     private final GestionRepuestos crp;
     private final GestionSolicitudes cs;
-    private final GestionEmpleadosPracticas cep;
     
     
     
@@ -40,7 +39,6 @@ public class FachadaAplicacion {
         cr = new GestionReparaciones(fgui, fbd);
         crp = new GestionRepuestos(fgui, fbd);
         cs = new GestionSolicitudes(fgui, fbd);
-        cep = new GestionEmpleadosPracticas(fgui, fbd);
     }
 
     public static void main(String args[]) {
@@ -125,14 +123,7 @@ public class FachadaAplicacion {
         cl.anhadirCliente(c);
     }
 
-    public void cambiarContraseña(String nuevaContraseña, String idMecanico) {
-        cm.cambiarContraseña(nuevaContraseña, idMecanico);
-    }
-
-    public void editarMecanico(String clave, String nombre, Date fechaIngreso, int sueldoBase, String idMecanico) {
-        cm.editarMecanico(clave, nombre, fechaIngreso, sueldoBase, idMecanico);
-    }
-
+   
     public Reparacion obtenerReparacion(Integer id) {
         return cr.obtenerReparacion(id);
     }
@@ -172,24 +163,6 @@ public class FachadaAplicacion {
     public void nuevaSolicitud(Repuesto repuesto, String cantidad, Mecanico mecanico) {
         crp.nuevaSolicitud(repuesto, cantidad, mecanico);
     }
-    
-    
-    public ArrayList<Mecanico> buscarMecanicos(String id, String modo){
-        return cm.buscarMecanicos(id, modo);
-    }
-    
-    public boolean despedirMecanico(String id){
-        return cm.despedirMecanico(id);
-    }
-    
-    public void anhadirJefeDeTaller(String id, String nombre, String clave, String tlf, Integer sueldo){
-        cm.anhadirJefeDeTaller(id, nombre, clave, tlf, sueldo);
-    }
-    
-    public void anhadirSubordinado(String id, String nombre, String clave, String tlf, Integer sueldo){
-        cm.anhadirSubordinado(id, nombre, clave, tlf, sueldo);
-    }
-
     public Mecanico obtenerMecanico(String mecanicoid) {
         return cm.obtenerMecanico(mecanicoid);
     }
@@ -202,13 +175,7 @@ public class FachadaAplicacion {
         return cs.obtenerSolicitudes();
     }
 
-    public void eliminarSolicitud(Solicitud solicitudSeleccionada) {
-        cs.eliminarSolicitud(solicitudSeleccionada);
-    }
-
-    public void aumentarStockPorSolicitud(Solicitud solicitudSeleccionada) {
-        cs.aumentarStockPorSolicitud(solicitudSeleccionada);
-    }
+    
 
     public List<Subordinado> obtenerMecanicosDisp(Integer idreparacion) {
         return cr.obtenerMecanicosDisp(idreparacion);
@@ -241,33 +208,6 @@ public class FachadaAplicacion {
     public void anhadirAlumnoReparacion(Integer idreparacion, int idalumno) {
         cr.anhadirAlumnoReparacion(idreparacion, idalumno);
     }
-    
-    public boolean updateMecanico(String id, String nombre, String clave, String tlf, Integer sueldo){
-        return cm.updateMecanico(id,nombre,clave,tlf,sueldo);
-    }
-    
-    public void ascenderMecanico(String id){
-        cm.ascenderMecanico(id);
-    }
-    
-    public ArrayList<EmpleadoPracticas> buscarPracticas(String nombreTutor){
-        return cep.buscarPracticas(nombreTutor);
-    }
-    
-    public boolean despedirPracticas(Integer id){
-        return cep.despedirPracticas(id);
-    }
-    
-    public ArrayList<JefeTaller> obtenerTutores(String nombre){
-        return cep.obtenerTutores(nombre);
-    }
-    
-    public void anhadirPracticas(String nombre, String idTutor){
-        cep.anhadirPracticas(nombre, idTutor);
-    }
-
-
-
     public boolean vehiculoTuvoReparaciones(String matricula) {
 return cm.vehiculoTuvoReparaciones(matricula);    }
     

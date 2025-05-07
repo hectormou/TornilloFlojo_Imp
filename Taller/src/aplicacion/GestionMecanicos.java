@@ -36,43 +36,9 @@ public class GestionMecanicos {
     public JefeTaller obtenerJefeTaller(String id) {
         return fbd.obtenerJefesTaller(id);
     }
-
-    public void cambiarContraseña(String nuevaContraseña, String idMecanico) {
-        fbd.cambiarContraseña(nuevaContraseña, idMecanico);
-    }
-
-    public void editarMecanico(String clave, String nombre, Date fechaIngreso, int sueldoBase, String idMecanico) {
-        fbd.editarMecanico(clave, nombre, fechaIngreso, sueldoBase, idMecanico);
-    }
-    
-    public ArrayList<Mecanico> buscarMecanicos(String id, String modo){
-        return fbd.buscarMecanicos(id, modo);
-    }
-    
-    public boolean despedirMecanico(String id){
-        return fbd.despedirMecanico(id);
-    }
-    
-    public void anhadirJefeDeTaller(String id, String nombre, String clave, String tlf, Integer sueldo){
-        fbd.anhadirJefeDeTaller(id, nombre, clave, tlf, sueldo);
-    }
-
     public Mecanico obtenerMecanico(String mecanicoid) {
         return fbd.obtenerMecanico(mecanicoid);
     }
- 
-    public void anhadirSubordinado(String id, String nombre, String clave, String tlf, Integer sueldo){
-        fbd.anhadirSubordinado(id, nombre, clave, tlf, sueldo);
-    }
-
-    public boolean updateMecanico(String id, String nombre, String clave, String tlf, Integer sueldo){
-        return fbd.updateMecanico(id,nombre,clave,tlf,sueldo);
-    }
-    
-    public void ascenderMecanico(String id){
-        fbd.ascenderMecanico(id);
-    }
-
     public void borrarVehiculo(String matricula) {
         fbd.eliminarVehiculo(matricula);   
     }

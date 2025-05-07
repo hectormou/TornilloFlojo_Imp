@@ -86,7 +86,7 @@ public class VAnhadirMecanico extends javax.swing.JDialog {
             }
         });
 
-        cancelarBoton.setText("Cancelar");
+        cancelarBoton.setText("Salir");
         cancelarBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelarBotonActionPerformed(evt);

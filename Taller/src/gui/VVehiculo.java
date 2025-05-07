@@ -48,6 +48,10 @@ public class VVehiculo extends javax.swing.JDialog {
         buscarClientes();
         buscarReparaciones();
         eliminarClienteBoton.setEnabled(false);
+        if(this.supervisor==null){
+            anhadirBoton.setEnabled(false);
+            anadirClienteBoton.setEnabled(false);
+        }
     }
     
     //PARA NUEVO VEHÍCULO

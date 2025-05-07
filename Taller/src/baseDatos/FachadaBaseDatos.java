@@ -38,7 +38,6 @@ public class FachadaBaseDatos {
     private DAOReparaciones daoReparaciones;
     private DAORepuestos daoRepuestos;
     private DAOSolicitudes daoSolicitudes;
-    private DAOPracticas daoPracticas;
 
 
     public FachadaBaseDatos (aplicacion.FachadaAplicacion fa){
@@ -81,7 +80,6 @@ public class FachadaBaseDatos {
             daoReparaciones = new DAOReparaciones(conexion, fa);
             daoRepuestos = new DAORepuestos(conexion, fa);
             daoSolicitudes = new DAOSolicitudes(conexion, fa);
-            daoPracticas = new DAOPracticas(conexion, fa);
           
 
 
@@ -160,13 +158,7 @@ public class FachadaBaseDatos {
         daoClientes.anhadirCliente(c);
     }
 
-    public void cambiarContraseña(String nuevaContraseña, String idMecanico) {
-        daoMecanicos.cambiarContraseña(nuevaContraseña, idMecanico);
-    }
-
-    public void editarMecanico(String clave, String nombre, Date fechaIngreso, int sueldoBase, String idMecanico) {
-        daoMecanicos.editarMecanico(clave, nombre, (java.sql.Date) fechaIngreso, sueldoBase, idMecanico);
-    }
+    
 
 
     public Reparacion obtenerReparacion(Integer id) {
@@ -213,21 +205,7 @@ public class FachadaBaseDatos {
         daoRepuestos.nuevaSolicitud(repuesto, cantidad, mecanico);
     }
     
-    public ArrayList<Mecanico> buscarMecanicos(String id, String modo){
-        return daoMecanicos.buscarMecanicos(id, modo);
-    }
     
-    public boolean despedirMecanico(String id){
-        return daoMecanicos.despedirMecanico(id);
-    }
-    
-    public void anhadirJefeDeTaller(String id, String nombre, String clave, String tlf, Integer sueldo){
-        daoMecanicos.anhadirJefeDeTaller(id, nombre, clave, tlf, sueldo);
-    }
-    
-    public void anhadirSubordinado(String id, String nombre, String clave, String tlf, Integer sueldo){
-        daoMecanicos.anhadirSubordinado(id, nombre, clave, tlf, sueldo);
-    }
 
     public Mecanico obtenerMecanico(String mecanicoid) {
         return daoMecanicos.obtenerMecanico(mecanicoid);
@@ -241,15 +219,7 @@ public class FachadaBaseDatos {
         return daoSolicitudes.obtenerSolicitudes();
     }
 
-    public void eliminarSolicitud(Solicitud solicitudSeleccionada) {
-        daoSolicitudes.eliminarSolicitud(solicitudSeleccionada);
-    }
-
-    public void aumentarStockPorSolicitud(Solicitud solicitudSeleccionada) {
-        daoSolicitudes.aumentarStockPorSolicitud(solicitudSeleccionada);
-    }
-
-
+   
     public List<Subordinado> obtenerMecanicosDisp(Integer idreparacion) {
         return daoReparaciones.obtenerMecanicosDisp(idreparacion);
     }
@@ -281,29 +251,11 @@ public class FachadaBaseDatos {
         daoReparaciones.anhadirAlumnoReparacion(idreparacion, idalumno);
     }
     
-    public boolean updateMecanico(String id, String nombre, String clave, String tlf, Integer sueldo){
-        return daoMecanicos.updateMecanico(id,nombre,clave,tlf,sueldo);
-    }
+   
     
-    public void ascenderMecanico(String id){
-        daoMecanicos.ascenderMecanico(id);
-    }
     
-    public ArrayList<EmpleadoPracticas> buscarPracticas(String nombreTutor){
-        return daoPracticas.buscarPracticas(nombreTutor);
-    }
     
-    public boolean despedirPracticas(Integer id){
-        return daoPracticas.despedirPracticas(id);
-    }
     
-    public ArrayList<JefeTaller> obtenerTutores(String nombre){
-        return daoPracticas.obtenerTutores(nombre);
-    }
-    
-    public void anhadirPracticas(String nombre, String idTutor){
-        daoPracticas.anhadirPracticas(nombre, idTutor);
-    }
 
 
 

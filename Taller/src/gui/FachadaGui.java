@@ -32,17 +32,6 @@ public class FachadaGui {
     public void comprobarMecanico(Mecanico m){
         vp.comprobarMecanico(m);
     }
-    
-   
-   
-    
-    /*public void nuevoLibro(java.util.List<String>  restoCategorias){
-        VVehiculo vl;
-        
-        vl=new VVehiculo(vp, true, fa, restoCategorias);
-        vl.setVisible(true);
-    }*/
-    
     public void muestraExcepcion(String txtExcepcion){
        VAviso va;
        

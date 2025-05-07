@@ -65,11 +65,7 @@ public class VPrincipal extends javax.swing.JFrame {
         eliminarVehiculoBoton = new javax.swing.JButton();
         btnSacar = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
-        pestanhaGestion = new javax.swing.JMenu();
-        menuEmpleados = new javax.swing.JMenuItem();
-        menuSolicitudes = new javax.swing.JMenuItem();
         pestanhaPrincipal = new javax.swing.JMenu();
-        menuPersonal = new javax.swing.JMenuItem();
         menuStock = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -145,35 +141,7 @@ public class VPrincipal extends javax.swing.JFrame {
             }
         });
 
-        pestanhaGestion.setText("Gestión");
-
-        menuEmpleados.setText("Empleados");
-        menuEmpleados.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuEmpleadosActionPerformed(evt);
-            }
-        });
-        pestanhaGestion.add(menuEmpleados);
-
-        menuSolicitudes.setText("Solicitudes");
-        menuSolicitudes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuSolicitudesActionPerformed(evt);
-            }
-        });
-        pestanhaGestion.add(menuSolicitudes);
-
-        jMenuBar1.add(pestanhaGestion);
-
         pestanhaPrincipal.setText("Principal");
-
-        menuPersonal.setText("Personal");
-        menuPersonal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuPersonalActionPerformed(evt);
-            }
-        });
-        pestanhaPrincipal.add(menuPersonal);
 
         menuStock.setText("Stock");
         menuStock.addActionListener(new java.awt.event.ActionListener() {
@@ -284,16 +252,6 @@ public class VPrincipal extends javax.swing.JFrame {
         buscarVehiculos();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    private void menuEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEmpleadosActionPerformed
-        VEmpleados ve = new VEmpleados(this, true, this.fa);
-        ve.setVisible(true);
-    }//GEN-LAST:event_menuEmpleadosActionPerformed
-
-    private void menuSolicitudesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSolicitudesActionPerformed
-        VSolicitudes vs = new VSolicitudes(this, true, this.fa);
-        vs.setVisible(true);
-    }//GEN-LAST:event_menuSolicitudesActionPerformed
-
     private void anhadirVehiculoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anhadirVehiculoBotonActionPerformed
         // TODO add your handling code here:
         VVehiculo vnv= new VVehiculo(this, true, this.fa);
@@ -336,27 +294,26 @@ public class VPrincipal extends javax.swing.JFrame {
             btnSacar.setEnabled(false);
         }
         else {
+            if(vehiculoseleccionado.getSupervisorID()!=null){
             btnSacar.setEnabled(true);
+            }else            btnSacar.setEnabled(false);
+
         }
         if(!fa.vehiculoTuvoReparaciones(vehiculoseleccionado.getMatricula())){
             eliminarVehiculoBoton.setEnabled(true);
         }else eliminarVehiculoBoton.setEnabled(false);
     }//GEN-LAST:event_tablaVehiculosMouseClicked
 
-    private void menuPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPersonalActionPerformed
-        VPersonal vp = new VPersonal(this, true, this.fa, this.mecanicoEnAcceso);
-        vp.setVisible(true);
-        vp.obtenerDatosMecanicoActual(); 
-    }//GEN-LAST:event_menuPersonalActionPerformed
+    private void btnSacarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSacarActionPerformed
+        fa.sacarTaller(vehiculoseleccionado.getMatricula());
+        btnSacar.setEnabled(false);
+        this.buscarVehiculos();
+    }//GEN-LAST:event_btnSacarActionPerformed
 
     private void menuStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuStockActionPerformed
         VStock vs = new VStock(this, true, this.fa, this.mecanicoEnAcceso);
         vs.setVisible(true);
     }//GEN-LAST:event_menuStockActionPerformed
-
-    private void btnSacarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSacarActionPerformed
-        fa.sacarTaller(vehiculoseleccionado.getMatricula());
-    }//GEN-LAST:event_btnSacarActionPerformed
 
 
     private void setBotonesVehiculo(Vehiculo vehiculo){
@@ -407,23 +364,15 @@ public class VPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JMenuItem menuEmpleados;
-    private javax.swing.JMenuItem menuPersonal;
-    private javax.swing.JMenuItem menuSolicitudes;
     private javax.swing.JMenuItem menuStock;
     private javax.swing.JButton modificarVehiculoBoton;
-    private javax.swing.JMenu pestanhaGestion;
     private javax.swing.JMenu pestanhaPrincipal;
     private javax.swing.JTable tablaVehiculos;
     // End of variables declaration//GEN-END:variables
 
     public void comprobarMecanico(Mecanico m){
         mecanicoEnAcceso = m;
-        if(m instanceof JefeTaller){
-            pestanhaGestion.setEnabled(true);
-        } else{
-            pestanhaGestion.setEnabled(false);
-        }
+        
     }
     
     public void buscarVehiculos(){

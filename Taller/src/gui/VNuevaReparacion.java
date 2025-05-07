@@ -10,8 +10,11 @@ import aplicacion.Reparacion;
 import aplicacion.Repuesto;
 import aplicacion.TipoReparacion;
 import aplicacion.Vehiculo;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -240,7 +243,11 @@ public class VNuevaReparacion extends javax.swing.JDialog {
                     repuestos.add(repuesto);
                     cantidades.add(ma.getCantidadAt(i));
                 }
-                fa.anhadirReparacion(this.vehiculo, tipoReparacionComboBox.getSelectedItem().toString(), repuestos, cantidades);
+                try {
+                    fa.anhadirReparacion(this.vehiculo, tipoReparacionComboBox.getSelectedItem().toString(), repuestos, cantidades);
+                } catch (SQLException ex) {
+                    Logger.getLogger(VNuevaReparacion.class.getName()).log(Level.SEVERE, null, ex);
+                }
                     
                 errorLabel.setVisible(false);
                 this.dispose();
