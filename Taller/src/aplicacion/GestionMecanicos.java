@@ -25,7 +25,7 @@ public class GestionMecanicos {
     }  
     
     
-    public Mecanico validarMecanico(String idMecanico, String clave){
+    public boolean validarMecanico(String idMecanico, String clave){
         return fbd.validarMecanico(idMecanico, clave);
     }
 

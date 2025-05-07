@@ -29,9 +29,7 @@ public class FachadaGui {
       va.setVisible(true);
     }
     
-    public void comprobarMecanico(Mecanico m){
-        vp.comprobarMecanico(m);
-    }
+    
     public void muestraExcepcion(String txtExcepcion){
        VAviso va;
        

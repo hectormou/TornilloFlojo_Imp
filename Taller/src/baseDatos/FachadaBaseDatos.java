@@ -113,7 +113,7 @@ public class FachadaBaseDatos {
          daoVehiculos.modificarVehiculo(v);
     }
 
-    public Mecanico validarMecanico(String idUsuario, String clave){
+    public boolean validarMecanico(String idUsuario, String clave){
         return daoMecanicos.validarMecanico(idUsuario, clave);
     }
 

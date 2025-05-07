@@ -22,61 +22,12 @@ public class DAOMecanicos extends AbstractDAO {
         super.setFachadaAplicacion(fa);
     }
    
-   public Boolean esJefeTaller(String idMecanico){
-       Boolean resultado=false;
-        Connection con;
-        PreparedStatement stmMecanico=null;
-        ResultSet rsMecanico;
-
-        con=this.getConexion();
-
-        try {
-        stmMecanico=con.prepareStatement("select * from JefeTaller where idMecanico = ? ");
-        stmMecanico.setString(1, idMecanico);
-        rsMecanico=stmMecanico.executeQuery();
-        if (rsMecanico.next())
-        {
-            resultado = true;
-        }
-        } catch (SQLException e){
-          System.out.println(e.getMessage());
-          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
-        }finally{
-          try {stmMecanico.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
-        }
-        return resultado;
-    }
    
-   public Boolean esSubordinado(String idMecanico){
-       Boolean resultado=false;
+    public boolean validarMecanico(String idMecanico, String clave){
         Connection con;
         PreparedStatement stmMecanico=null;
         ResultSet rsMecanico;
-
-        con=this.getConexion();
-
-        try {
-        stmMecanico=con.prepareStatement("select * from Subordinado where idMecanico = ?");
-        stmMecanico.setString(1, idMecanico);
-        rsMecanico=stmMecanico.executeQuery();
-        if (rsMecanico.next())
-        {
-            resultado = true;
-        }
-        } catch (SQLException e){
-          System.out.println(e.getMessage());
-          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
-        }finally{
-          try {stmMecanico.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
-        }
-        return resultado;
-    }
-   
-    public Mecanico validarMecanico(String idMecanico, String clave){
-        Mecanico resultado=null;
-        Connection con;
-        PreparedStatement stmMecanico=null;
-        ResultSet rsMecanico;
+        boolean resultado=false;
 
         con=this.getConexion();
         try {
@@ -88,17 +39,7 @@ public class DAOMecanicos extends AbstractDAO {
         rsMecanico=stmMecanico.executeQuery();
         if (rsMecanico.next())
         {
-            if(esJefeTaller(idMecanico)){
-               
-                resultado = new JefeTaller(rsMecanico.getString("idMecanico"), rsMecanico.getString("clave"),
-                                      rsMecanico.getString("nombre"), rsMecanico.getString("telefonoContacto"),
-                                      rsMecanico.getDate("fechaIngreso"), rsMecanico.getInt("sueldoBase"));
-            }
-            else if(esSubordinado(idMecanico)){
-                resultado = new Subordinado(rsMecanico.getString("idMecanico"), rsMecanico.getString("clave"),
-                                      rsMecanico.getString("nombre"), rsMecanico.getString("telefonoContacto"),
-                                      rsMecanico.getDate("fechaIngreso"), rsMecanico.getInt("sueldoBase"));
-            }
+            resultado= true;
         }
         } catch (SQLException e){
           System.out.println(e.getMessage());

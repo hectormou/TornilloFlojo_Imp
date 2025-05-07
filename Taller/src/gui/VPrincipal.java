@@ -370,10 +370,7 @@ public class VPrincipal extends javax.swing.JFrame {
     private javax.swing.JTable tablaVehiculos;
     // End of variables declaration//GEN-END:variables
 
-    public void comprobarMecanico(Mecanico m){
-        mecanicoEnAcceso = m;
-        
-    }
+    
     
     public void buscarVehiculos(){
         ModeloTablaVehiculos m;

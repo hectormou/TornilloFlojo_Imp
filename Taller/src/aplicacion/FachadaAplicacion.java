@@ -56,9 +56,7 @@ public class FachadaAplicacion {
         fgui.muestraExcepcion(e);
     }
  
-    public void comprobarMecanico(Mecanico m){
-        fgui.comprobarMecanico(m);
-    }
+    
  
     public Vehiculo obtenerVehiculo(String matricula) {
         return cv.obtenerVehiculo(matricula);
@@ -72,7 +70,7 @@ public class FachadaAplicacion {
         cv.actualizarVehiculo(v);
     }
 
-    public Mecanico validarMecanico(String idMecanico, String clave){
+    public boolean validarMecanico(String idMecanico, String clave){
         return cm.validarMecanico(idMecanico, clave);
     }
 
