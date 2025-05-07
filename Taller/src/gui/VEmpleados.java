@@ -319,7 +319,7 @@ public class VEmpleados extends javax.swing.JDialog {
         // TODO add your handling code here:
         EmpleadoPracticas e = getPracticasSeleccionado();
         if(e!=null){
-            if(!fa.despedirPracticas(e.getIdalumno()){
+            if(!fa.despedirPracticas(e.getIdalumno())){
                 VAviso va = new VAviso(this.parent, true, "El empleado de prácticas está asistiendo a una reparación y no se puede despedir");
                 va.setVisible(true);
             }

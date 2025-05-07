@@ -62,6 +62,7 @@ public class ModeloTablaReparaciones extends AbstractTableModel{
        return false;
     }
 
+    @Override
     public Object getValueAt(int row, int col){
         Object resultado=null;
 
