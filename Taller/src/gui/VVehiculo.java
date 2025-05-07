@@ -37,7 +37,7 @@ public class VVehiculo extends javax.swing.JDialog {
         super(parent, modal);
         this.fa=fa;
         this.vehiculo=fa.obtenerVehiculo(matricula);
-        this.propietario=fa.obtenerCliente(vehiculo.getPropietarioDNI());
+        this.propietario=fa.obtenerCliente(vehiculo.getCliente());
         if(vehiculo.getSupervisorID()!=null) this.supervisor=fa.obtenerJefeTaller(vehiculo.getSupervisorID());
         
         initComponents();

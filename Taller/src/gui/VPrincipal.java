@@ -109,6 +109,12 @@ public class VPrincipal extends javax.swing.JFrame {
 
         jLabel3.setText("Cliente:");
 
+        buscaCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buscaClienteActionPerformed(evt);
+            }
+        });
+
         jLabel4.setText("Combustible:");
 
         jLabel5.setText("Supervisor:");
@@ -315,10 +321,13 @@ public class VPrincipal extends javax.swing.JFrame {
         vs.setVisible(true);
     }//GEN-LAST:event_menuStockActionPerformed
 
+    private void buscaClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscaClienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buscaClienteActionPerformed
 
     private void setBotonesVehiculo(Vehiculo vehiculo){
         buscaMatricula.setText(vehiculo.getMatricula());
-        buscaCliente.setText(vehiculo.getPropietarioDNI());   
+        buscaCliente.setText(vehiculo.getCliente());   
         buscaModelo.setText(vehiculo.getModelo());
         if(vehiculo.getSupervisorID()!=null) {
             JefeTaller j = fa.obtenerJefeTaller(vehiculo.getSupervisorID());
@@ -340,6 +349,21 @@ public class VPrincipal extends javax.swing.JFrame {
         buscaMarca.setText("");
         modificarVehiculoBoton.setEnabled(false);
     }
+    
+     public void buscarVehiculos(){
+        ModeloTablaVehiculos m;
+        m=(ModeloTablaVehiculos) tablaVehiculos.getModel();
+        m.setFilas(fa.obtenerVehiculos(buscaMatricula.getText(), buscaCliente.getText(), buscaMarca.getText(), buscaModelo.getText(), buscaSupervisor.getText(), buscaCombustible.getText()));
+        if (m.getRowCount() > 0) {
+            tablaVehiculos.setRowSelectionInterval(0, 0);
+            tablaVehiculos.requestFocus();
+            
+            Vehiculo vehiculo= m.obtenerVehiculo(0);
+            setBotonesVehiculo(vehiculo);
+        }else setBotonesBlanco();
+    }
+    
+    public Mecanico getMecanicoApp() { return mecanicoEnAcceso; }
     /**
     * @param args the command line arguments
     */
@@ -370,21 +394,4 @@ public class VPrincipal extends javax.swing.JFrame {
     private javax.swing.JTable tablaVehiculos;
     // End of variables declaration//GEN-END:variables
 
-    
-    
-    public void buscarVehiculos(){
-        ModeloTablaVehiculos m;
-
-        m=(ModeloTablaVehiculos) tablaVehiculos.getModel();
-        m.setFilas(fa.obtenerVehiculos(buscaMatricula.getText(), buscaCliente.getText(), buscaMarca.getText(), buscaModelo.getText(), buscaSupervisor.getText(), buscaCombustible.getText()));
-        if (m.getRowCount() > 0) {
-            tablaVehiculos.setRowSelectionInterval(0, 0);
-            tablaVehiculos.requestFocus();
-            
-            Vehiculo vehiculo= m.obtenerVehiculo(0);
-            setBotonesVehiculo(vehiculo);
-        }else setBotonesBlanco();
-    }
-    
-    public Mecanico getMecanicoApp() { return mecanicoEnAcceso; }
 }

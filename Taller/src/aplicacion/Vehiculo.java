@@ -51,7 +51,7 @@ public class Vehiculo {
         return this.kilometraje;
     }
     
-    public String getPropietarioDNI(){
+    public String getCliente(){
         return this.propietariodni;
     }
     

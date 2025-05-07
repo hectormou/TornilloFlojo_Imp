@@ -165,7 +165,7 @@ public class DAOVehiculos extends AbstractDAO {
         stmVehiculo.setInt(3, vehiculo.getKilometraje());
         stmVehiculo.setString(4, vehiculo.getCombustible());
         stmVehiculo.setString(5, vehiculo.getSupervisorID());
-        stmVehiculo.setString(6, vehiculo.getPropietarioDNI());
+        stmVehiculo.setString(6, vehiculo.getCliente());
         stmVehiculo.setString(7,vehiculo.getMatricula());
         stmVehiculo.executeUpdate();
         
@@ -197,7 +197,7 @@ public class DAOVehiculos extends AbstractDAO {
     stmVehiculo.setInt(4, vehiculo.getKilometraje());
      stmVehiculo.setString(5,vehiculo.getCombustible());
           stmVehiculo.setString(6,vehiculo.getSupervisorID());
-               stmVehiculo.setString(7,vehiculo.getPropietarioDNI());
+               stmVehiculo.setString(7,vehiculo.getCliente());
 
 
         stmVehiculo.executeUpdate();
