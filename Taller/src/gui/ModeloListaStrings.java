@@ -20,6 +20,7 @@ public class ModeloListaStrings extends javax.swing.AbstractListModel {
         this.cantidades=new java.util.ArrayList<Integer>();
     }
 
+    @Override
     public int getSize(){
         return this.elementos.size();
     }
@@ -52,7 +53,7 @@ public class ModeloListaStrings extends javax.swing.AbstractListModel {
     public void borrarElemento(int i){
         this.elementos.remove(i);
         this.ids.remove(i);
-        if (this.cantidades != null) this.cantidades.remove(i);
+        this.cantidades.remove(i);
         fireIntervalRemoved(this,i,i);
     }
 

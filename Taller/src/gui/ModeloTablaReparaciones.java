@@ -72,7 +72,7 @@ public class ModeloTablaReparaciones extends AbstractTableModel{
                     else resultado = reparaciones.get(row).getFecha_fin();
                     break;
             case 3: resultado=reparaciones.get(row).getTipo();break;
-            case 4: if(reparaciones.get(row).getSupervisorid().isBlank()) resultado = "-";
+            case 4: if(reparaciones.get(row).getSupervisorid() == null) resultado = "-";
                     else {
                         Mecanico mecanico=fa.obtenerMecanico(reparaciones.get(row).getSupervisorid());
                         resultado = mecanico.getNombre();
