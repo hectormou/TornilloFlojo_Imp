@@ -23,6 +23,7 @@ public class FachadaAplicacion {
     private final GestionClientes cl;
     private final GestionReparaciones cr;
     private final GestionRepuestos crp;
+    private final GestionEmpleadosPracticas cep;
     
     
     
@@ -35,6 +36,7 @@ public class FachadaAplicacion {
         cl = new GestionClientes(fgui, fbd);
         cr = new GestionReparaciones(fgui, fbd);
         crp = new GestionRepuestos(fgui, fbd);
+        cep = new GestionEmpleadosPracticas(fgui, fbd);
     }
 
     public static void main(String args[]) {
@@ -140,12 +142,8 @@ public class FachadaAplicacion {
         return crp.getTotalRepuestos();
     }
 
-    public Reparacion anhadirReparacion(Vehiculo vehiculo, String tipo, Mecanico mecanico) {
-        return cr.anhadirReparacion(vehiculo, tipo, mecanico);
-    }
-
-    public void anhadirRepuestoNecesarior(Integer idReparacion, Integer idRepuesto, int cantidad) {
-        crp.anhadirRepuestoNecesario(idReparacion, idRepuesto, cantidad);
+    public void anhadirReparacion(Vehiculo vehiculo, String tipo, List<Repuesto> repuestos, List<Integer> cantidades) {
+        cr.anhadirReparacion(vehiculo, tipo, repuestos, cantidades);
     }
 
     public List<TipoReparacion> obtenerTipoReparaciones() {
@@ -189,6 +187,7 @@ public class FachadaAplicacion {
         return cm.obtenerMecanico(mecanicoid);
     }
 
+
     public List<Subordinado> obtenerMecanicosDisp(Integer idreparacion) {
         return cr.obtenerMecanicosDisp(idreparacion);
     }
@@ -219,5 +218,21 @@ public class FachadaAplicacion {
 
     public void anhadirAlumnoReparacion(Integer idreparacion, int idalumno) {
         cr.anhadirAlumnoReparacion(idreparacion, idalumno);
+    }
+    
+    public boolean updateMecanico(String id, String nombre, String clave, String tlf, Integer sueldo){
+        return cm.updateMecanico(id,nombre,clave,tlf,sueldo);
+    }
+    
+    public void ascenderMecanico(String id){
+        cm.ascenderMecanico(id);
+    }
+    
+    public ArrayList<EmpleadoPracticas> buscarPracticas(String nombreTutor){
+        return cep.buscarPracticas(nombreTutor);
+    }
+    
+    public boolean despedirPracticas(Integer id){
+        return cep.despedirPracticas(id);
     }
 }

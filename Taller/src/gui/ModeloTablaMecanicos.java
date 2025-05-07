@@ -21,7 +21,7 @@ public class ModeloTablaMecanicos extends AbstractTableModel{
 
     
     public int getColumnCount (){
-        return 5;
+        return 7;
     }
 
         @Override
@@ -40,6 +40,8 @@ public class ModeloTablaMecanicos extends AbstractTableModel{
             case 2: nombre= "Tipo"; break;
             case 3: nombre="Teléfono"; break;
             case 4: nombre="Sueldo"; break;
+            case 5: nombre="Bonus base";break;
+            case 6: nombre="Bonus jefes";break;
         }
         return nombre;
     }
@@ -54,6 +56,9 @@ public class ModeloTablaMecanicos extends AbstractTableModel{
             case 2: clase=java.lang.String.class; break;
             case 3: clase=java.lang.String.class; break;
             case 4: clase=java.lang.Integer.class; break;
+            case 5: clase=java.lang.Float.class;break;
+            case 6: clase=java.lang.Float.class;break;
+
         }
         return clase;
     }
@@ -77,6 +82,23 @@ public class ModeloTablaMecanicos extends AbstractTableModel{
                 break;
             case 3: resultado=mecanicos.get(i).getTelefonoContacto();break;
             case 4: resultado=mecanicos.get(i).getSueldoBase();break;
+            case 5:
+                if(mecanicos.get(i) instanceof JefeTaller){ 
+                    JefeTaller j=(JefeTaller)mecanicos.get(i);
+                    resultado=j.getBonusUsual();
+                }
+                else if(mecanicos.get(i) instanceof Subordinado){
+                    Subordinado s=(Subordinado)mecanicos.get(i);
+                    resultado= s.getBonusSubordinado();
+                }
+                else{
+                    resultado = 0;}
+                break;
+            case 6:
+                if(mecanicos.get(i) instanceof JefeTaller){ 
+                    JefeTaller j=(JefeTaller)mecanicos.get(i);
+                    resultado=j.getBonusJefe();
+                }else resultado=0;
         }
         return resultado;
     }
@@ -93,7 +115,7 @@ public class ModeloTablaMecanicos extends AbstractTableModel{
         fireTableRowsInserted(this.mecanicos.size()-1, this.mecanicos.size()-1);
     }
 
-    public void borrarCliente(int indice){
+    public void borrarMecanico(int indice){
         this.mecanicos.remove(indice);
         fireTableRowsDeleted(indice, indice);
     }

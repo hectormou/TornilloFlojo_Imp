@@ -1,8 +1,11 @@
 package gui;
 
+import aplicacion.EmpleadoPracticas;
 import aplicacion.FachadaAplicacion;
+import aplicacion.JefeTaller;
 import aplicacion.Mecanico;
 import java.awt.Frame;
+import java.util.ArrayList;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -12,7 +15,7 @@ import java.awt.Frame;
 /**
  *
  * @author alumnogreibd
- */
+ */ 
 public class VEmpleados extends javax.swing.JDialog {
     private FachadaAplicacion fa;
     private Frame parent;
@@ -54,6 +57,13 @@ public class VEmpleados extends javax.swing.JDialog {
         botonDespedir = new javax.swing.JButton();
         botonEditar = new javax.swing.JButton();
         panelPrácticas = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        buscaNombreTutor = new javax.swing.JTextField();
+        botonBuscarPracticas = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tablaPracticas = new javax.swing.JTable();
+        botonAñadirPracticas = new javax.swing.JButton();
+        botonEliminarPracticas = new javax.swing.JButton();
         botonSalir = new javax.swing.JButton();
 
         jMenu1.setText("jMenu1");
@@ -102,6 +112,11 @@ public class VEmpleados extends javax.swing.JDialog {
         });
 
         botonEditar.setText("Editar");
+        botonEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonEditarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelMecánicosLayout = new javax.swing.GroupLayout(panelMecánicos);
         panelMecánicos.setLayout(panelMecánicosLayout);
@@ -126,7 +141,7 @@ public class VEmpleados extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(comboOrdenar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         panelMecánicosLayout.setVerticalGroup(
             panelMecánicosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -151,15 +166,63 @@ public class VEmpleados extends javax.swing.JDialog {
 
         panelEmpleados.addTab("Mecánicos", panelMecánicos);
 
+        jLabel3.setText("Nombre del tutor:");
+
+        botonBuscarPracticas.setText("Buscar");
+        botonBuscarPracticas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonBuscarPracticasActionPerformed(evt);
+            }
+        });
+
+        tablaPracticas.setModel(new ModeloTablaPracticas());
+        jScrollPane2.setViewportView(tablaPracticas);
+
+        botonAñadirPracticas.setText("Añadir");
+
+        botonEliminarPracticas.setText("Eliminar");
+        botonEliminarPracticas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonEliminarPracticasActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelPrácticasLayout = new javax.swing.GroupLayout(panelPrácticas);
         panelPrácticas.setLayout(panelPrácticasLayout);
         panelPrácticasLayout.setHorizontalGroup(
             panelPrácticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 552, Short.MAX_VALUE)
+            .addGroup(panelPrácticasLayout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(panelPrácticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelPrácticasLayout.createSequentialGroup()
+                        .addComponent(botonAñadirPracticas)
+                        .addGap(18, 18, 18)
+                        .addComponent(botonEliminarPracticas))
+                    .addGroup(panelPrácticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(panelPrácticasLayout.createSequentialGroup()
+                            .addComponent(jLabel3)
+                            .addGap(18, 18, 18)
+                            .addComponent(buscaNombreTutor, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(146, 146, 146)
+                            .addComponent(botonBuscarPracticas))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         panelPrácticasLayout.setVerticalGroup(
             panelPrácticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 337, Short.MAX_VALUE)
+            .addGroup(panelPrácticasLayout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addGroup(panelPrácticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(buscaNombreTutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonBuscarPracticas))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(panelPrácticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botonAñadirPracticas)
+                    .addComponent(botonEliminarPracticas))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         panelEmpleados.addTab("Empleados de prácticas", panelPrácticas);
@@ -190,7 +253,7 @@ public class VEmpleados extends javax.swing.JDialog {
                 .addComponent(panelEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(botonSalir)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         pack();
@@ -222,6 +285,11 @@ public class VEmpleados extends javax.swing.JDialog {
                 VAviso va = new VAviso(this.parent, true, "El empleado que se desea borrar tiene acciones pendiente y no es posible");
                 va.setVisible(true);
             }
+            else{
+                ModeloTablaMecanicos mm;
+                mm=(ModeloTablaMecanicos) tablaMecanicos.getModel();
+                mm.borrarMecanico(tablaMecanicos.getSelectedRow());
+            }
         }
     }//GEN-LAST:event_botonDespedirActionPerformed
 
@@ -232,28 +300,66 @@ public class VEmpleados extends javax.swing.JDialog {
         buscarMecanicos();
     }//GEN-LAST:event_botonContratarActionPerformed
 
+    private void botonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarActionPerformed
+        // TODO add your handling code here:
+        Mecanico m = getMecanicoSeleccionado();
+        if (m!=null){
+            VNuevoMecanico vn = new VNuevoMecanico(this, true, this.fa, m);
+            vn.setVisible(true);
+        }
+        buscarMecanicos();
+    }//GEN-LAST:event_botonEditarActionPerformed
+
+    private void botonBuscarPracticasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarPracticasActionPerformed
+        // TODO add your handling code here:
+        buscarPracticas();
+    }//GEN-LAST:event_botonBuscarPracticasActionPerformed
+
+    private void botonEliminarPracticasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarPracticasActionPerformed
+        // TODO add your handling code here:
+        EmpleadoPracticas e = getPracticasSeleccionado();
+        if(e!=null){
+            if(!fa.despedirPracticas(e.getIdalumno()){
+                VAviso va = new VAviso(this.parent, true, "El empleado de prácticas está asistiendo a una reparación y no se puede despedir");
+                va.setVisible(true);
+            }
+            else{
+                ModeloTablaPracticas m;
+                m=(ModeloTablaPracticas) tablaPracticas.getModel();
+                m.borrarEmpleadoPracticas(tablaPracticas.getSelectedRow());
+            }
+        }
+    }//GEN-LAST:event_botonEliminarPracticasActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton botonAñadirPracticas;
     private javax.swing.JButton botonBuscar;
+    private javax.swing.JButton botonBuscarPracticas;
     private javax.swing.JButton botonContratar;
     private javax.swing.JButton botonDespedir;
     private javax.swing.JButton botonEditar;
+    private javax.swing.JButton botonEliminarPracticas;
     private javax.swing.JButton botonSalir;
     private javax.swing.JTextField buscaId;
+    private javax.swing.JTextField buscaNombreTutor;
     private javax.swing.JComboBox<String> comboOrdenar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane panelEmpleados;
     private javax.swing.JPanel panelMecánicos;
     private javax.swing.JPanel panelPrácticas;
     private javax.swing.JTable tablaMecanicos;
+    private javax.swing.JTable tablaPracticas;
     // End of variables declaration//GEN-END:variables
 
     public void buscarMecanicos(){
         ModeloTablaMecanicos m;
-
         m=(ModeloTablaMecanicos) tablaMecanicos.getModel();
+        
         m.setFilas(fa.buscarMecanicos(buscaId.getText(),(String) comboOrdenar.getSelectedItem()));
         if (m.getRowCount() > 0) {
             tablaMecanicos.setRowSelectionInterval(0, 0);
@@ -266,6 +372,16 @@ public class VEmpleados extends javax.swing.JDialog {
         }
     }
     
+    public void buscarPracticas(){
+        ModeloTablaPracticas m;
+
+        m=(ModeloTablaPracticas) tablaPracticas.getModel();
+        m.setFilas(fa.buscarPracticas(buscaNombreTutor.getText()));
+        if (m.getRowCount() > 0) {
+            tablaPracticas.setRowSelectionInterval(0, 0);
+        }
+    }
+    
     public Mecanico getMecanicoSeleccionado(){
         Mecanico m = null;
         int i = tablaMecanicos.getSelectedRow();
@@ -275,4 +391,15 @@ public class VEmpleados extends javax.swing.JDialog {
         }
         return m;
     }
+    
+    public EmpleadoPracticas getPracticasSeleccionado(){
+        EmpleadoPracticas e = null;
+        int i = tablaPracticas.getSelectedRow();
+        
+        if(i>-1) {
+            e=((ModeloTablaPracticas) tablaPracticas.getModel()).obtenerEmpleadoPracticas(i);
+        }
+        return e;
+    }
+    
 }

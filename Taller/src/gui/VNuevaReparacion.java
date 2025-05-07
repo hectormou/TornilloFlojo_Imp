@@ -11,6 +11,7 @@ import aplicacion.Repuesto;
 import aplicacion.TipoReparacion;
 import aplicacion.Vehiculo;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -33,7 +34,6 @@ public class VNuevaReparacion extends javax.swing.JDialog {
         this.vehiculo = vehiculo;
         this.mecanico=mecanico;
         initComponents();
-                setLocationRelativeTo(null);
 
         generarListas();
         setBotones();
@@ -230,11 +230,15 @@ public class VNuevaReparacion extends javax.swing.JDialog {
             if (ma.getElementos() == null) 
                 errorLabel.setVisible(true);
             else {
-                Reparacion reparacion = fa.anhadirReparacion(this.vehiculo, tipoReparacionComboBox.getSelectedItem().toString(), this.mecanico);
-                for (Integer idRepuesto : ma.getIds()) {
+                List<Repuesto> repuestos = new ArrayList<Repuesto>();
+                List<Integer> cantidades = new ArrayList<Integer>();
+                for (int i=0; i<ma.getSize(); i++) {
+                    Integer idRepuesto = ma.getIdAt(i);
                     Repuesto repuesto = fa.obtenerRepuesto(idRepuesto);
-                    fa.anhadirRepuestoNecesarior(reparacion.getIdreparacion(), repuesto.getId(), Integer.parseInt(cantidadTextField.getText()));
+                    repuestos.add(repuesto);
+                    cantidades.add(ma.getCantidadAt(i));
                 }
+                fa.anhadirReparacion(this.vehiculo, tipoReparacionComboBox.getSelectedItem().toString(), repuestos, cantidades);
                     
                 errorLabel.setVisible(false);
                 this.dispose();
@@ -262,14 +266,15 @@ public class VNuevaReparacion extends javax.swing.JDialog {
     }//GEN-LAST:event_botonIzquierdaActionPerformed
 
     private void botonDerechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonDerechaActionPerformed
-        ModeloListaStrings mRC;
-     ModeloListaStrings mC;
+    ModeloListaStrings mRC;
+    ModeloListaStrings mC;
 
-     mRC = (ModeloListaStrings) lstRestoRepuestos.getModel();
-     mC = (ModeloListaStrings) lstRepuestosReparacion.getModel();
+    mRC = (ModeloListaStrings) lstRestoRepuestos.getModel();
+    mC = (ModeloListaStrings) lstRepuestosReparacion.getModel();
     if (esNumeroValido(cantidadTextField.getText())) {
         mC.nuevoElemento(mRC.getElementAt(lstRestoRepuestos.getSelectedIndex()));
         mC.nuevoId(mRC.getIdAt(lstRestoRepuestos.getSelectedIndex()));
+        mC.nuevaCantidad(Integer.parseInt(cantidadTextField.getText()));
         mRC.borrarElemento(lstRestoRepuestos.getSelectedIndex());
         if (mRC.getSize()==0) botonDerecha.setEnabled(false);
         else {
