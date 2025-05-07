@@ -5,8 +5,6 @@
 
 package gui;
 import aplicacion.JefeTaller;
-import aplicacion.Mecanico;
-import aplicacion.Subordinado;
 import javax.swing.table.*;
 /**
  *
@@ -60,61 +58,36 @@ public class ModeloTablaTutor extends AbstractTableModel{
     @Override
     public Object getValueAt(int i, int col){
         Object resultado=null;
-
         switch (col){
             case 0: resultado= tutores.get(i).getNombre(); break;
-            case 1: resultado= tutores.get(i).getNombre(); break;
-            case 2: 
-                if(mecanicos.get(i) instanceof JefeTaller){ resultado = "Jefe de taller";}
-                else if(mecanicos.get(i) instanceof Subordinado){ resultado = "Subordinado";}
-                else{resultatdo = '-';}
-                break;
-            case 3: resultado=mecanicos.get(i).getTelefonoContacto();break;
-            case 4: resultado=mecanicos.get(i).getSueldoBase();break;
-            case 5:
-                if(mecanicos.get(i) instanceof JefeTaller){ 
-                    JefeTaller j=(JefeTaller)mecanicos.get(i);
-                    resultado=j.getBonusUsual();
-                }
-                else if(mecanicos.get(i) instanceof Subordinado){
-                    Subordinado s=(Subordinado)mecanicos.get(i);
-                    resultado= s.getBonusSubordinado();
-                }
-                else{
-                    resultado = 0;}
-                break;
-            case 6:
-                if(mecanicos.get(i) instanceof JefeTaller){ 
-                    JefeTaller j=(JefeTaller)mecanicos.get(i);
-                    resultado=j.getBonusJefe();
-                }else resultado=0;
+            case 1: resultado= ((JefeTaller) tutores.get(i)).getPracticasTutela(); break;
         }
         return resultado;
     }
 
     
 
-    public void setFilas(java.util.List<Mecanico> mecanicos){
-        this.mecanicos=mecanicos;
+    public void setFilas(java.util.List<JefeTaller> tutores){
+        this.tutores=tutores;
         fireTableDataChanged();
     }
 
-    public void nuevoMecanico(Mecanico e){
-        this.mecanicos.add(e);
-        fireTableRowsInserted(this.mecanicos.size()-1, this.mecanicos.size()-1);
+    public void nuevoTutor(JefeTaller e){
+        this.tutores.add(e);
+        fireTableRowsInserted(this.tutores.size()-1, this.tutores.size()-1);
     }
 
-    public void borrarMecanico(int indice){
-        this.mecanicos.remove(indice);
+    public void borrarTutor(int indice){
+        this.tutores.remove(indice);
         fireTableRowsDeleted(indice, indice);
     }
 
-    public java.util.List<Mecanico> getFilas(){
-        return this.mecanicos;
+    public java.util.List<JefeTaller> getFilas(){
+        return this.tutores;
     }
 
-    public Mecanico obtenerMecanico(int i){
-        return this.mecanicos.get(i);
+    public JefeTaller obtenerTutor(int i){
+        return this.tutores.get(i);
     }
 
     

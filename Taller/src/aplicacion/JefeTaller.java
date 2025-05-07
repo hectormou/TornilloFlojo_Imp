@@ -25,6 +25,11 @@ public class JefeTaller extends Mecanico{
         this.bonusUsual=bU;
     }
     
+    public JefeTaller(String idMecanico, String nombre, Integer practicasTutela){
+        super(idMecanico, nombre);
+        this.practicasTutela = practicasTutela;
+    }
+    
     public float getBonusUsual(){
         return this.bonusUsual;
         
@@ -33,6 +38,10 @@ public class JefeTaller extends Mecanico{
     public float getBonusJefe(){
         return this.bonusJefe;
         
+    }
+    
+    public Integer getPracticasTutela(){
+        return this.practicasTutela;
     }
     
     public void setBonusUsual(float f){

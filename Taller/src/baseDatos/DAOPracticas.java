@@ -156,22 +156,53 @@ public class DAOPracticas extends AbstractDAO {
         return resultado;
     }
     
+    public Integer obtenerEmpleadosCargo(String id){
+        Connection con = this.getConexion();
+        PreparedStatement stmTutela = null;
+        ResultSet rsTutela;
+        Integer resultado=0;
+
+        try {
+            String consulta = "SELECT COUNT(*) as tutela FROM EmpleadoPracticas WHERE tutorID = ?";
+            stmTutela = con.prepareStatement(consulta);
+            
+            stmTutela.setString(1, id);
+
+            rsTutela=stmTutela.executeQuery();
+            if(rsTutela.next()){
+                resultado= rsTutela.getInt("tutela");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        } finally {
+            try {
+                if (stmTutela != null) stmTutela.close();
+            } catch (SQLException e) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+        return resultado;
+    }
+    
     public ArrayList<JefeTaller> obtenerTutores(String nombreTutor){
         ArrayList<JefeTaller> resultado = new ArrayList<>();
         JefeTaller tutorActual;
+        Integer practicasTutela;
         Connection con = this.getConexion();
         PreparedStatement stmPracticas=null;
         ResultSet rsPracticas;
         try  {
-        String consulta = "select m.nombre, m.idMecanico "+
-                " from EmpleadoPracticas e join JefeTaller j on e.tutorID = j.idMecanico join Mecanico m on e.idMecanico = m.idMecanico "+
+        String consulta = "select distinct m.nombre, m.idMecanico "+
+                " from EmpleadoPracticas e join JefeTaller j on e.tutorID = j.idMecanico join Mecanico m on j.idMecanico = m.idMecanico "+
                 " where m.nombre ILIKE ?";
         stmPracticas=con.prepareStatement(consulta);
         stmPracticas.setString(1, "%"+nombreTutor+"%");
         rsPracticas=stmPracticas.executeQuery();
         while(rsPracticas.next()){
-            tutorActual = new JefeTaller();
-            //CAMBIAR EL  CONSTRUCTORS
+            practicasTutela = obtenerEmpleadosCargo(rsPracticas.getString("idMecanico"));
+            tutorActual = new JefeTaller(rsPracticas.getString("idMecanico"), rsPracticas.getString("nombre"), practicasTutela);
+            resultado.add(tutorActual);
         }
         } catch (SQLException e){
           System.out.println(e.getMessage());
@@ -180,5 +211,25 @@ public class DAOPracticas extends AbstractDAO {
           try {stmPracticas.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
         }
         return resultado;
+    }
+    
+    public void anhadirPracticas(String nombre, String idTutor){
+        Connection con;
+        PreparedStatement stmPracticas=null;
+
+        con=this.getConexion();
+        
+        try  {
+            stmPracticas=con.prepareStatement("insert into EmpleadoPracticas(nombre, tutorID) values(?, ?) ");
+            stmPracticas.setString(1, nombre);
+            stmPracticas.setString(2, idTutor);
+            stmPracticas.executeUpdate();
+
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmPracticas.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
     }
 }

@@ -17,8 +17,6 @@ public class VNuevoEmpleadoPracticas extends javax.swing.JDialog {
 
     private aplicacion.FachadaAplicacion fa;
     private VEmpleados padre;
-    private boolean edicion;
-    private Mecanico mEditar;
     
     /**
      * Creates new form VNuevoCliente
@@ -29,48 +27,7 @@ public class VNuevoEmpleadoPracticas extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(null);
         this.padre = parent;
-        this.edicion = false;
-        this.mEditar = null;
-        comprobarModo();
-    }
-    
-    public VNuevoEmpleadoPracticas(VEmpleados parent, boolean modal, FachadaAplicacion fa, Mecanico m) {
-        super(parent, modal);
-        this.fa = fa;
-        initComponents();
-        setLocationRelativeTo(null);
-        this.padre = parent;
-        this.edicion = true;
-        this.mEditar = m;
-        comprobarModo();
-    }
-    
-    private void comprobarModo(){
-        if(edicion){
-            botonAnhadir.setText("Editar");
-            anhadirId.setText(mEditar.getIdMecanico());
-            anhadirId.setEditable(false);
-            anhadirNombre.setText(mEditar.getNombre());
-            anhadirClave.setText(mEditar.getClave());
-            anhadirTlf.setText(mEditar.getTelefonoContacto());
-            anhadirSueldo.setText(String.valueOf(mEditar.getSueldoBase()));
-            botonAscender.setVisible(true);
-            textoTipo.setVisible(false);
-            comboTipo.setVisible(false);
-            estadoBotonAscender();
-        }
-        else{
-            botonAnhadir.setText("Añadir");
-            anhadirId.setText("");
-            anhadirId.setEditable(true);
-            anhadirNombre.setText("");
-            anhadirClave.setText("");
-            anhadirTlf.setText("");
-            anhadirSueldo.setText("");
-            botonAscender.setVisible(false);
-            textoTipo.setVisible(true);
-            comboTipo.setVisible(true);
-        }
+        anhadirTutor.setEditable(false);
     }
 
     /**
@@ -84,12 +41,15 @@ public class VNuevoEmpleadoPracticas extends javax.swing.JDialog {
 
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        anhadirTlf = new javax.swing.JTextField();
+        anhadirTutor = new javax.swing.JTextField();
         anhadirNombre = new javax.swing.JTextField();
         botonAnhadir = new javax.swing.JButton();
         botonCancelar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaTutores = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        buscaTutor = new javax.swing.JTextField();
+        botonBuscar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Nuevo Cliente");
@@ -118,18 +78,22 @@ public class VNuevoEmpleadoPracticas extends javax.swing.JDialog {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+        tablaTutores.setModel(new ModeloTablaTutor());
+        tablaTutores.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaTutoresMouseClicked(evt);
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        });
+        jScrollPane1.setViewportView(tablaTutores);
+
+        jLabel1.setText("Nombre tutor:");
+
+        botonBuscar.setText("Buscar");
+        botonBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonBuscarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -137,20 +101,26 @@ public class VNuevoEmpleadoPracticas extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(buscaTutor, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(botonBuscar))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(botonAnhadir)
                         .addGap(302, 302, 302)
                         .addComponent(botonCancelar))
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(anhadirNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(126, 126, 126)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(anhadirTlf, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addComponent(anhadirTutor, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -159,11 +129,16 @@ public class VNuevoEmpleadoPracticas extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(anhadirTlf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(anhadirTutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
                     .addComponent(anhadirNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(buscaTutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonBuscar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonAnhadir)
@@ -179,17 +154,23 @@ public class VNuevoEmpleadoPracticas extends javax.swing.JDialog {
     }//GEN-LAST:event_anhadirNombreActionPerformed
 
     private void botonAnhadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAnhadirActionPerformed
-        if(this.edicion){
-            updateMecanico();
-        }else{
-            anhadirMecanico(); 
-        }
+        anhadirPracticas();
         this.dispose();
     }//GEN-LAST:event_botonAnhadirActionPerformed
 
     private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
         this.dispose();
     }//GEN-LAST:event_botonCancelarActionPerformed
+
+    private void tablaTutoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaTutoresMouseClicked
+        // TODO add your handling code here:
+        setTutorId();
+    }//GEN-LAST:event_tablaTutoresMouseClicked
+
+    private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
+        // TODO add your handling code here:
+        obtenerTutores();
+    }//GEN-LAST:event_botonBuscarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -198,62 +179,49 @@ public class VNuevoEmpleadoPracticas extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField anhadirNombre;
-    private javax.swing.JTextField anhadirTlf;
+    private javax.swing.JTextField anhadirTutor;
     private javax.swing.JButton botonAnhadir;
+    private javax.swing.JButton botonBuscar;
     private javax.swing.JButton botonCancelar;
+    private javax.swing.JTextField buscaTutor;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tablaTutores;
     // End of variables declaration//GEN-END:variables
 
-    public void anhadirMecanico(){
-        String id = anhadirId.getText().trim();
+    public void obtenerTutores(){
+        ModeloTablaTutor m;
+
+        m=(ModeloTablaTutor) tablaTutores.getModel();
+        m.setFilas(fa.obtenerTutores(buscaTutor.getText()));
+        if (m.getRowCount() > 0) {
+            tablaTutores.setRowSelectionInterval(0, 0);
+            tablaTutores.requestFocus();
+            
+            setTutorId();
+        }
+    }
+    
+    public void anhadirPracticas(){
         String nombre = anhadirNombre.getText().trim();
-        String clave = anhadirClave.getText().trim();
-        String tlf = anhadirTlf.getText().trim();
-        String s = anhadirSueldo.getText().trim();
-        String tipo = (String) comboTipo.getSelectedItem();
-        Integer sueldo = 0;
-        if(!s.isEmpty()) sueldo = Integer.parseInt(s);
-        if(id.isEmpty() || nombre.isEmpty() || clave.isEmpty() || tlf.isEmpty()){
+        String idTutor = anhadirTutor.getText();
+        if(nombre.isEmpty() || idTutor.isEmpty()){
             VAviso va = new VAviso(this.padre.getParent(), true, "Alguno de los campos obligatorios es vacío");
             va.setVisible(true);
         }
         else{
-            switch (tipo){
-                case "Jefe de taller": fa.anhadirJefeDeTaller(id,nombre,clave,tlf,sueldo); break;
-                case "Subordinado": fa.anhadirSubordinado(id,nombre,clave,tlf,sueldo); break;
-            }
+            fa.anhadirPracticas(nombre, idTutor);
         }
     }
     
-    public void updateMecanico(){
-        String id = mEditar.getIdMecanico();
-        String nombre = anhadirNombre.getText().trim();
-        String clave = anhadirClave.getText().trim();
-        String tlf = anhadirTlf.getText().trim();
-        String s = anhadirSueldo.getText().trim();
-        Integer sueldo = 0;
-        if(!s.isEmpty()) sueldo = Integer.parseInt(s);
-        if(id.isEmpty() || nombre.isEmpty() || clave.isEmpty() || tlf.isEmpty()){
-            VAviso va = new VAviso(this.padre.getParent(), true, "Alguno de los campos obligatorios es vacío");
-            va.setVisible(true);
-        }
-        else{
-            if(!fa.updateMecanico(id, nombre, clave, tlf, sueldo)){
-                VAviso va = new VAviso(this.padre.getParent(), true, "El subordinado está participando en una reparación y no puede ser ascendido todavía");
-                va.setVisible(true);
-            }
-        }
-    }
-    
-    public void estadoBotonAscender(){
-        if(this.mEditar instanceof Subordinado){
-            botonAscender.setEnabled(true);
-        }
-        else{
-            botonAscender.setEnabled(false);
+    public void setTutorId(){
+        ModeloTablaTutor m;
+        m=(ModeloTablaTutor) tablaTutores.getModel();
+        Integer i = tablaTutores.getSelectedRow();
+        if(i>-1){
+            anhadirTutor.setText(m.obtenerTutor(i).getIdMecanico());
         }
     }
 }

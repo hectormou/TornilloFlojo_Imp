@@ -275,4 +275,12 @@ public class FachadaBaseDatos {
     public boolean despedirPracticas(Integer id){
         return daoPracticas.despedirPracticas(id);
     }
+    
+    public ArrayList<JefeTaller> obtenerTutores(String nombre){
+        return daoPracticas.obtenerTutores(nombre);
+    }
+    
+    public void anhadirPracticas(String nombre, String idTutor){
+        daoPracticas.anhadirPracticas(nombre, idTutor);
+    }
 }
