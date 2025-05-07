@@ -139,64 +139,54 @@ public class DAOReparaciones extends AbstractDAO {
         return resultado;
         }
 
-
-    public void anhadirReparacion(Vehiculo vehiculo, String tipo, List<Repuesto> repuestos, List<Integer> cantidades) {
+    
+    public void anhadirReparacion(Vehiculo vehiculo, String tipo, List<Repuesto> repuestos, List<Integer> cantidades) throws SQLException {
         Connection con;
-        PreparedStatement stmReparaciones=null;
+        PreparedStatement stmReparacion = null;
+        PreparedStatement stmRepuestos = null;
+        ResultSet rsIdReparacion = null;
+        Integer idReparacion = null;
+        
         con=this.getConexion();
         
-        String transaccion = "Begin; ";
-        transaccion = transaccion + "insert into reparacion(idvehiculo, tiporeparacion) "
-                + " values(?, ?); ";
-        transaccion = transaccion + "insert into utilizar (idrepuesto, idreparacion, cantidad) values ";
+        con.setAutoCommit(false);
+        try  {        
+            stmReparacion = con.prepareStatement("insert into reparacion(idvehiculo, tiporeparacion) "
+                                                + " values (?, ?) "
+                                                + "returning idreparacion");
+        
+         stmReparacion.setString(1, vehiculo.getMatricula());
+         stmReparacion.setString(2, tipo);
+         rsIdReparacion = stmReparacion.executeQuery();
+        if (rsIdReparacion.next()) 
+            idReparacion = rsIdReparacion.getInt("idreparacion");
+        
+        String transaccion = "insert into utilizar(idrepuesto, idreparacion, cantidad) "
+                + " values ";
         for (int i=0; i<repuestos.size()-1; i++) 
             transaccion = transaccion + " (?, ?, ?), ";
-        transaccion = transaccion + " (?, ?, ?); ";
-        transaccion = transaccion + " commit;";
+        transaccion = transaccion + " (?, ?, ?); ";  
+        stmRepuestos = con.prepareStatement(transaccion);
         
-        try  {
-         stmReparaciones=con.prepareStatement(transaccion);
-         stmReparaciones.setString(1, vehiculo.getMatricula());
-         stmReparaciones.setString(2, tipo);
-         for(int i = 0; i<repuestos.size(); i++) {
-             stmReparaciones.setInt(3 + 3*i, repuestos.get(i).getId());
-             stmReparaciones.setInt(4 + 3*i, obtenerUltimaReparacionAnhadida().getIdreparacion());
-             stmReparaciones.setInt(5 + 3*i, cantidades.get(i));
-         }
-         stmReparaciones.executeUpdate();
-        } catch (SQLException e){
-          System.out.println(e.getMessage());
-          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
-        }finally{
-          try {stmReparaciones.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        for(int i = 0; i<repuestos.size(); i++) {
+            stmRepuestos.setInt(1 + 3*i, repuestos.get(i).getId());
+            stmRepuestos.setInt(2 +3*i, idReparacion);
+            stmRepuestos.setInt(3 + 3*i, cantidades.get(i));
         }
+        
+         stmRepuestos.executeUpdate();
+         
+         con.commit();
+        } catch (SQLException e) {
+            if (con != null) con.rollback();
+            throw e;
+        }finally{
+            try {stmReparacion.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+            try {stmRepuestos.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+        
     }
     
-    private Reparacion obtenerUltimaReparacionAnhadida() {
-        Reparacion resultado=null;
-        Connection con;
-        PreparedStatement stmUltimaReparacion=null;
-        ResultSet rsUltimaReparacion;
-
-        con=this.getConexion();
-        try {
-        stmUltimaReparacion=con.prepareStatement("select idreparacion, fechainicio, fechafin, idvehiculo, tiporeparacion, mecanico "+
-                                        "from reparacion "+
-                                        "where idreparacion = (select max(idreparacion) from reparacion) ");
-        rsUltimaReparacion=stmUltimaReparacion.executeQuery();
-        if (rsUltimaReparacion.next())
-        {
-            resultado = new Reparacion(rsUltimaReparacion.getInt("idreparacion"), rsUltimaReparacion.getString("fechainicio"), rsUltimaReparacion.getString("fechafin"), rsUltimaReparacion.getString("idvehiculo"), rsUltimaReparacion.getString("tiporeparacion"), rsUltimaReparacion.getString("mecanico"));
-        }
-        } catch (SQLException e){
-          System.out.println(e.getMessage());
-          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
-        }finally{
-          try {stmUltimaReparacion.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
-        }
-        return resultado;
-    }
-
     public boolean esFinalizada(Integer idreparacion) {
         boolean resultado=true;
         Connection con;
