@@ -78,6 +78,12 @@ public class VPersonal extends javax.swing.JDialog {
 
         sueldoLabel.setText("Sueldo:");
 
+        sueldoTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sueldoTextFieldActionPerformed(evt);
+            }
+        });
+
         cambiarContraseñaButton.setText("Cambiar Contraseña");
         cambiarContraseñaButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -230,6 +236,10 @@ public class VPersonal extends javax.swing.JDialog {
                           mecanicoActual.getSueldoBase(), mecanicoActual.getIdMecanico());
         this.obtenerDatosMecanicoActual();
     }//GEN-LAST:event_actualizarButtonActionPerformed
+
+    private void sueldoTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sueldoTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_sueldoTextFieldActionPerformed
 
     /**
      * @param args the command line arguments
