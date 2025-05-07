@@ -254,6 +254,7 @@ public class VNuevaReparacion extends javax.swing.JDialog {
      mC = (ModeloListaStrings) lstRepuestosReparacion.getModel();
      mRC.nuevoElemento(mC.getElementAt(lstRepuestosReparacion.getSelectedIndex()));
      mRC.nuevoId(mC.getIdAt(lstRepuestosReparacion.getSelectedIndex()));
+     mRC.nuevaCantidad(mC.getCantidadAt(lstRepuestosReparacion.getSelectedIndex()));
      mC.borrarElemento(lstRepuestosReparacion.getSelectedIndex());
              
      if (mC.getSize()==0) botonIzquierda.setEnabled(false);
@@ -341,12 +342,14 @@ public class VNuevaReparacion extends javax.swing.JDialog {
     private void generarListas() {
         ArrayList<String> repuestos = new ArrayList<String>();
         ArrayList<Integer> ids = new ArrayList<Integer>();
+        ArrayList<Integer> cantidades = new ArrayList<Integer>();
         for (Repuesto r : fa.getTotalRepuestos()){
             repuestos.add(r.getNombre());
             ids.add(r.getId());
+            cantidades.add(0);
         }
         ModeloListaStrings ms = ((ModeloListaStrings) lstRestoRepuestos.getModel());
-        ms.setElementos(repuestos, ids);
+        ms.setElementos(repuestos, ids, cantidades);
         if (ms.getSize()>0) {
             lstRestoRepuestos.setSelectedIndex(0);
             botonDerecha.setEnabled(true);

@@ -41,4 +41,8 @@ public class GestionVehiculos{
     public java.util.List<Vehiculo> obtenerVehiculosCliente(Cliente c) {
         return fbd.obtenerVehiculosCliente(c);
     }
+
+    public void sacarTaller(String matricula) {
+        fbd.sacarTaller(matricula);
+   }
 }

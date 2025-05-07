@@ -257,4 +257,23 @@ public class DAOVehiculos extends AbstractDAO {
         }
         return resultado;
     }
+
+    public void sacarTaller(String matricula) {
+        Connection con;
+        PreparedStatement stmVehiculo=null;
+
+        con=super.getConexion();
+
+        try {
+        stmVehiculo=con.prepareStatement("Update vehiculo set supervisor=null where matricula=? ");
+            stmVehiculo.setString(1, matricula);
+            stmVehiculo.executeUpdate();
+        
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmVehiculo.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+    }
 }

@@ -57,6 +57,7 @@ public class VPrincipal_1 extends javax.swing.JFrame {
         anhadirVehiculoBoton = new javax.swing.JButton();
         modificarVehiculoBoton = new javax.swing.JButton();
         eliminarVehiculoBoton = new javax.swing.JButton();
+        sacarBoton = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuGestion = new javax.swing.JMenu();
         menuEmpleados = new javax.swing.JMenuItem();
@@ -131,6 +132,13 @@ public class VPrincipal_1 extends javax.swing.JFrame {
             }
         });
 
+        sacarBoton.setText("Salir del taller");
+        sacarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sacarBotonActionPerformed(evt);
+            }
+        });
+
         menuGestion.setText("Gestión");
 
         menuEmpleados.setText("Empleados");
@@ -187,6 +195,8 @@ public class VPrincipal_1 extends javax.swing.JFrame {
                         .addComponent(modificarVehiculoBoton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(eliminarVehiculoBoton)
+                        .addGap(49, 49, 49)
+                        .addComponent(sacarBoton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(salirBoton))
                     .addGroup(layout.createSequentialGroup()
@@ -249,7 +259,8 @@ public class VPrincipal_1 extends javax.swing.JFrame {
                     .addComponent(salirBoton)
                     .addComponent(eliminarVehiculoBoton)
                     .addComponent(modificarVehiculoBoton)
-                    .addComponent(anhadirVehiculoBoton))
+                    .addComponent(anhadirVehiculoBoton)
+                    .addComponent(sacarBoton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -305,10 +316,13 @@ public class VPrincipal_1 extends javax.swing.JFrame {
         if(vehiculoSeleccionado != null) {
             setTextFields();
             modificarVehiculoBoton.setEnabled(true);
-            if (fa.vehiculoTieneReparacionesPendientes(vehiculoSeleccionado)) 
+            if (fa.vehiculoTieneReparacionesPendientes(vehiculoSeleccionado)) {
                 eliminarVehiculoBoton.setEnabled(false);
-            else 
+                sacarBoton.setEnabled(false);
+            } else {
                 eliminarVehiculoBoton.setEnabled(true);
+                sacarBoton.setEnabled(false);
+            }
         }
     }//GEN-LAST:event_tablaVehiculosMouseClicked
 
@@ -321,6 +335,10 @@ public class VPrincipal_1 extends javax.swing.JFrame {
         VStock vs = new VStock(this, true, fa, mecanicoAplicacion);
         vs.setVisible(true);
     }//GEN-LAST:event_menuStockActionPerformed
+
+    private void sacarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sacarBotonActionPerformed
+        fa.sacarTaller(vehiculoSeleccionado.getMatricula());
+    }//GEN-LAST:event_sacarBotonActionPerformed
     
     
     /**
@@ -351,6 +369,7 @@ public class VPrincipal_1 extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuStock;
     private javax.swing.JTextField modeloTextField;
     private javax.swing.JButton modificarVehiculoBoton;
+    private javax.swing.JButton sacarBoton;
     private javax.swing.JButton salirBoton;
     private javax.swing.JTextField supervisorTextField;
     private javax.swing.JTable tablaVehiculos;
@@ -359,6 +378,7 @@ public class VPrincipal_1 extends javax.swing.JFrame {
     private void inicializarBotones() {
         eliminarVehiculoBoton.setEnabled(false);
         modificarVehiculoBoton.setEnabled(false);
+        sacarBoton.setEnabled(false);
     }
     
      private void setTextFields(){

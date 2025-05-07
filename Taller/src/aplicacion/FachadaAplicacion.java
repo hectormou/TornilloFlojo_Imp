@@ -243,4 +243,9 @@ public class FachadaAplicacion {
     public void anhadirPracticas(String nombre, String idTutor){
         cep.anhadirPracticas(nombre, idTutor);
     }
+
+    public void sacarTaller(String matricula) {
+        Vehiculo v = obtenerVehiculo(matricula);
+        if(!vehiculoTieneReparacionesPendientes(v)) cv.sacarTaller(matricula);
+    }
 }

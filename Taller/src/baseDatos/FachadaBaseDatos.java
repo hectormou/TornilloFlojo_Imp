@@ -283,4 +283,8 @@ public class FachadaBaseDatos {
     public void anhadirPracticas(String nombre, String idTutor){
         daoPracticas.anhadirPracticas(nombre, idTutor);
     }
+
+    public void sacarTaller(String matricula) {
+        daoVehiculos.sacarTaller(matricula);
+    }
 }
