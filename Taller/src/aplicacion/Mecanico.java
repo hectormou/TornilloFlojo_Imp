@@ -29,6 +29,11 @@ public abstract class Mecanico {
     this.fechaIngreso=fechaIngreso;
     this.sueldoBase = sueldoBase;
    }
+   
+   public Mecanico(String idMecanico, String nombre){
+       this.idMecanico = idMecanico;
+       this.nombre = nombre;
+   }
 
    public String getIdMecanico(){
        return this.idMecanico;

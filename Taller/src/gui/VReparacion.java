@@ -4,12 +4,10 @@
  */
 package gui;
 
-import aplicacion.EmpleadoPracticas;
 import aplicacion.FachadaAplicacion;
 import aplicacion.JefeTaller;
 import aplicacion.Reparacion;
 import aplicacion.Stock_U_A;
-import aplicacion.Subordinado;
 import aplicacion.TipoReparacion;
 import java.util.List;
 
@@ -22,11 +20,10 @@ public class VReparacion extends javax.swing.JDialog {
     private Reparacion reparacion;
     private TipoReparacion tipoReparacion;
     private JefeTaller supervisor;
-    private List<Subordinado> mecanicos;
-    private List<EmpleadoPracticas> practicas;
     
     private VVehiculo padre;
     private aplicacion.FachadaAplicacion fa;
+
     
     public VReparacion(VVehiculo parent, boolean modal, FachadaAplicacion fa, Integer idreparacion) {
         super(parent, modal);
@@ -36,8 +33,8 @@ public class VReparacion extends javax.swing.JDialog {
         this.tipoReparacion=fa.obtenerTipoReparacion(reparacion.getTipo());
         if(reparacion.getSupervisorid()!=null) this.supervisor=fa.obtenerJefeTaller(reparacion.getSupervisorid());
         //empleados
-        //
         initComponents();
+        
         setLocationRelativeTo(null);
         setTextos();
         setBotones();

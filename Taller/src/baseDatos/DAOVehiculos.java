@@ -228,6 +228,7 @@ public class DAOVehiculos extends AbstractDAO {
         }finally{
           try {stmVehiculo.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
         }
+        
     }
     
     public java.util.List<Vehiculo> obtenerVehiculosCliente(Cliente c) {
@@ -256,5 +257,71 @@ public class DAOVehiculos extends AbstractDAO {
           try {stmVehiculo.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
         }
         return resultado;
+    }
+
+
+    boolean vehiculoTuvoReparaciones(String matricula) {
+        Connection con;
+        PreparedStatement stmVehiculo=null;
+        boolean resultado=false;
+        con=super.getConexion();
+        ResultSet rsVehiculo=null;
+        try {
+        stmVehiculo=con.prepareStatement("select* " + "from vehiculo where matricula=? AND matricula in(select idVehiculo from reparacion)");
+            stmVehiculo.setString(1, matricula);
+            rsVehiculo=stmVehiculo.executeQuery();
+            if(rsVehiculo.next()){
+                resultado=true;
+            }
+            
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmVehiculo.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+        return resultado;
+    }
+
+    boolean vehiculoTieneReparacionesPendientes(String matricula) {
+Connection con;
+        PreparedStatement stmVehiculo=null;
+        boolean resultado=false;
+        con=super.getConexion();
+        ResultSet rsVehiculo=null;
+        try {
+        stmVehiculo=con.prepareStatement("select* " + "from vehiculo where matricula=? AND matricula in(select idVehiculo from reparacion where fechaFin is null)");
+            stmVehiculo.setString(1, matricula);
+            rsVehiculo=stmVehiculo.executeQuery();
+            if(rsVehiculo.next()){
+                resultado=true;
+            }
+        }catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmVehiculo.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+        return resultado;
+    }
+    
+    public void sacarTaller(String matricula) {
+        Connection con;
+        PreparedStatement stmVehiculo=null;
+
+        con=super.getConexion();
+
+        try {
+        stmVehiculo=con.prepareStatement("Update vehiculo set supervisor=null where matricula=? ");
+            stmVehiculo.setString(1, matricula);
+            stmVehiculo.executeUpdate();
+        
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmVehiculo.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+
     }
 }

@@ -276,4 +276,24 @@ public class FachadaBaseDatos {
     public boolean despedirPracticas(Integer id){
         return daoPracticas.despedirPracticas(id);
     }
+    
+    public ArrayList<JefeTaller> obtenerTutores(String nombre){
+        return daoPracticas.obtenerTutores(nombre);
+    }
+    
+    public void anhadirPracticas(String nombre, String idTutor){
+        daoPracticas.anhadirPracticas(nombre, idTutor);
+    }
+
+
+
+    public boolean vehiculoTuvoReparaciones(String matricula) {
+        return daoVehiculos.vehiculoTuvoReparaciones(matricula);
+    }
+
+    public boolean vehiculoTieneReparacionesPendientes(String matricula) {
+return daoVehiculos.vehiculoTieneReparacionesPendientes(matricula);    }
+    public void sacarTaller(String matricula) {
+        daoVehiculos.sacarTaller(matricula);
+    }
 }

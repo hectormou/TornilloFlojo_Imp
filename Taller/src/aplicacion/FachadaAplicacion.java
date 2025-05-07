@@ -108,6 +108,9 @@ public class FachadaAplicacion {
     public boolean vehiculoTieneReparacionesPendientes(Vehiculo v) {
         return cr.vehiculoTieneReparacionesPendientes(v);
     }
+    public boolean vehiculoTieneReparacionesPendientes(String v) {
+        return cr.vehiculoTieneReparacionesPendientes(v);
+    }    
     public List<Vehiculo> obtenerVehiculosCliente(Cliente c) {
         return cv.obtenerVehiculosCliente(c);
     }
@@ -234,5 +237,23 @@ public class FachadaAplicacion {
     
     public boolean despedirPracticas(Integer id){
         return cep.despedirPracticas(id);
+    }
+    
+    public ArrayList<JefeTaller> obtenerTutores(String nombre){
+        return cep.obtenerTutores(nombre);
+    }
+    
+    public void anhadirPracticas(String nombre, String idTutor){
+        cep.anhadirPracticas(nombre, idTutor);
+    }
+
+
+
+    public boolean vehiculoTuvoReparaciones(String matricula) {
+return cm.vehiculoTuvoReparaciones(matricula);    }
+    
+    public void sacarTaller(String matricula) {
+        Vehiculo v = obtenerVehiculo(matricula);
+        if(!vehiculoTieneReparacionesPendientes(v)) cv.sacarTaller(matricula);
     }
 }
