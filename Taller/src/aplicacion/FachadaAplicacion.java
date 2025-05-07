@@ -235,4 +235,9 @@ public class FachadaAplicacion {
     public boolean despedirPracticas(Integer id){
         return cep.despedirPracticas(id);
     }
+
+    public void sacarTaller(String matricula) {
+        Vehiculo v = obtenerVehiculo(matricula);
+        if(!vehiculoTieneReparacionesPendientes(v)) cv.sacarTaller(matricula);
+    }
 }

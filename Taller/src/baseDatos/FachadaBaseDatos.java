@@ -275,4 +275,8 @@ public class FachadaBaseDatos {
     public boolean despedirPracticas(Integer id){
         return daoPracticas.despedirPracticas(id);
     }
+
+    public void sacarTaller(String matricula) {
+        daoVehiculos.sacarTaller(matricula);
+    }
 }
