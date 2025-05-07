@@ -36,7 +36,7 @@ create table Vehiculo (
 	on delete set null
         on update cascade,
     foreign key(supervisor) references JefeTaller(idMecanico)
-	on delete no action
+	on delete cascade
         on update cascade
 );
 
@@ -52,10 +52,10 @@ create table Solicitud (
     repuesto int references Repuesto(idRepuesto)
 	on delete no action
         on update cascade,
-    fecha date,
+    fecha date default current_date,
     cantidad int not null,
     idMecanico varchar(10) references Mecanico(idMecanico)
-	on delete no action
+	on delete cascade
         on update cascade,
     primary key (fecha, idMecanico, repuesto)
 );
@@ -64,7 +64,7 @@ create table EmpleadoPracticas (
     idAlumno int primary key,
     nombre varchar(100) not null,
     tutorID varchar(10) references JefeTaller(idMecanico)
-	on delete no action
+	on delete cascade
         on update cascade
 );
 
@@ -80,7 +80,6 @@ create table Reparacion (
     fechaFin date,
     idVehiculo varchar(20),
     tipoReparacion varchar(100),
-    mecanico varchar(10),
     foreign key (idVehiculo) references Vehiculo(matricula)
 	on delete no action
         on update cascade,

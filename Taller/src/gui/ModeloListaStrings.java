@@ -52,7 +52,7 @@ public class ModeloListaStrings extends javax.swing.AbstractListModel {
     public void borrarElemento(int i){
         this.elementos.remove(i);
         this.ids.remove(i);
-        this.cantidades.remove(i);
+        if (this.cantidades != null) this.cantidades.remove(i);
         fireIntervalRemoved(this,i,i);
     }
 

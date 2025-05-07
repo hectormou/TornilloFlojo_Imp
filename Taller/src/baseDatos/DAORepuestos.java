@@ -87,25 +87,29 @@ public class DAORepuestos extends AbstractDAO{
         return resultado;
     }
     
-    public void anhadirRepuestoNecesario(Integer idReparacion, Integer idRepuesto, int cantidad) {
+    public List<Repuesto> getTotalRepuestos() {
+        java.util.List<Repuesto> resultado = new java.util.ArrayList<Repuesto>();
         Connection con;
-        PreparedStatement stmReparacion=null;
+        PreparedStatement stmRepuestos=null;
+        ResultSet rsRepuestos;
 
         con=this.getConexion();
         try {
-        stmReparacion=con.prepareStatement("insert into utilizar (idrepuesto, idreparacion, cantidad)  "+
-                                        " values (?,?,?) ");
-        stmReparacion.setInt(1, idRepuesto);
-        stmReparacion.setInt(2, idReparacion);
-        stmReparacion.setInt(3, cantidad);
-        stmReparacion.executeUpdate();
+        stmRepuestos=con.prepareStatement("select idrepuesto, nombre, descripcion, preciounidad, stock "+
+                                        "from repuesto ");
+        rsRepuestos=stmRepuestos.executeQuery();
+        while (rsRepuestos.next())
+        {
+            resultado.add(new Repuesto(rsRepuestos.getInt("idrepuesto") , rsRepuestos.getString("nombre"), rsRepuestos.getString("descripcion"), rsRepuestos.getFloat("preciounidad"), rsRepuestos.getInt("stock")));
+        }
         } catch (SQLException e){
           System.out.println(e.getMessage());
           this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
         }finally{
-          try {stmReparacion.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+          try {stmRepuestos.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
         }
-    }
+        return resultado;
+   }
 
     public List<Repuesto> obtenerRepuestos(String id, String nombre) {
         java.util.List<Repuesto> resultado = new java.util.ArrayList<Repuesto>();

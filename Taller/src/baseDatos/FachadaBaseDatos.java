@@ -176,23 +176,11 @@ public class FachadaBaseDatos {
     }
     
     public List<Repuesto> getTotalRepuestos() {
-        return daoReparaciones.getTotalRepuestos();
+        return daoRepuestos.getTotalRepuestos();
     }
 
-    public void anhadirReparacion(Vehiculo vehiculo, String tipo, Mecanico mecanico) {
-         daoReparaciones.anhadirReparacion(vehiculo, tipo, mecanico);
-    }
-    
-    public Reparacion obtenerUltimaReparacionAnhadida() {
-        return daoReparaciones.obtenerUltimaReparacionAnhadida();
-    }
-/*
-    public Repuesto obtenerRepuesto(String nombre) {
-        return daoReparaciones.obtenerRepuesto(nombre);
-    }
-*/
-    public void anhadirRepuestoNecesario(Integer idReparacion, Integer idRepuesto, int cantidad) {
-        daoRepuestos.anhadirRepuestoNecesario(idReparacion, idRepuesto, cantidad);
+    public void anhadirReparacion(Vehiculo vehiculo, String tipo, List<Repuesto> repuestos, List<Integer> cantidades) {
+         daoReparaciones.anhadirReparacion(vehiculo, tipo, repuestos, cantidades);
     }
 
     public List<TipoReparacion> obtenerTipoReparaciones() {

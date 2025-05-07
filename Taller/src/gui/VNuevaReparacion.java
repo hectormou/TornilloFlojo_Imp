@@ -11,6 +11,7 @@ import aplicacion.Repuesto;
 import aplicacion.TipoReparacion;
 import aplicacion.Vehiculo;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -229,16 +230,15 @@ public class VNuevaReparacion extends javax.swing.JDialog {
             if (ma.getElementos() == null) 
                 errorLabel.setVisible(true);
             else {
-                ArrayList<Repuesto> repuestos = new ArrayList<Repuesto>();
-                ArrayList<Integer> cantidades = new ArrayList<Integer>();
+                List<Repuesto> repuestos = new ArrayList<Repuesto>();
+                List<Integer> cantidades = new ArrayList<Integer>();
                 for (int i=0; i<ma.getSize(); i++) {
                     Integer idRepuesto = ma.getIdAt(i);
-                    cantidades
                     Repuesto repuesto = fa.obtenerRepuesto(idRepuesto);
                     repuestos.add(repuesto);
+                    cantidades.add(ma.getCantidadAt(i));
                 }
-                Reparacion reparacion = fa.anhadirReparacion(this.vehiculo, tipoReparacionComboBox.getSelectedItem().toString(), this.mecanico);
-                fa.anhadirRepuestoNecesarior(reparacion.getIdreparacion(), repuesto.getId(), Integer.parseInt(cantidadTextField.getText()));
+                fa.anhadirReparacion(this.vehiculo, tipoReparacionComboBox.getSelectedItem().toString(), repuestos, cantidades);
                     
                 errorLabel.setVisible(false);
                 this.dispose();

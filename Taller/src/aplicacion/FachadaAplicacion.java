@@ -142,12 +142,8 @@ public class FachadaAplicacion {
         return crp.getTotalRepuestos();
     }
 
-    public Reparacion anhadirReparacion(Vehiculo vehiculo, String tipo, Mecanico mecanico) {
-        return cr.anhadirReparacion(vehiculo, tipo, mecanico);
-    }
-
-    public void anhadirRepuestoNecesarior(Integer idReparacion, Integer idRepuesto, int cantidad) {
-        crp.anhadirRepuestoNecesario(idReparacion, idRepuesto, cantidad);
+    public void anhadirReparacion(Vehiculo vehiculo, String tipo, List<Repuesto> repuestos, List<Integer> cantidades) {
+        cr.anhadirReparacion(vehiculo, tipo, repuestos, cantidades);
     }
 
     public List<TipoReparacion> obtenerTipoReparaciones() {

@@ -32,14 +32,6 @@ public class GestionRepuestos {
     public List<Stock_U_A> obtenerStock_U_A(Integer idreparacion) {
         return fbd.obtenerStock_U_A(idreparacion);
     }
-    /*
-    public Repuesto obtenerRepuesto(String nombre) {
-        return fbd.obtenerRepuesto(nombre);
-    }
-*/
-    public void anhadirRepuestoNecesario(Integer idReparacion, Integer idRepuesto, int cantidad) {
-        fbd.anhadirRepuestoNecesario(idReparacion, idRepuesto, cantidad);
-    }
 
     public List<Repuesto> obtenerRepuestos(String id, String nombre) {
         return fbd.obtenerRepuestos(id, nombre);
