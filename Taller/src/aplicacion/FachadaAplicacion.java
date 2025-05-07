@@ -239,10 +239,13 @@ public class FachadaAplicacion {
         return cep.despedirPracticas(id);
     }
 
-    public boolean borrarVehiculo(String matricula) {
-return cm.borrarVehiculo( matricula);
-    }
+
 
     public boolean vehiculoTuvoReparaciones(String matricula) {
 return cm.vehiculoTuvoReparaciones(matricula);    }
+    
+    public void sacarTaller(String matricula) {
+        Vehiculo v = obtenerVehiculo(matricula);
+        if(!vehiculoTieneReparacionesPendientes(v)) cv.sacarTaller(matricula);
+    }
 }

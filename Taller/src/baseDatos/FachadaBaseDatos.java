@@ -276,9 +276,7 @@ public class FachadaBaseDatos {
         return daoPracticas.despedirPracticas(id);
     }
 
-    public boolean borrarVehiculo(String matricula) {
-        return daoVehiculos.borrarVehiculo(matricula);
-    }
+
 
     public boolean vehiculoTuvoReparaciones(String matricula) {
         return daoVehiculos.vehiculoTuvoReparaciones(matricula);
@@ -286,4 +284,7 @@ public class FachadaBaseDatos {
 
     public boolean vehiculoTieneReparacionesPendientes(String matricula) {
 return daoVehiculos.vehiculoTieneReparacionesPendientes(matricula);    }
+    public void sacarTaller(String matricula) {
+        daoVehiculos.sacarTaller(matricula);
+    }
 }

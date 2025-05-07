@@ -9,7 +9,7 @@ import aplicacion.Mecanico;
 import aplicacion.Subordinado;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.List; 
 
 /**
  *
