@@ -61,7 +61,7 @@ create table Solicitud (
 );
 
 create table EmpleadoPracticas (
-    idAlumno int primary key,
+    idAlumno serial primary key,
     nombre varchar(100) not null,
     tutorID varchar(10) references JefeTaller(idMecanico)
 	on delete cascade

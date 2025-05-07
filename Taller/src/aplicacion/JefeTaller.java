@@ -13,10 +13,10 @@ import java.util.Date;
 public class JefeTaller extends Mecanico{
     private float bonusUsual=0;
     private float bonusJefe=0;
+    private int practicasTutela;
     
     public JefeTaller(String idMecanico, String clave, String nombre, String telefonoContacto, Date fechaIngreso, int sueldoBase) {
         super(idMecanico, clave, nombre, telefonoContacto, fechaIngreso, sueldoBase);
-        
     }
     
     public JefeTaller(String idMecanico, String clave, String nombre, String telefonoContacto, Date fechaIngreso, int sueldoBase, float bU, float bJ) {
@@ -40,5 +40,9 @@ public class JefeTaller extends Mecanico{
     }
     public void setBonusJefe(float f){
         this.bonusJefe=f;
+    }
+    
+    public void setPracticasTutela(Integer i){
+        this.practicasTutela = i;
     }
 }

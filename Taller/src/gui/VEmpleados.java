@@ -179,6 +179,11 @@ public class VEmpleados extends javax.swing.JDialog {
         jScrollPane2.setViewportView(tablaPracticas);
 
         botonAñadirPracticas.setText("Añadir");
+        botonAñadirPracticas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAñadirPracticasActionPerformed(evt);
+            }
+        });
 
         botonEliminarPracticas.setText("Eliminar");
         botonEliminarPracticas.addActionListener(new java.awt.event.ActionListener() {
@@ -330,6 +335,10 @@ public class VEmpleados extends javax.swing.JDialog {
             }
         }
     }//GEN-LAST:event_botonEliminarPracticasActionPerformed
+
+    private void botonAñadirPracticasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAñadirPracticasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botonAñadirPracticasActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAñadirPracticas;

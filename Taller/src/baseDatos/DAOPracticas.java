@@ -6,10 +6,8 @@
 package baseDatos;
 import aplicacion.EmpleadoPracticas;
 import aplicacion.JefeTaller;
-import aplicacion.Subordinado;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -149,6 +147,32 @@ public class DAOPracticas extends AbstractDAO {
         stmPracticas.setInt(1, id);
         rsPracticas=stmPracticas.executeQuery();
         if(rsPracticas.next()) resultado = false;
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmPracticas.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+        return resultado;
+    }
+    
+    public ArrayList<JefeTaller> obtenerTutores(String nombreTutor){
+        ArrayList<JefeTaller> resultado = new ArrayList<>();
+        JefeTaller tutorActual;
+        Connection con = this.getConexion();
+        PreparedStatement stmPracticas=null;
+        ResultSet rsPracticas;
+        try  {
+        String consulta = "select m.nombre, m.idMecanico "+
+                " from EmpleadoPracticas e join JefeTaller j on e.tutorID = j.idMecanico join Mecanico m on e.idMecanico = m.idMecanico "+
+                " where m.nombre ILIKE ?";
+        stmPracticas=con.prepareStatement(consulta);
+        stmPracticas.setString(1, "%"+nombreTutor+"%");
+        rsPracticas=stmPracticas.executeQuery();
+        while(rsPracticas.next()){
+            tutorActual = new JefeTaller();
+            //CAMBIAR EL  CONSTRUCTORS
+        }
         } catch (SQLException e){
           System.out.println(e.getMessage());
           this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
