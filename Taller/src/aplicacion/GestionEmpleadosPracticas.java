@@ -31,4 +31,12 @@ public class GestionEmpleadosPracticas {
     public boolean despedirPracticas(Integer id){
         return fbd.despedirPracticas(id);
     }
+    
+    public ArrayList<JefeTaller> obtenerTutores(String nombre){
+        return fbd.obtenerTutores(nombre);
+    }
+    
+    public void anhadirPracticas(String nombre, String idTutor){
+        fbd.anhadirPracticas(nombre, idTutor);
+    }
 }

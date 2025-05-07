@@ -238,6 +238,14 @@ public class FachadaAplicacion {
     public boolean despedirPracticas(Integer id){
         return cep.despedirPracticas(id);
     }
+    
+    public ArrayList<JefeTaller> obtenerTutores(String nombre){
+        return cep.obtenerTutores(nombre);
+    }
+    
+    public void anhadirPracticas(String nombre, String idTutor){
+        cep.anhadirPracticas(nombre, idTutor);
+    }
 
 
 

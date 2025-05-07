@@ -304,7 +304,8 @@ public class DAOMecanicos extends AbstractDAO {
         ResultSet rsMecanico;
         try  {
         String consulta = "select 1 where exists (select 1 from vehiculo where supervisor = ?) " +
-                                         " or exists (select 1 from participar where subordinado = ?) ";
+                                         " or exists (select 1 from participar p join reparacion r on p.idreparacion = r.idreparacion "+
+                                                     "where p.subordinado = ? AND r.fecha IS NULL) ";
         stmMecanico=con.prepareStatement(consulta);
         stmMecanico.setString(1, id);
         stmMecanico.setString(2, id);
