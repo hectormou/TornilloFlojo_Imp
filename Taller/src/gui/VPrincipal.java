@@ -21,7 +21,6 @@ import aplicacion.Vehiculo;
  * @author basesdatos
  */
 public class VPrincipal extends javax.swing.JFrame {
-  
     aplicacion.FachadaAplicacion fa;
     Vehiculo vehiculoseleccionado;
     Mecanico mecanicoEnAcceso;

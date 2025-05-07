@@ -5,6 +5,7 @@
 package baseDatos;
 
 import aplicacion.EmpleadoPracticas;
+import aplicacion.JefeTaller;
 import aplicacion.Mecanico;
 import aplicacion.Reparacion;
 import aplicacion.Repuesto;
@@ -139,51 +140,39 @@ public class DAOReparaciones extends AbstractDAO {
         }
 
 
-    public List<Repuesto> getTotalRepuestos() {
-        java.util.List<Repuesto> resultado = new java.util.ArrayList<Repuesto>();
+    public void anhadirReparacion(Vehiculo vehiculo, String tipo, List<Repuesto> repuestos, List<Integer> cantidades) {
         Connection con;
-        PreparedStatement stmRepuestos=null;
-        ResultSet rsRepuestos;
-
+        PreparedStatement stmReparaciones=null;
         con=this.getConexion();
-        try {
-        stmRepuestos=con.prepareStatement("select idrepuesto, nombre, descripcion, preciounidad, stock "+
-                                        "from repuesto ");
-        rsRepuestos=stmRepuestos.executeQuery();
-        while (rsRepuestos.next())
-        {
-            resultado.add(new Repuesto(rsRepuestos.getInt("idrepuesto") , rsRepuestos.getString("nombre"), rsRepuestos.getString("descripcion"), rsRepuestos.getFloat("preciounidad"), rsRepuestos.getInt("stock")));
-        }
+        
+        String transaccion = "Begin; ";
+        transaccion = transaccion + "insert into reparacion(idvehiculo, tiporeparacion) "
+                + " values(?, ?); ";
+        transaccion = transaccion + "insert into utilizar (idrepuesto, idreparacion, cantidad) values ";
+        for (int i=0; i<repuestos.size()-1; i++) 
+            transaccion = transaccion + " (?, ?, ?), ";
+        transaccion = transaccion + " (?, ?, ?); ";
+        transaccion = transaccion + " commit;";
+        
+        try  {
+         stmReparaciones=con.prepareStatement(transaccion);
+         stmReparaciones.setString(1, vehiculo.getMatricula());
+         stmReparaciones.setString(2, tipo);
+         for(int i = 0; i<repuestos.size(); i++) {
+             stmReparaciones.setInt(3 + 3*i, repuestos.get(i).getId());
+             stmReparaciones.setInt(4 + 3*i, obtenerUltimaReparacionAnhadida().getIdreparacion());
+             stmReparaciones.setInt(5 + 3*i, cantidades.get(i));
+         }
+         stmReparaciones.executeUpdate();
         } catch (SQLException e){
           System.out.println(e.getMessage());
           this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
         }finally{
-          try {stmRepuestos.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
-        }
-        return resultado;
-   }
-
-    public void anhadirReparacion(Vehiculo vehiculo, String tipo, Mecanico mecanico) {
-        Connection con;
-        PreparedStatement stmReparacion=null;
-
-        con=this.getConexion();
-        try {
-        stmReparacion=con.prepareStatement("insert into reparacion (idVehiculo, tipoReparacion, mecanico)  "+
-                                        " values (?,?,?) ");
-        stmReparacion.setString(1, vehiculo.getMatricula());
-        stmReparacion.setString(2, tipo);
-        stmReparacion.setString(3, mecanico.getIdMecanico());
-        stmReparacion.executeUpdate();
-        } catch (SQLException e){
-          System.out.println(e.getMessage());
-          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
-        }finally{
-          try {stmReparacion.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+          try {stmReparaciones.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
         }
     }
     
-    public Reparacion obtenerUltimaReparacionAnhadida() {
+    private Reparacion obtenerUltimaReparacionAnhadida() {
         Reparacion resultado=null;
         Connection con;
         PreparedStatement stmUltimaReparacion=null;
@@ -379,7 +368,9 @@ public class DAOReparaciones extends AbstractDAO {
          rsAlumnos=stmReparaciones.executeQuery();
         while (rsAlumnos.next())
         {
-            EmpleadoPracticas a = new EmpleadoPracticas(rsAlumnos.getInt("idalumno"), rsAlumnos.getString("nombre"), rsAlumnos.getString("tutorid"));
+            JefeTaller tutor = obtenerJefeTaller(rsAlumnos.getString("tutorid"));
+            int asistidas = obtenerReparacionesAsistidas(rsAlumnos.getInt("idalumno"));
+            EmpleadoPracticas a = new EmpleadoPracticas(rsAlumnos.getInt("idalumno"), rsAlumnos.getString("nombre"), tutor, asistidas);
             resultado.add(a);
         }
 
@@ -410,7 +401,9 @@ public class DAOReparaciones extends AbstractDAO {
          rsAlumnos=stmReparaciones.executeQuery();
         while (rsAlumnos.next())
         {
-            EmpleadoPracticas a = new EmpleadoPracticas(rsAlumnos.getInt("idalumno"), rsAlumnos.getString("nombre"), rsAlumnos.getString("tutorid"));
+            JefeTaller tutor = obtenerJefeTaller(rsAlumnos.getString("tutorid"));
+            int asistidas = obtenerReparacionesAsistidas(rsAlumnos.getInt("idalumno"));
+            EmpleadoPracticas a = new EmpleadoPracticas(rsAlumnos.getInt("idalumno"), rsAlumnos.getString("nombre"), tutor, asistidas);
             resultado.add(a);
         }
 
@@ -495,5 +488,67 @@ public class DAOReparaciones extends AbstractDAO {
         }finally{
           try {stmReparacion.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
         }
+    }
+    
+    private JefeTaller obtenerJefeTaller(String id) {
+        JefeTaller resultado=null;
+        Connection con;
+        PreparedStatement stmUsuarios=null;
+        ResultSet rsMecanico;
+
+        con=this.getConexion();
+        
+        String consulta = "select  idMecanico, nombre, clave, telefonoContacto, fechaIngreso, sueldoBase " +
+                                         "from mecanico "+
+                                         "where idMecanico in (select idMecanico from JefeTaller) and idMecanico = ? ";
+        
+        try  {
+         stmUsuarios=con.prepareStatement(consulta);
+         stmUsuarios.setString(1, id);
+         rsMecanico=stmUsuarios.executeQuery();
+        if(rsMecanico.next())
+        {
+            resultado = new JefeTaller(rsMecanico.getString("idMecanico"), rsMecanico.getString("clave"),
+                                      rsMecanico.getString("nombre"), rsMecanico.getString("telefonoContacto"),
+                                      rsMecanico.getDate("fechaIngreso"), rsMecanico.getInt("sueldoBase"));
+        }
+
+        } catch (SQLException e){
+          System.out.println(e.getMessage());
+          this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }finally{
+          try {stmUsuarios.close();} catch (SQLException e){System.out.println("Imposible cerrar cursores");}
+        }
+        return resultado;
+    
+    }
+    
+    private int obtenerReparacionesAsistidas(Integer idAlumno) {
+        Connection con = this.getConexion();
+        PreparedStatement stmMecanico = null;
+        ResultSet rsBonus;
+        int resultado=0;
+
+        try {
+            String consulta = "SELECT COUNT(*) as practicas FROM Asistir WHERE idAlumno = ?";
+            stmMecanico = con.prepareStatement(consulta);
+            
+            stmMecanico.setInt(1, idAlumno);
+
+            rsBonus=stmMecanico.executeQuery();
+            if(rsBonus.next()){
+                resultado= rsBonus.getInt("practicas");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            this.getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        } finally {
+            try {
+                if (stmMecanico != null) stmMecanico.close();
+            } catch (SQLException e) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+        return resultado;
     }
 }

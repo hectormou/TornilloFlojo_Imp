@@ -11,7 +11,7 @@ import javax.swing.table.*;
 /**
  *
  * @author basesdatos
- */
+ */ 
 public class ModeloTablaReparaciones extends AbstractTableModel{
     private FachadaAplicacion fa;
     private java.util.List<Reparacion> reparaciones;
@@ -62,6 +62,7 @@ public class ModeloTablaReparaciones extends AbstractTableModel{
        return false;
     }
 
+    @Override
     public Object getValueAt(int row, int col){
         Object resultado=null;
 
@@ -72,7 +73,7 @@ public class ModeloTablaReparaciones extends AbstractTableModel{
                     else resultado = reparaciones.get(row).getFecha_fin();
                     break;
             case 3: resultado=reparaciones.get(row).getTipo();break;
-            case 4: if(reparaciones.get(row).getSupervisorid().isBlank()) resultado = "-";
+            case 4: if(reparaciones.get(row).getSupervisorid()==null) resultado = "-";
                     else {
                         Mecanico mecanico=fa.obtenerMecanico(reparaciones.get(row).getSupervisorid());
                         resultado = mecanico.getNombre();

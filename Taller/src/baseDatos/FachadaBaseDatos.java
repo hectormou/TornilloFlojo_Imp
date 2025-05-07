@@ -35,6 +35,7 @@ public class FachadaBaseDatos {
     private DAOClientes daoClientes;
     private DAOReparaciones daoReparaciones;
     private DAORepuestos daoRepuestos;
+    private DAOPracticas daoPracticas;
 
     public FachadaBaseDatos (aplicacion.FachadaAplicacion fa){
         
@@ -75,6 +76,7 @@ public class FachadaBaseDatos {
             daoClientes = new DAOClientes(conexion, fa);
             daoReparaciones = new DAOReparaciones(conexion, fa);
             daoRepuestos = new DAORepuestos(conexion, fa);
+            daoPracticas = new DAOPracticas(conexion, fa);
           
 
 
@@ -175,23 +177,11 @@ public class FachadaBaseDatos {
     }
     
     public List<Repuesto> getTotalRepuestos() {
-        return daoReparaciones.getTotalRepuestos();
+        return daoRepuestos.getTotalRepuestos();
     }
 
-    public void anhadirReparacion(Vehiculo vehiculo, String tipo, Mecanico mecanico) {
-         daoReparaciones.anhadirReparacion(vehiculo, tipo, mecanico);
-    }
-    
-    public Reparacion obtenerUltimaReparacionAnhadida() {
-        return daoReparaciones.obtenerUltimaReparacionAnhadida();
-    }
-/*
-    public Repuesto obtenerRepuesto(String nombre) {
-        return daoReparaciones.obtenerRepuesto(nombre);
-    }
-*/
-    public void anhadirRepuestoNecesario(Integer idReparacion, Integer idRepuesto, int cantidad) {
-        daoRepuestos.anhadirRepuestoNecesario(idReparacion, idRepuesto, cantidad);
+    public void anhadirReparacion(Vehiculo vehiculo, String tipo, List<Repuesto> repuestos, List<Integer> cantidades) {
+         daoReparaciones.anhadirReparacion(vehiculo, tipo, repuestos, cantidades);
     }
 
     public List<TipoReparacion> obtenerTipoReparaciones() {
@@ -238,6 +228,7 @@ public class FachadaBaseDatos {
         return daoMecanicos.obtenerMecanico(mecanicoid);
     }
 
+
     public List<Subordinado> obtenerMecanicosDisp(Integer idreparacion) {
         return daoReparaciones.obtenerMecanicosDisp(idreparacion);
     }
@@ -267,5 +258,21 @@ public class FachadaBaseDatos {
 
     public void anhadirAlumnoReparacion(Integer idreparacion, int idalumno) {
         daoReparaciones.anhadirAlumnoReparacion(idreparacion, idalumno);
+    }
+    
+    public boolean updateMecanico(String id, String nombre, String clave, String tlf, Integer sueldo){
+        return daoMecanicos.updateMecanico(id,nombre,clave,tlf,sueldo);
+    }
+    
+    public void ascenderMecanico(String id){
+        daoMecanicos.ascenderMecanico(id);
+    }
+    
+    public ArrayList<EmpleadoPracticas> buscarPracticas(String nombreTutor){
+        return daoPracticas.buscarPracticas(nombreTutor);
+    }
+    
+    public boolean despedirPracticas(Integer id){
+        return daoPracticas.despedirPracticas(id);
     }
 }
