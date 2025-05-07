@@ -11,6 +11,7 @@ import aplicacion.EmpleadoPracticas;
 import aplicacion.JefeTaller;
 import aplicacion.Reparacion;
 import aplicacion.Repuesto;
+import aplicacion.Solicitud;
 import aplicacion.Stock_U_A;
 import aplicacion.Subordinado;
 import aplicacion.TipoReparacion;
@@ -36,7 +37,9 @@ public class FachadaBaseDatos {
     private DAOClientes daoClientes;
     private DAOReparaciones daoReparaciones;
     private DAORepuestos daoRepuestos;
+    private DAOSolicitudes daoSolicitudes;
     private DAOPracticas daoPracticas;
+
 
     public FachadaBaseDatos (aplicacion.FachadaAplicacion fa){
         
@@ -77,6 +80,7 @@ public class FachadaBaseDatos {
             daoClientes = new DAOClientes(conexion, fa);
             daoReparaciones = new DAOReparaciones(conexion, fa);
             daoRepuestos = new DAORepuestos(conexion, fa);
+            daoSolicitudes = new DAOSolicitudes(conexion, fa);
             daoPracticas = new DAOPracticas(conexion, fa);
           
 
@@ -227,6 +231,22 @@ public class FachadaBaseDatos {
 
     public Mecanico obtenerMecanico(String mecanicoid) {
         return daoMecanicos.obtenerMecanico(mecanicoid);
+    }
+
+    public Float obtenerPrecioSolicitud(Integer idRepuesto) {
+        return daoSolicitudes.obtenerPrecioSolicitud(idRepuesto);
+    }
+
+    public List<Solicitud> obtenerSolicitudes() {
+        return daoSolicitudes.obtenerSolicitudes();
+    }
+
+    public void eliminarSolicitud(Solicitud solicitudSeleccionada) {
+        daoSolicitudes.eliminarSolicitud(solicitudSeleccionada);
+    }
+
+    public void aumentarStockPorSolicitud(Solicitud solicitudSeleccionada) {
+        daoSolicitudes.aumentarStockPorSolicitud(solicitudSeleccionada);
     }
 
 

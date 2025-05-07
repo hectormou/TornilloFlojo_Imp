@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import gui.FachadaGui;
 
 
 /**
@@ -24,6 +25,7 @@ public class FachadaAplicacion {
     private final GestionClientes cl;
     private final GestionReparaciones cr;
     private final GestionRepuestos crp;
+    private final GestionSolicitudes cs;
     private final GestionEmpleadosPracticas cep;
     
     
@@ -37,6 +39,7 @@ public class FachadaAplicacion {
         cl = new GestionClientes(fgui, fbd);
         cr = new GestionReparaciones(fgui, fbd);
         crp = new GestionRepuestos(fgui, fbd);
+        cs = new GestionSolicitudes(fgui, fbd);
         cep = new GestionEmpleadosPracticas(fgui, fbd);
     }
 
@@ -191,6 +194,21 @@ public class FachadaAplicacion {
         return cm.obtenerMecanico(mecanicoid);
     }
 
+    public Float obtenerPrecioSolicitud(Integer idRepuesto) {
+        return cs.obtenerPrecioSolicitud(idRepuesto);
+    }
+
+    public List<Solicitud> obtenerSolicitudes() {
+        return cs.obtenerSolicitudes();
+    }
+
+    public void eliminarSolicitud(Solicitud solicitudSeleccionada) {
+        cs.eliminarSolicitud(solicitudSeleccionada);
+    }
+
+    public void aumentarStockPorSolicitud(Solicitud solicitudSeleccionada) {
+        cs.aumentarStockPorSolicitud(solicitudSeleccionada);
+    }
 
     public List<Subordinado> obtenerMecanicosDisp(Integer idreparacion) {
         return cr.obtenerMecanicosDisp(idreparacion);

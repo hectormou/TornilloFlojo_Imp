@@ -290,7 +290,8 @@ public class VPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_menuEmpleadosActionPerformed
 
     private void menuSolicitudesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSolicitudesActionPerformed
-
+        VSolicitudes vs = new VSolicitudes(this, true, this.fa);
+        vs.setVisible(true);
     }//GEN-LAST:event_menuSolicitudesActionPerformed
 
     private void anhadirVehiculoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anhadirVehiculoBotonActionPerformed

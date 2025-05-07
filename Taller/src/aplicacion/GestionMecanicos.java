@@ -73,9 +73,11 @@ public class GestionMecanicos {
         fbd.ascenderMecanico(id);
     }
 
-    public boolean borrarVehiculo(String matricula) {
-return fbd.borrarVehiculo(matricula);   }
+    public void borrarVehiculo(String matricula) {
+        fbd.eliminarVehiculo(matricula);   
+    }
 
     boolean vehiculoTuvoReparaciones(String matricula) {
-return fbd.vehiculoTuvoReparaciones(matricula);    }
+        return fbd.vehiculoTuvoReparaciones(matricula);    
+    }
 }
